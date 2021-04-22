@@ -70,6 +70,12 @@
                                             class="d-inline-block">Users</span>
                                     </a>
                                 </li>
+                                 <li>
+                                    <a href="<?= base_url();?>/allowances">
+                                        <i class="simple-icon-user-follow"></i> <span
+                                            class="d-inline-block">Allowances</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>

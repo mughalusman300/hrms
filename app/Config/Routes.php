@@ -42,6 +42,14 @@ $routes->post('User/update/(:id)', 'User::update/$1');
 $routes->get('users', 'User::index');
 // $routes->get('login', 'Login::index');
 $routes->post('create', 'User::store');
+
+////////////Allowances Routes////////////////////////
+$routes->post('createAllowance', 'Allowances::store');
+$routes->post('updateAllowance/(:num)', 'Allowances::update/$1');
+$routes->get('searchAllow', 'Allowances::search');
+
+////////////////////////////////////////////////////
+
 $routes->get('addemployee', 'Employee::add');
 $routes->get('detail/(:num)', 'Employee::detail/$1');
 $routes->get('update/(:num)', 'Employee::updateview/$1');
