@@ -20,61 +20,66 @@
                 </div>
             </div>
             <div class="card col-12">
-                                <div class="position-absolute card-top-buttons">
-                                    <button class="btn btn-header-light icon-button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="simple-icon-refresh"></i>
-                                    </button>
-                                </div>
-                            <div class="card-body">
-                            
-                            <p class="mb-0">
-                                <!-- <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-backdrop="static" data-target="#exampleModalRight">Add New</button> -->
-                                <button type="button" class="btn btn-outline-primary" @click="createMode">Add New</button>
+                <div class="position-absolute card-top-buttons">
+                    <button class="btn btn-header-light icon-button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="simple-icon-refresh"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        <!-- <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-backdrop="static" data-target="#exampleModalRight">Add New</button> -->
+                        <button type="button" class="btn btn-outline-primary" @click="createMode">Add New</button>
 
-                            </p>
-                                    <hr>
-                                    <div class="input-group typeahead-container">
-                                        <input type="text" v-model="searchWord"  class="form-control" name="query" id="query" placeholder="Search By Name..."  autocomplete="off" v-on:keyup="search">
+                    </p>
+                        <hr>
+                        <div class="input-group typeahead-container">
+                            <input type="text" v-model="searchWord"  class="form-control" name="query" id="query" placeholder="Search By Name..."  autocomplete="off" v-on:keyup="search">
 
-                                        <div class="input-group-append ">
-                                            <button type="submit" class="btn btn-primary default" @click="search">
-                                                <i class="simple-icon-magnifier"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="separator mb-3"></div>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered">
-                                        <thead class='thead-light'>
-                                            <tr>
-                                            <th scope="col">SR.</th>
-                                            <th scope="col">Name </th>
-                                            <th scope="col">Type</th>
-                                            <th scope="col">Action</th>
-                                            <th scope="col">Date Posted</th>
-                                            </tr>
-                                        </thead>
-                                        <thead class='thead-light'>
-                                            <tr v-for="(rows,i) in allowances">
-                                            <td >SR.</td>
-                                            <td >{{rows.allow_name}} </td>
-                                            <td >{{rows.allow_type}}</td>
-                                            <td><center>
-                                            <button type="button" class="btn btn-warning btn-xs default" @click="editUser(rows)">Edit</button>
-                                           </center></td>
-                                            <td >{{rows.created_date}}</td>
-                                            </tr>
-                                        </thead>    
-                                        </table>
-                                        <div class="text-center" v-if="loading">
-                                           <b-spinner variant="info" class="mt-5 mb-5" style="width: 4rem; height: 4rem;" label="Large Spinner"></b-spinner>
-                                        </div>
-                                     </div>
-                                    </div>
-                                    
-
+                            <div class="input-group-append ">
+                                <button type="submit" class="btn btn-primary default" @click="search">
+                                    <i class="simple-icon-magnifier"></i>
+                                </button>
                             </div>
-        </div>
+                        </div>
+                        <div class="separator mb-3"></div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                            <thead class='thead-light'>
+                                <tr>
+                                <th scope="col">SR.</th>
+                                <th scope="col">Name </th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Action</th>
+                                <th scope="col">Date Posted</th>
+                                </tr>
+                            </thead>
+                            <thead  class='thead-light'>
+                                
+                                <tr v-for="(rows,i) in allowances">
+                                <td >SR.</td>
+                                <td >{{rows.allow_name}} </td>
+                                <td >{{rows.allow_type}}</td>
+                                <td><center>
+                                <button type="button" class="btn btn-warning btn-xs default" @click="editUser(rows)">Edit</button>
+                               </center></td>
+                                <td >{{rows.created_at}}</td>
+                                </tr>
+                                
+                            </thead>
+                               
+                            </table>
+                            <div class="mt-5"  v-if="noData">
+                                 <center><h3>No Data Found.............</h3></center>
+                            </div>
+                            <div class="text-center" v-if="loading">
+                               <b-spinner variant="info" class="mt-5 mb-5" style="width: 4rem; height: 4rem;" label="Large Spinner"></b-spinner>
+                            </div>
+                         </div>
+                        </div>
+                        
+
+                </div>
+            </div>
 <!------User Add Model ---->      
 <div class="modal fade modal-right" id="createAllowance" tabindex="-1" role="dialog" aria-labelledby="createAllowance" style="display: none;" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
@@ -103,7 +108,11 @@
                                                 
                                                 <div class="form-group">
                                                     <label class="has-float-label"><span>Type<font style="color: red;">*</font></span></span></label>
-                                                   <input v-model="allow_type" type="email" tabindex="2" class="form-control" placeholder="">
+                                                    <select v-model="allow_type" tabindex="2" class="form-control">
+                                                        <option value="">Select</option>
+                                                        <option value="A">A</option>
+                                                        <option value="D">D</option>
+                                                    </select>
                                                     <p style="color: red" v-if="allow_type_error!=''">{{allow_type_error}}</p>    
                                                 </div>
                                            
@@ -112,7 +121,7 @@
                                             <button type="button"  tabindex="6" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
                                             <button v-if=" !editMode && allow_name!='' && allow_type!=''"  tabindex="3" class="btn btn-primary" @click.prevent="postAllowance()">Submit</button>
                                             <!--Update Button--->
-                                            <button  v-else-if="editMode && allow_name!='' && allow_type!=''"  tabindex="3" class="btn btn-primary" @click.prevent="updateAllowance()">Update Allowance</button>
+                                            <button  v-else-if="editMode && allow_name!='' && allow_type!=''"  tabindex="3" class="btn btn-primary" @click.prevent="updateAllowance()">Update</button>
                                             <button v-else  disabled type="button" tabindex="5" class="btn btn-primary ">Fill For Submit</button>
                                         </div>
                                          </form>
@@ -124,10 +133,12 @@
  var app = new Vue({
   el: '#app',
   data: {
-    allowances:{},
+    allowances:[],
     searchWord:'',
     loading:false,
     editMode:false,
+    data:false,
+    noData:false,
     formId:'',
     allow_name:'',
     allow_type:'',
@@ -178,6 +189,7 @@
             this.getAllowances();
 
           }).catch(err => {
+
             this.loading = false;
             this.clearErrors();
             if(err.response.data.messages.allow_name){
@@ -221,10 +233,14 @@
         },
         search(){
             this.allowances={};
+            this.noData = false;
             this.loading = true;
             axios.get('searchAllow?s='+this.searchWord).then((response)=>{  
              this.loading = false;    
             this.allowances = response.data;
+            if(response.data==''){
+                this.noData = true;
+            }
 
           }).catch(()=>{
           })

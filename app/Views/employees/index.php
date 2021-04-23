@@ -69,6 +69,7 @@
                                             <a v-bind:href="'<?= base_url();?>/detail/'+rows.emp_id" target="_blank"><button type="button"
                                                 class="btn btn-xs btn-outline-primary ">View</button>
                                             </a>
+                                            
                                                 
                                         </div>
                                     </div>

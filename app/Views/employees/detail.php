@@ -5,6 +5,7 @@
             <div class="row">
                 <div class="col-12">
                     <h1>Employee Detail</h1>
+                    <div class="text-zero top-right-button-container"><a href="<?= base_url();?>/payrolldetail/<?= $rows['emp_id'] ?>" type="button" class="btn btn-primary btn-lg top-right-button mr-1">Payrol</a></div>
                     <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
                         <ol class="breadcrumb pt-0">
                             <li class="breadcrumb-item">
@@ -28,6 +29,7 @@
 
                             <div class="mb-5">
                                 <h5 class="card-title">Employee</h5>
+                               
                                 <div class="table-responsive">
                                         <table class="table table-bordered">
                                         <thead class='thead-light'>

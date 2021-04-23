@@ -135,7 +135,7 @@
                                             <button type="button"  tabindex="6" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
                                             <button v-if=" !editMode && name!='' && email!='' && password!=''  && user_power!=''"  type="submit"  tabindex="5" class="btn btn-primary" @click.prevent="postUser()">Submit</button>
                                             <!--Update Button--->
-                                            <button  v-else-if="editMode && name!='' && email!='' && password!=''  && user_power!=''"  type="submit"  tabindex="5" class="btn btn-primary" @click.prevent="updateUser()">Update User</button>
+                                            <button  v-else-if="editMode && name!='' && email!='' && password!=''  && user_power!=''"  type="submit"  tabindex="5" class="btn btn-primary" @click.prevent="updateUser()">Update</button>
                                             <button v-else  disabled type="button" tabindex="5" class="btn btn-primary ">Fill For Submit</button>
                                         </div>
                                          </form>

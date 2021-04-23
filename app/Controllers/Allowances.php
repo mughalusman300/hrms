@@ -34,8 +34,10 @@ class Allowances extends BaseController
     }
     public function store()
 	{
+		$user_id = $_SESSION['user_id'];
 		$rules = [
-			'allow_name' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'Allowance Name'],
+		
+			'allow_name' => ['rules' => 'required|min_length[3]|max_length[250]|is_unique[allowances.allow_name]', 'label' => 'Allowance Name'],
 			'allow_type' => ['rules' => 'required|min_length[1]|max_length[1]', 'label' => 'Allowance Type'],
 
 		];
@@ -48,12 +50,14 @@ class Allowances extends BaseController
         $data = [
         	'allow_name'    => $this->request->getVar('allow_name'),
 		    'allow_type'    => $this->request->getVar('allow_type'),
+		    'created_by'    =>$user_id,
 		    
 		];
 		$this->Allowancesmodel->insert($data);
 		}
 	}
 	public function update($id){
+		$user_id = $_SESSION['user_id'];
 		$rules = [
 			'allow_name' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'Allowance Name'],
 			'allow_type' => ['rules' => 'required|min_length[1]|max_length[1]', 'label' => 'Allowance Type'],
@@ -68,6 +72,7 @@ class Allowances extends BaseController
         $data = [
         	'allow_name'    => $this->request->getVar('allow_name'),
 		    'allow_type'    => $this->request->getVar('allow_type'),
+		    'updated_by'    =>$user_id,
 		    
 		];
 		$this->Allowancesmodel->update($id,$data);

@@ -49,6 +49,13 @@ $routes->post('updateAllowance/(:num)', 'Allowances::update/$1');
 $routes->get('searchAllow', 'Allowances::search');
 
 ////////////////////////////////////////////////////
+////////////Payroll Routes////////////////////////
+$routes->get('payrolldetail/(:num)', 'Payroll::detail/$1');
+$routes->get('getPayrollByEmpID/(:num)', 'Payroll::getPayrollByEmpID/$1');
+$routes->post('createPayroll/(:num)', 'Payroll::store/$1');
+
+
+////////////////////////////////////////////////////
 
 $routes->get('addemployee', 'Employee::add');
 $routes->get('detail/(:num)', 'Employee::detail/$1');
