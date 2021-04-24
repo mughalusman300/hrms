@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use App\Models\Commonmodel;
 use App\Models\Payrollmodel;
+use App\Models\Allowancesmodel;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\API\ResponseTrait;
 use App\Controllers\BaseController;
@@ -17,6 +18,7 @@ class Payroll extends BaseController
         date_default_timezone_set('Asia/Karachi');
         $this->Payrollmodel = new Payrollmodel();
         $this->Commonmodel = new Commonmodel();
+        $this->Allowancesmodel = new Allowancesmodel();
 
          helper(['form', 'url']);
 
@@ -36,6 +38,7 @@ class Payroll extends BaseController
         $payroll = $this->Payrollmodel->PayrollByEmpID($id); 
 		return $this->response->setJSON($payroll);	
 	}
+	
 	public function store($id)
 	{
         $user_id = $_SESSION['user_id'];
@@ -72,6 +75,57 @@ class Payroll extends BaseController
 		];
 		$this->Payrollmodel->insert($data);
 		}
+	}
+
+	/////////////////////////Deduction And Allowances Functions//////////////////////////////
+
+	public function getSalaryAllowances($id)
+	{
+        $salaryAllowances = $this->Payrollmodel->SalaryAllowances($id); 
+		return $this->response->setJSON($salaryAllowances);
+	}
+	public function getSalaryDeductions($id)
+	{
+        $salaryDeductions = $this->Payrollmodel->SalaryDeductions($id); 
+		return $this->response->setJSON($salaryDeductions);
+	}
+	Public function getAllAllowances(){
+	    $allowances = $this->Commonmodel->Get_record_by_condition('allowances','allow_type','A');	
+		return $this->response->setJSON($allowances);
+	}
+	Public function getAllDeductions(){
+	    $deductions = $this->Commonmodel->Get_record_by_condition('allowances','allow_type','D');	
+		return $this->response->setJSON($deductions);
+	}
+	public function createSalaryAllowance()
+	{
+		$user_id = $_SESSION['user_id'];
+		$rules = [
+		
+			'salary_id' => ['rules' => 'required', 'label' => 'Salary ID'],
+			'allow_id' => ['rules' => 'required', 'label' => 'Allowance'],
+			'allow_amount' => ['rules' => 'required|is_natural_no_zero', 'label' => 'Allowance Amount'],
+
+		];
+
+		 if (!$this->validate($rules)) {
+            $errors = $this->validator->getErrors();
+			return $this->fail($errors);
+		}
+		else{
+	        $data = [ 	
+	        	'salary_id'    => $this->request->getVar('salary_id'),
+			    'allow_id'      => $this->request->getVar('allow_id'),
+			    'allow_amount'      => $this->request->getVar('allow_amount'),
+			    'created_by'    =>$user_id,
+			    
+			];
+		$this->Commonmodel->Insert_record('payroll_salary_detail',$data);
+		}
+	}
+	public function deleteSalaryAllowance($id)
+	{
+		$this->Commonmodel->Delete_record('payroll_salary_detail','detail_id',$id);
 	}
 	
 	

@@ -53,6 +53,12 @@ $routes->get('searchAllow', 'Allowances::search');
 $routes->get('payrolldetail/(:num)', 'Payroll::detail/$1');
 $routes->get('getPayrollByEmpID/(:num)', 'Payroll::getPayrollByEmpID/$1');
 $routes->post('createPayroll/(:num)', 'Payroll::store/$1');
+////////////Payroll Allowances and Deductions Methods Routes////////////////////////
+$routes->get('salaryallowances/(:num)', 'Payroll::getSalaryAllowances/$1');
+$routes->get('salarydeductions/(:num)', 'Payroll::getSalaryDeductions/$1');
+$routes->post('createsalaryallowance', 'Payroll::createSalaryAllowance');
+$routes->delete('deletesalaryallowance/(:num)', 'Payroll::deleteSalaryAllowance/$1');
+
 
 
 ////////////////////////////////////////////////////

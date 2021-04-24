@@ -58,7 +58,7 @@
                                 <td v-else>{{rows.salary_inc_date}}</td>
                                 <td >{{rows.salary_status}}</td>
                                 <td v-if="rows.salary_status=='Active'"><center>
-                                <button type="button" class="btn btn-warning btn-xs default" @click="activeDiv()">Attribute</button>
+                                <button type="button" class="btn btn-warning btn-xs default" @click="getAllowances(rows.salary_id)">Attribute</button>
                                </center></td>
                                 </tr>
                                 
@@ -88,7 +88,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <p class="mb-3">
-                                    <button type="button" class="btn btn-outline-primary" @click="createMode">Add New</button>
+                                    <button type="button" class="btn btn-outline-primary" @click="createModeAllowance">Add New</button>
                                     <center><h5><b>Allowances</b></h5></center>
                                 </p>  
                                     <div class="separator mb-3"></div>
@@ -103,7 +103,16 @@
                                             </tr>
                                         </thead>
                                         <thead  class='thead-light'>
-                                            
+                                            <tr v-for="(rows,i) in allowances">
+                                            <td >SR.</td>
+                                            <td >{{rows.allow_name}} </td>
+                                            <td >{{rows.allow_amount}}</td>
+                                            <td><center>
+                                                <button type="button" 
+                                                class="btn btn-danger btn-xs default"  @click="deleteAllowance(rows)">Delete
+                                                </button>
+                                            </center></td>
+                                            </tr>
                                             
                                         </thead>
                                            
@@ -111,7 +120,7 @@
                                      </div>
                             </div>                            <div class="col-6">
                                 <p class="mb-3">
-                                    <button type="button" class="btn btn-outline-primary" @click="createMode">Add New</button>
+                                    <button type="button" class="btn btn-outline-primary" @click="createModeDeduction">Add New</button>
                                      <center><h5><b>Deductions</b></h5></center>
                                 </p> 
                                     <div class="separator mb-3"></div> 
@@ -126,7 +135,16 @@
                                             </tr>
                                         </thead>
                                         <thead  class='thead-light'>
-                                            
+                                            <tr v-for="(rows,i) in deductions">
+                                            <td >SR.</td>
+                                            <td >{{rows.allow_name}} </td>
+                                            <td >{{rows.allow_amount}}</td>
+                                            <td><center>
+                                                <button type="button" 
+                                                class="btn btn-danger btn-xs default"  @click="deleteAllowance(rows)">Delete
+                                                </button>
+                                            </center></td>
+                                            </tr>   
                                             
                                         </thead>
                                            
@@ -142,7 +160,7 @@
         </div> 
         
     
-<!------User Add Model ---->      
+<!------Pyroll Head Add Model ---->      
 <div class="modal fade modal-right" id="createPayroll" tabindex="-1" role="dialog" aria-labelledby="createPayroll" style="display: none;" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -155,8 +173,8 @@
                                         </div>
                                         <div class="modal-body">
 
-                                            <form id="form_id
-                                            " method="post" >
+                                            <!-- <form id="form_id
+                                            " method="post" > -->
 
                                                 <div class="alert alert-info form-group" role="alert">
                                                     Note: All Fields Required.
@@ -179,16 +197,76 @@
                                             <button  v-else-if="editMode && salary_start_date!='' && salary_end_date!=''"  tabindex="3" class="btn btn-primary" @click.prevent="updateAllowance()">Update</button>
                                             <button v-else  disabled type="button" tabindex="5" class="btn btn-primary ">Fill For Submit</button>
                                         </div>
-                                         </form>
+                                        <!--  </form> -->
                                     </div>
                                 </div>
-</div>        
+</div>   
+<!------End Pyroll Head Add Model-->
+
+<!------Allowances Add Model ---->      
+<div class="modal fade modal-right" id="createAllowances" tabindex="-1" role="dialog" aria-labelledby="createAllowances" style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" v-show="!deductionMode">Create Allowances</h5>
+                                        <h5 class="modal-title" v-show="deductionMode">Create Deductions</h5>
+                                        
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                           <!--  <form id="form_id
+                                            " method="post" > -->
+
+                                                <div class="alert alert-info form-group" role="alert">
+                                                    Note: All Fields Required.
+                                                </div>
+                                                <div v-if="!deductionMode" class="form-group required">
+                                                    <label class="has-float-label"><span>Allowance <font style="color: red;">*</font></span></label>
+                                                    <select v-model="allow_id" tabindex="1" class="form-control">
+                                                        <option value="">Choose</option>
+                                                        <option v-for="option in allAllowances" v-bind:value="option.allow_id">
+                                                        {{ option.allow_name }}
+                                                      </option>
+                                                    </select>
+                                                    <p style="color: red" v-if="allow_id_error!=''">{{allow_id_error}}</p>  
+                                                </div>
+                                                <div v-if="deductionMode" class="form-group required">
+                                                    <label class="has-float-label"><span>Deduction <font style="color: red;">*</font></span></label>
+                                                    <select v-model="allow_id" tabindex="1" class="form-control">
+                                                        <option value="">Choose</option>
+                                                        <option v-for="option in allDeductions" v-bind:value="option.allow_id">
+                                                        {{ option.allow_name }}
+                                                      </option>
+                                                    </select>
+                                                    <p style="color: red" v-if="allow_id_error!=''">{{allow_id_error}}</p>  
+                                                </div>
+                                                <div class="form-group required">
+                                                    <label class="has-float-label"><span>Amount <font style="color: red;">*</font></span></label>
+                                                    <input v-model="allow_amount" type="number" tabindex="2"class="form-control" placeholder=""> 
+                                                    <p style="color: red" v-if="allow_amount_error!=''">{{allow_amount_error}}</p>  
+                                                </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button"  tabindex="4" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                                            <button v-if="allow_id!='' && allow_amount!=''"  tabindex="3" class="btn btn-primary" @click.prevent="postAllowance()">Submit</button>
+                                            <!--Update Button--->
+                                            <button v-else  disabled type="button"  class="btn btn-primary ">Fill For Submit</button>
+                                        </div>
+                                        <!--  </form> -->
+                                    </div>
+                                </div>
+</div>   
+<!------Allowances Add Model-->    
 </main>
 <script type="text/javascript">
  var app = new Vue({
   el: '#app',
   data: {
     payroll:[],
+    deductions:[],
     empID :<?php echo $emp_id;?> ,
     searchWord:'',
     loading:false,
@@ -201,6 +279,16 @@
     salary_end_date:'',
     salary_start_date_error:'',
     salary_end_date_error:'',
+    allowances:[],
+    allAllowances:[],
+    allDeductions:[],
+    deductionMode:false,
+    selected:[],
+    allow_id:'',
+    salary_id:'',
+    allow_amount:'',
+    allow_id_error:'',
+    allow_amount_error:'',
   },
    methods:{
     getPayroll()
@@ -211,9 +299,6 @@
           this.loading = false;  
           this.payroll =response.data;
           })
-        },
-        activeDiv(){
-           this.divAllow= true; 
         },
         createMode(){
         this.clearModel();
@@ -249,6 +334,7 @@
               timer: 2000
             })
             this.getPayroll();
+            this.divAllow= false;
 
           }).catch(err => {
 
@@ -293,21 +379,6 @@
            this.getPayroll();
           }) 
         },
-        search(){
-            this.payroll={};
-            this.noData = false;
-            this.loading = true;
-            axios.get('searchAllow?s='+this.searchWord).then((response)=>{  
-             this.loading = false;    
-            this.payroll = response.data;
-            if(response.data==''){
-                this.noData = true;
-            }
-
-          }).catch(()=>{
-          })
-
-        },
         clearModel()
         {
             this.salary_start_date =""; 
@@ -316,7 +387,102 @@
         clearErrors(){
             this.salary_start_date_error = "";
             this.salary_end_date_error = "";
-        }
+        },
+        ////////////////////Alowances And Deductions Methods////////////////
+        getAllowances(salary_id){
+          this.divAllow= true;
+          axios.get('/hrms/salaryallowances/'+salary_id).then((response)=>{
+          this.salary_id = salary_id;   
+          this.allowances =response.data;
+          });
+          axios.get('/hrms/salarydeductions/'+salary_id).then((response)=>{  
+          this.deductions =response.data;
+          });
+          axios.get('/hrms/Payroll/getAllAllowances').then((response)=>{  
+          this.allAllowances =response.data;
+          }); 
+          axios.get('/hrms/Payroll/getAllDeductions').then((response)=>{  
+          this.allDeductions =response.data;
+          }); 
+        },
+        createModeAllowance(){
+           this.clearAllowanceModal();
+           this.clearAllowanceError();
+           this.deductionMode =false;
+           $('#createAllowances').modal('show');   
+        },
+        createModeDeduction(rows){
+          this.deductionMode =true;
+          this.clearAllowanceModal();
+          this.clearAllowanceError();
+          $('#createAllowances').modal('show');   
+           
+        },
+        postAllowance()
+        {
+
+          const form = new FormData();
+          form.append("salary_id", this.salary_id);
+          form.append("allow_id", this.allow_id);
+          form.append("allow_amount", this.allow_amount);
+          axios.post('/hrms/createsalaryallowance',form).then((response)=>{  
+            this.clearAllowanceModal();
+            $("#createAllowances").modal("hide");
+            Swal.fire({
+              icon: 'success',
+              title:'Created Successfully',
+              showConfirmButton: false,
+              timer: 2000
+            })
+            this.getAllowances(this.salary_id);
+
+          }).catch(err => {
+
+            this.clearAllowanceError();
+            if(err.response.data.messages.allow_id){
+             this.allow_id_error = err.response.data.messages.allow_id;
+           }
+           if(err.response.data.messages.allow_amount){
+           this.allow_amount_error = err.response.data.messages.allow_amount;
+           }
+           this.getAllowances(this.salary_id);
+        });
+        },
+        deleteAllowance(rows)
+        {    
+          Swal.fire({
+          title: 'Are you sure?',
+          text: rows.allow_name+" will be deleted permanantly!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.isConfirmed) {  
+              axios.delete('/hrms/deletesalaryallowance/'+rows.detail_id).then(()=>{
+                 Swal.fire(
+                  'Deleted!',
+                  rows.allow_name+' has been deleted.',
+                  'success'
+                )
+                this.getAllowances(rows.salary_id);
+              }).catch(()=>{
+                
+            })
+            }
+          })
+        },
+        clearAllowanceModal()
+        {
+            this.allow_id = "";
+            this.allow_amount = "";
+        },
+        clearAllowanceError()
+        {
+            this.allow_id_error ="";
+            this.allow_amount_error ="";
+        },
 
   },
   created(){

@@ -70,4 +70,24 @@ class Payrollmodel extends Model
              ->getResultArray();
     return $query;	
     }
+
+/////////////////////////Deduction And Allowances Functions//////////////////////////////
+    public function SalaryAllowances($id){
+    $query = $this->db->table('payroll_salary_detail')
+             ->join('allowances', 'allowances.allow_id = payroll_salary_detail.allow_id', 'inner')
+             ->where('payroll_salary_detail.salary_id', $id)
+             ->where('allowances.allow_type', 'A')
+             ->get()
+             ->getResult();
+    return $query;	
+    }
+    public function SalaryDeductions($id){
+    $query = $this->db->table('payroll_salary_detail')
+             ->join('allowances', 'allowances.allow_id = payroll_salary_detail.allow_id', 'inner')
+             ->where('payroll_salary_detail.salary_id', $id)
+             ->where('allowances.allow_type', 'D')
+             ->get()
+             ->getResult();
+    return $query;	
+    }
 }
