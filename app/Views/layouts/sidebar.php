@@ -76,6 +76,12 @@
                                             class="d-inline-block">Allowances</span>
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="<?= base_url();?>/doc">
+                                        <i class="simple-icon-user-follow"></i> <span
+                                            class="d-inline-block">Documents</span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>

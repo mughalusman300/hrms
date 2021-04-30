@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\Employeemodel;
+use App\Models\Commonmodel;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\API\ResponseTrait;
 use App\Controllers\BaseController;
@@ -15,6 +16,7 @@ class Employee extends BaseController
         parent::initController($request, $response, $logger);
         date_default_timezone_set('Asia/Karachi');
         $this->Employeemodel = new Employeemodel();
+        $this->Commonmodel = new Commonmodel();
          helper(['form', 'url']);
          $session = \Config\Services::session();
     }
@@ -152,7 +154,6 @@ class Employee extends BaseController
 	public function updateEmployee()
 	{
 		$ntn = $this->request->getVar('ntn');
-		 // echo ('ntn value'.$ntn);
 		$rules = [
 			'fname' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'First Name'],
 			'lname' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'Last Name'],
@@ -236,9 +237,49 @@ class Employee extends BaseController
 		    'ntn'    => $this->request->getVar('ntn'),
 		    'is_taxable'    => $this->request->getVar('is_taxable')    
 		];
-		 $this->Employeemodel->update($emp_id, $data);
+		 $this->comm->Update_record($emp_id, $data);
 		 return redirect()->to('/Home');
 		}
+
+	}
+	public function updateEmployeeStatus($id)
+	{
+      $user_id = $_SESSION['user_id'];
+		$rules = [
+			'emp_dol' => ['rules' => 'required', 'label' => 'Date of Leaving'],
+			'emp_l_reason' => ['rules' => 'required', 'label' => 'Leaving Reason'],		
+		];
+
+		 if (!$this->validate($rules)) {
+             $errors = $this->validator->getErrors();
+			return $this->fail($errors);
+		}
+		else{
+        	$emp_dol = $this->request->getVar('emp_dol');
+		;
+        $data = [
+        	'emp_dol'    => $this->request->getVar('emp_dol'),
+		    'emp_l_reason' => $this->request->getVar('emp_l_reason'),   
+		    'emp_status' =>'deactive',   
+		];
+		 $affectedRows = $this->Commonmodel->Update_record('saimtech_employees','emp_id',$id, $data);
+		}
+        ///LOG Start//////////
+		if($affectedRows== 1){
+        $date    = date('h:i:sa d-m-y');
+        $user_id    = $_SESSION['user_id'];
+		$user_name  = $_SESSION['user_name'];
+
+        $log_event   = 'Employee Marked As Deactive';
+        $log_narration  = 'Emoloyee of id:'.$id.' has been Deactivated by: '.$user_name.' of User ID:'.$user_id.' at '.$date ;
+        $data = [
+              'log_event'     => $log_event,
+              'log_narration' => $log_narration,
+              'employee_id'   => $id,
+              'created_by'    => $user_id,
+        ];	
+        $this->Commonmodel->Insert_record('saimtech_log',$data);
+		}///LOG End//////////
 
 	}
 	public function getAllEmployees()

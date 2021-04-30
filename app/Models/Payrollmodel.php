@@ -62,6 +62,14 @@ class Payrollmodel extends Model
              ->getResult();
     return $query;
     }
+    public function PayrollBySalaryID($id){
+    $query = $this->db->table('payroll_salary_main')
+             ->join('saimtech_employees', 'saimtech_employees.emp_id = payroll_salary_main.emp_id', 'inner')
+             ->where('payroll_salary_main.salary_id', $id)
+             ->get()
+             ->getResultArray();
+    return $query;
+    }
     public function checkActivatHead($id){
     $query = $this->db->table('payroll_salary_main')
              ->where('emp_id', $id)
@@ -88,6 +96,15 @@ class Payrollmodel extends Model
              ->where('allowances.allow_type', 'D')
              ->get()
              ->getResult();
+    return $query;	
+    }
+    public function salaryDetailByID($id){
+    $query = $this->db->table('payroll_salary_detail')
+             ->join('payroll_salary_main', 'payroll_salary_main.salary_id = payroll_salary_detail.salary_id', 'inner')
+             ->join('allowances', 'allowances.allow_id = payroll_salary_detail.allow_id', 'inner')
+             ->where('payroll_salary_detail.detail_id', $id)
+             ->get()
+             ->getResultArray();
     return $query;	
     }
 }

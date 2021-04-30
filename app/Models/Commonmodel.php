@@ -16,6 +16,7 @@ class Commonmodel extends Model {
     $this->db->table($tablename)
              ->where($columnname, $conditionvalue)
              ->delete();
+    return true; 
     }
     
     public function Delete_double_record($tablename, $columnname, $conditionvalue, $columnname1, $conditionvalue1){
@@ -164,7 +165,14 @@ class Commonmodel extends Model {
     //======================================================================
     //START--------------Generic Function For Model-------------------------
     //======================================================================
-
+    public function transBegin()
+    {
+        return $this->db->transBegin();
+    }
+    public function Inert_log()
+    {
+        //
+    }
     
 
 }

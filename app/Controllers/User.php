@@ -31,25 +31,6 @@ class User extends BaseController
    
         return $this->response->setJSON($user);
     }
- //    public function store()
-	// {
-	// 	helper('form');
-	// 	$data = [];
-	// 	$rules = [
-	// 		'name' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'name'],
-	// 		'email' => 'required|valid_email|is_unique[saimtech_users.saimtech_email],',
-	// 		'password' => 'required|min_length[8]',
-	// 		'company_id' => ['rules' => 'required', 'label' => 'company_id'],
-	// 		'user_power' => ['rules' => 'required', 'label' => 'user_power'],
-
-	// 	];
-
-	// 	 if (!$this->validate($rules)) {
-
-	// 		//return $this->fail(implode('<br>', $this->validator->getErrors()));
-	// 		return $this->fail(implode('<br>', $this->validator->getErrors()));
-	// 	}
-	// }
 	public function store()
 	{
 		helper('form');

@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-12">
                     <h1>Employee Detail</h1>
-                    <div class="text-zero top-right-button-container"><a href="<?= base_url();?>/payrolldetail/<?= $rows['emp_id'] ?>" type="button" class="btn btn-primary btn-lg top-right-button mr-1">Payrol</a></div>
+                    <!-- <div class="text-zero top-right-button-container"><button type="button" class="btn btn-outline-danger btn-lg top-right-button mr-1" data-toggle="modal" data-backdrop="static" data-target="#exampleModalRight">Leave</button></div> -->
                     <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
                         <ol class="breadcrumb pt-0">
                             <li class="breadcrumb-item">
@@ -18,6 +18,8 @@
                         </ol>
                     </nav>
                     <div class="separator mb-5"></div>
+                     <div class="text-zero top-left-button-container"><a href="<?= base_url();?>/payrolldetail/<?= $rows['emp_id'] ?>" type="button" class="btn btn-primary btn-lg top-left-button mb-2 mr-1">Payrol</a></div>
+
                 </div>
             </div>
         </div>
@@ -39,6 +41,7 @@
                                             <th scope="col">Company</th>
                                             <th scope="col">Department</th>
                                             <th scope="col">Designation</th>
+                                            <th scope="col">Status</th>
                                             </tr>
                                         </thead>
                                         <thead class='thead-light'>
@@ -48,6 +51,7 @@
                                             <td><?= $rows['company_id'] ?></td>    
                                             <td><?= $rows['department_id'] ?></td>    
                                             <td><?= $rows['designation_id'] ?></td>      
+                                            <td><code><?= $rows['emp_status'] ?></code></td>      
                                             </tr>
                                         </thead>
                                         </table>  

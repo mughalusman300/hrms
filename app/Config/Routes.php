@@ -48,7 +48,6 @@ $routes->post('createAllowance', 'Allowances::store');
 $routes->post('updateAllowance/(:num)', 'Allowances::update/$1');
 $routes->get('searchAllow', 'Allowances::search');
 
-////////////////////////////////////////////////////
 ////////////Payroll Routes////////////////////////
 $routes->get('payrolldetail/(:num)', 'Payroll::detail/$1');
 $routes->get('getPayrollByEmpID/(:num)', 'Payroll::getPayrollByEmpID/$1');
@@ -72,6 +71,11 @@ $routes->get('getEmployee/(:num)', 'Employee::getEmployee/$1');
 $routes->post('updateEmployee', 'Employee::updateEmployee');
 $routes->get('search', 'Employee::search');
 $routes->get('employee', 'Employee::index');
+$routes->post('updateStatus/(:num)', 'Employee::updateEmployeeStatus/$1');
+
+////////////////Document Routes///////////////////////
+$routes->get('doc', 'Document::index');
+$routes->delete('deletedocument/(:num)', 'Document::deleteDocument/$1');
 
 /*
  * --------------------------------------------------------------------

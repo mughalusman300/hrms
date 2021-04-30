@@ -8,7 +8,7 @@
                     <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
                         <ol class="breadcrumb pt-0">
                             <li class="breadcrumb-item">
-                                <a href="#">Home</a>
+                                <a href="<?= base_url();?>/home">Home</a>
                             </li>
                             <li class="breadcrumb-item">
                                 <a href="#">Library</a>
@@ -162,44 +162,44 @@
     
 <!------Pyroll Head Add Model ---->      
 <div class="modal fade modal-right" id="createPayroll" tabindex="-1" role="dialog" aria-labelledby="createPayroll" style="display: none;" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                        <h5 class="modal-title"v-show="!editMode">Create Payroll</h5>
-                                        <h5 class="modal-title"v-show="editMode">Edit Payroll</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">×</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title"v-show="!editMode">Create Payroll</h5>
+            <h5 class="modal-title"v-show="editMode">Edit Payroll</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
 
-                                            <!-- <form id="form_id
-                                            " method="post" > -->
+                <!-- <form id="form_id
+                " method="post" > -->
 
-                                                <div class="alert alert-info form-group" role="alert">
-                                                    Note: All Fields Required.
-                                                </div>
-                                                <div class="form-group required">
-                                                    <label class="has-float-label"><span>Start Date <font style="color: red;">*</font></span></label>
-                                                    <input v-model="salary_start_date" type="date" tabindex="1" class="form-control">
-                                                <p style="color: red" v-if="salary_start_date_error!=''">{{salary_start_date_error}}</p>    
-                                                </div>
-                                                <div class="form-group required">
-                                                    <label class="has-float-label"><span>End Date <font style="color: red;">*</font></span></label>
-                                                    <input v-model="salary_end_date" type="date" tabindex="2" class="form-control">
-                                                <p style="color: red" v-if="salary_start_date_error!=''">{{salary_start_date_error}}</p>    
-                                                </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button"  tabindex="6" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                                            <button v-if=" !editMode && salary_start_date!='' && salary_end_date!=''"  tabindex="3" class="btn btn-primary" @click.prevent="postPayroll()">Submit</button>
-                                            <!--Update Button--->
-                                            <button  v-else-if="editMode && salary_start_date!='' && salary_end_date!=''"  tabindex="3" class="btn btn-primary" @click.prevent="updateAllowance()">Update</button>
-                                            <button v-else  disabled type="button" tabindex="5" class="btn btn-primary ">Fill For Submit</button>
-                                        </div>
-                                        <!--  </form> -->
-                                    </div>
-                                </div>
+                    <div class="alert alert-info form-group" role="alert">
+                        Note: All Fields Required.
+                    </div>
+                    <div class="form-group required">
+                        <label class="has-float-label"><span>Start Date <font style="color: red;">*</font></span></label>
+                        <input v-model="salary_start_date" type="date" tabindex="1" class="form-control">
+                    <p style="color: red" v-if="salary_start_date_error!=''">{{salary_start_date_error}}</p>    
+                    </div>
+                    <div class="form-group required">
+                        <label class="has-float-label"><span>End Date <font style="color: red;">*</font></span></label>
+                        <input v-model="salary_end_date" type="date" tabindex="2" class="form-control">
+                    <p style="color: red" v-if="salary_start_date_error!=''">{{salary_start_date_error}}</p>    
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button"  tabindex="6" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                <button v-if=" !editMode && salary_start_date!='' && salary_end_date!=''"  tabindex="3" class="btn btn-primary" @click.prevent="postPayroll()">Submit</button>
+                <!--Update Button--->
+                <button  v-else-if="editMode && salary_start_date!='' && salary_end_date!=''"  tabindex="3" class="btn btn-primary" @click.prevent="updateAllowance()">Update</button>
+                <button v-else  disabled type="button" tabindex="5" class="btn btn-primary ">Fill For Submit</button>
+            </div>
+            <!--  </form> -->
+        </div>
+    </div>
 </div>   
 <!------End Pyroll Head Add Model-->
 

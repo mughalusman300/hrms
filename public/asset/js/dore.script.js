@@ -51,6 +51,7 @@ Table of Contents
 */
 
 /* 01. Utils */
+
 $.fn.addCommas = function (nStr) {
   nStr += "";
   var x = nStr.split(".");
@@ -3002,13 +3003,6 @@ $.dore = function (element, options) {
         info: false,
         sDom: '<"row view-filter"<"col-sm-12"<"float-left"l><"float-right"f><"clearfix">>>t<"row view-pager"<"col-sm-12"<"text-center"ip>>>',
         pageLength: 10,
-        columns: [
-          { data: "Name" },
-          { data: "Sales" },
-          { data: "Stock" },
-          { data: "Category" },
-          { data: "Check" }
-        ],
         language: {
           paginate: {
             previous: "<i class='simple-icon-arrow-left'></i>",

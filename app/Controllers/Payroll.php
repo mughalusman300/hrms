@@ -61,6 +61,7 @@ class Payroll extends BaseController
         	$salary_id= $Salary_Data[0]['salary_id'];
         	$data = [
         	'salary_status'    =>'Deactived', 
+        	'updated_by'       =>$user_id,
             ];
             $this->Payrollmodel->update($salary_id,$data);
         }
@@ -73,7 +74,31 @@ class Payroll extends BaseController
 		    'created_by'    =>$user_id,
 		    
 		];
-		$this->Payrollmodel->insert($data);
+		//Insert_id is salary_id of table payroll_salary_main//
+		$insert_id = $this->Payrollmodel->insert($data);
+
+	    ///LOG Start//////////
+		if($insert_id!=null){
+        $salary_data = $this->Payrollmodel->PayrollBySalaryID($insert_id);
+        $emp_id = ($salary_data[0]['emp_id']);
+        $start_date = ($salary_data[0]['salary_start_date']);
+        $end_date = ($salary_data[0]['salary_end_date']);
+        $Employee_name = ($salary_data[0]['fname'].' '.$salary_data[0]['lname']);
+        $date    = date('h:i:sa d-m-y');
+        $user_id    = $_SESSION['user_id'];
+		$user_name  = $_SESSION['user_name'];
+
+        $log_event   = 'A  new Payroll Head has been Added in Employee Payroll';
+        $log_narration  = 'A new payroll head Start Date: '.$start_date. ' End Date:' .$end_date.' for employee ID:'.$emp_id.' has been Added By: '.$user_name.' of User ID:'.$user_id.' at '.$date ;
+        $data = [
+              'log_event'     => $log_event,
+              'log_narration' => $log_narration,
+              'employee_id'   => $emp_id,
+              'created_by'    => $user_id,
+        ];	
+        $this->Commonmodel->Insert_record('saimtech_log',$data);
+		}///LOG End//////////
+        
 		}
 	}
 
@@ -104,7 +129,7 @@ class Payroll extends BaseController
 		
 			'salary_id' => ['rules' => 'required', 'label' => 'Salary ID'],
 			'allow_id' => ['rules' => 'required', 'label' => 'Allowance'],
-			'allow_amount' => ['rules' => 'required|is_natural_no_zero', 'label' => 'Allowance Amount'],
+			'allow_amount' => ['rules' => 'required|greater_than[0]|is_natural_no_zero', 'label' => 'Allowance Amount'],
 
 		];
 
@@ -120,13 +145,55 @@ class Payroll extends BaseController
 			    'created_by'    =>$user_id,
 			    
 			];
-		$this->Commonmodel->Insert_record('payroll_salary_detail',$data);
+		$insert_id = $this->Commonmodel->Insert_record('payroll_salary_detail',$data);
+
+		////////////////Log Start////////////////////////////////////
+        if($insert_id!=""){
+        $detail_data= $this->Payrollmodel->salaryDetailByID($insert_id); 
+        $allow_name = ($detail_data[0]['allow_name']);
+        $allow_type = ($detail_data[0]['allow_type']);
+        $allow_amount = ($detail_data[0]['allow_amount']);
+        $emp_id = ($detail_data[0]['emp_id']);
+        $date    = date('h:i:sa d-m-y');
+        $user_id    = $_SESSION['user_id'];
+		$user_name  = $_SESSION['user_name'];
+
+        $log_event   = $allow_name.' has been Added in Employee Payroll';
+        $log_narration  = 'Name: '.$allow_name. ' type: (' .$allow_type.') Amount:'.$allow_amount.' of employee ID:'.$emp_id.' has been Added By: '.$user_name.' of User ID:'.$user_id.' at '.$date ;
+        $data = [
+              'log_event'     => $log_event,
+              'log_narration' => $log_narration,
+              'employee_id'   => $emp_id,
+              'created_by'    => $user_id,
+        ];	
+        $this->Commonmodel->Insert_record('saimtech_log',$data);
+        }/////////////LOG END/////////////////////////////////
 		}
 	}
 	public function deleteSalaryAllowance($id)
 	{
-		$this->Commonmodel->Delete_record('payroll_salary_detail','detail_id',$id);
+		/////////////////LOG Start//////////////////////////////
+        $detail_data= $this->Payrollmodel->salaryDetailByID($id); 
+        $allow_name = ($detail_data[0]['allow_name']);
+        $allow_type = ($detail_data[0]['allow_type']);
+        $allow_amount = ($detail_data[0]['allow_amount']);
+        $emp_id = ($detail_data[0]['emp_id']);
+        $date    = date('h:i:sa d-m-y');
+        $user_id    = $_SESSION['user_id'];
+		$user_name  = $_SESSION['user_name'];
+
+        $log_event   = $allow_name.' has been Deleted in Employee Payroll';
+        $log_narration  = 'Name: '.$allow_name. ' type: (' .$allow_type.') Amount:'.$allow_amount.' of employee ID:'.$emp_id.' has been Deleted By: '.$user_name.' of User ID:'.$user_id.' at '.$date ;
+        $data = [
+              'log_event'     => $log_event,
+              'log_narration' => $log_narration,
+              'employee_id'   => $emp_id,
+              'created_by'    => $user_id,
+        ];
+        ///////////////////////////////////////////////////////////////////
+        $response = $this->Commonmodel->Delete_record('payroll_salary_detail','detail_id',$id);
+        if($response == true){
+        $this->Commonmodel->Insert_record('saimtech_log',$data);
+        }
 	}
-	
-	
 }
