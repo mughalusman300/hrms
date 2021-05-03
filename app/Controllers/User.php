@@ -77,7 +77,7 @@ class User extends BaseController
 		$data = [];
 		$rules = [
 			'name' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'Name'],
-			'email' => 'required|valid_email',
+			'email' => 'required|valid_email|is_unique[saimtech_users.saimtech_email,id,{id}]',
 			'password' => 'required|min_length[8]',
 			'company_id' => ['rules' => 'required', 'label' => 'company_id'],
 			'user_power' => ['rules' => 'required', 'label' => 'user_power'],

@@ -30,7 +30,7 @@ use ResponseTrait;
 	public function getAllDocuments()
     {
 
-        $documents = $this->Documentmodel->findAll();
+        $documents = $this->Documentmodel->getAllDocuments();
    
         return $this->response->setJSON($documents);
     }
@@ -42,7 +42,7 @@ use ResponseTrait;
 			'doc_name' => ['rules' => 'required|min_length[2]|max_length[30]', 'label' => 'Name'],
 			'doc_description' => ['rules' => 'required|min_length[3]|max_length[250]', 'label' => 'Description'],
 			'emp_id' => ['rules' => 'required', 'label' => 'Employee'],
-			'onefile' => 'uploaded[onefile]|max_size[onefile,20480]'
+			'onefile' =>['rules' => 'uploaded[onefile]|max_size[onefile,20480]|mime_in[onefile,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf]', 'label' => 'File'],
 
 		
 		];
@@ -85,4 +85,13 @@ use ResponseTrait;
     // 	//echo $path;
     //     return $this->response->download($path, null);
     // }
+    public function search(){
+		$searchkeyword = $this->request->getVar('s');
+		$search = $this->Documentmodel->getSearchData($searchkeyword);
+		return $this->response->setJSON($search);
+	}
+	Public function getEmployees(){
+	    $employees = $this->Commonmodel->Get_all_record('saimtech_employees');	
+		return $this->response->setJSON($employees);
+	}
 }

@@ -37,6 +37,7 @@
                                                 <input tabindex="0" v-model="bindImage" type="file" class="custom-file-input" name="onefile" id="onefile" onchange="photoOne(this);">
                                                 <input  type="hidden" v-model="imgValue">
                                                 <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                                <p style="color: red" v-if="onefile_error!=''">{{onefile_error}}</p>
                                             </div>
                                     </div>
                                     <div class="form-group col-md-4">
@@ -359,6 +360,7 @@
                                             <option value="0">Yes</option>
                                             <option value="1">No</option>
                                         </select>
+                                         <p style="color: red" v-if="is_taxable_error!=''">{{is_taxable_error}}</p>
                                     </div>   
                                 </div>
 
@@ -385,6 +387,7 @@
  var app = new Vue({
   el: '#app',
   data: {
+    onefile:'',
     fname:'',
     lname:'',
     father_name:'',
@@ -425,7 +428,7 @@
     account_iban:'',
     ntn:'',
     is_taxable:'',
-
+    onefile_error:'',
     fname_error:'',
     lname_error:'',
     father_name_error:'',
@@ -459,6 +462,7 @@
     account_no_error:'',
     account_iban_error:'',
     ntn_error:'',
+    is_taxable_error:'',
   },
   methods:{
         postEmployee()
@@ -554,6 +558,8 @@
               showConfirmButton: false,
               timer: 2000
             })
+            if(err.response.data.messages.onefile)
+            { this.onefile_error = err.response.data.messages.onefile; }  
             if(err.response.data.messages.fname)
             { this.fname_error = err.response.data.messages.fname; }
             if(err.response.data.messages.lname)
@@ -618,10 +624,13 @@
             { this.account_iban_error = err.response.data.messages.account_iban; }
             if(err.response.data.messages.ntn)
             { this.ntn_error = err.response.data.messages.ntn; }
+            if(err.response.data.messages.is_taxable)
+            { this.is_taxable_error = err.response.data.messages.is_taxable; }
         });
         },
         clearErrors()
         {
+            this.onefile_error='';
             this.fname_error='';
             this.lname_error='';
             this.father_name_error='';
@@ -655,6 +664,7 @@
             this.account_no_error='';
             this.account_iban_error='';
             this.ntn_error='';
+            this.is_taxable='';
 
         },
         clearForm()

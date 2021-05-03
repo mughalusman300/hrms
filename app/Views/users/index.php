@@ -250,6 +250,7 @@
         updateUser()
         {
           const form = new FormData();
+          form.append("id", this.formId);
           form.append("name", this.name);
           form.append("email", this.email);
           form.append("password", this.password);

@@ -58,10 +58,6 @@ $routes->get('salarydeductions/(:num)', 'Payroll::getSalaryDeductions/$1');
 $routes->post('createsalaryallowance', 'Payroll::createSalaryAllowance');
 $routes->delete('deletesalaryallowance/(:num)', 'Payroll::deleteSalaryAllowance/$1');
 
-
-
-////////////////////////////////////////////////////
-
 $routes->get('addemployee', 'Employee::add');
 $routes->get('detail/(:num)', 'Employee::detail/$1');
 $routes->get('update/(:num)', 'Employee::updateview/$1');
@@ -76,6 +72,8 @@ $routes->post('updateStatus/(:num)', 'Employee::updateEmployeeStatus/$1');
 ////////////////Document Routes///////////////////////
 $routes->get('doc', 'Document::index');
 $routes->delete('deletedocument/(:num)', 'Document::deleteDocument/$1');
+$routes->get('searchDeocument', 'Document::search');
+
 
 /*
  * --------------------------------------------------------------------

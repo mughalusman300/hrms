@@ -73,15 +73,16 @@ class Employee extends BaseController
 			'doj' => ['rules' => 'required', 'label' => 'doj'],
 			'reporting_area' => ['rules' => 'required', 'label' => 'reporting_area'],
 			'reporting_region' => ['rules' => 'required', 'label' => 'reporting_region'],
-			'machine_id' => 'is_unique[saimtech_employees.machine_id,machine_id,null],',
-			'account_no' => 'is_unique[saimtech_employees.account_no,account_no,null],',
+			'machine_id' => 'is_unique[saimtech_employees.machine_id,machine_id]||permit_empty',
+			'account_no' => 'is_unique[saimtech_employees.account_no,account_no]||permit_empty',
 			'account_iban' => 'is_unique[saimtech_employees.account_iban,account_iban,null],',
-			'ntn' => 'is_unique[saimtech_employees.ntn],',
+			'ntn' => 'is_unique[saimtech_employees.ntn]|permit_empty',
 
 			'shift' => ['rules' => 'required', 'label' => 'shift'],
 			'rank' => ['rules' => 'required', 'label' => 'rank'],
 			'education_type' => ['rules' => 'required', 'label' => 'education_type'],
 			'education' => ['rules' => 'required', 'label' => 'education'],
+			'is_taxable' => ['rules' => 'required', 'label' => 'Tax'],
 		
 		];
 

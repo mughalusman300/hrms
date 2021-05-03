@@ -46,12 +46,22 @@ class Documentmodel extends Model
 
 	public function getSearchData($match)
 	{
-	 // $query  =$this->db->table('saimtech_employees')
-	 //         ->like('fname',$match)
-	 //         ->orLike('lname',$match)
-	 //         ->orLike('email',$match)
-  //            ->get()
-  //            ->getResultArray();	
-  //   return $query;       
+	 $query  =$this->db->table('saimtech_document')
+	 ->join('saimtech_employees', 'saimtech_employees.emp_id = saimtech_document.emp_id', 'inner')
+	         ->like('doc_name',$match)
+	         ->orLike('fname',$match)
+	         ->orLike('lname',$match)
+             ->get()
+             ->getResultArray();	
+    return $query;       
+	}
+	public function getAllDocuments()
+	{
+	 $query  =$this->db->table('saimtech_document')
+	 ->join('saimtech_employees', 'saimtech_employees.emp_id = saimtech_document.emp_id', 'inner')
+	         ->orderBy('doc_id', 'DESC')
+             ->get()
+             ->getResultArray();	
+    return $query;       
 	}
 }
