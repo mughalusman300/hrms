@@ -103,4 +103,9 @@ class User extends BaseController
 	{
 		 $this->Usermodel->where('id', $id)->delete();
 	}
+	public function search(){
+		$searchkeyword = $this->request->getVar('s');
+		$search = $this->Usermodel->getSearchData($searchkeyword);
+		return $this->response->setJSON($search);
+	}
 }

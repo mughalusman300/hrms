@@ -42,6 +42,7 @@ $routes->post('User/update/(:id)', 'User::update/$1');
 $routes->get('users', 'User::index');
 // $routes->get('login', 'Login::index');
 $routes->post('create', 'User::store');
+$routes->get('searchUser', 'User::search');
 
 ////////////Allowances Routes////////////////////////
 $routes->post('createAllowance', 'Allowances::store');

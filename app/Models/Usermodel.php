@@ -40,4 +40,14 @@ class Usermodel extends Model
 	protected $afterFind            = [];
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
+
+	public function getSearchData($match)
+	{
+	 $query  =$this->db->table('saimtech_users')
+	         ->like('saimtech_uname',$match)
+	         ->orLike('saimtech_email',$match)
+             ->get()
+             ->getResultArray();	
+    return $query;       
+	}
 }

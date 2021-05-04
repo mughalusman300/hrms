@@ -20,57 +20,104 @@
                 </div>
             </div>
             <div class="card col-12">
-                                <div class="position-absolute card-top-buttons">
-                                    <button class="btn btn-header-light icon-button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="simple-icon-refresh"></i>
-                                    </button>
-                                </div>
-                            <div class="card-body">
-                            
-                            <p class="mb-0">
-                                <!-- <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-backdrop="static" data-target="#exampleModalRight">Add New</button> -->
-                                <button type="button" class="btn btn-outline-primary" @click="createMode">Add New</button>
+              <div class="position-absolute card-top-buttons">
+                  <button class="btn btn-header-light icon-button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="simple-icon-refresh"></i>
+                  </button>
+              </div>
+              <div class="card-body">
+              
+              <p class="mb-0">
+                  <button type="button" class="btn btn-outline-primary" @click="createMode">Add New</button>
 
-                            </p>
-                                    <hr>
-                                    
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered">
-                                        <thead class='thead-light'>
-                                            <tr>
-                                            <th scope="col">SR.</th>
-                                            <th scope="col">Name </th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Company</th>
-                                            <th scope="col">Role</th>
-                                            <th scope="col">Action</th>
-                                            <th scope="col">Date Posted</th>
-                                            </tr>
-                                        </thead>
-                                        <thead class='thead-light'>
-                                            <tr v-for="(rows,i) in users">
-                                            <td >SR.</td>
-                                            <td >{{rows.saimtech_uname}} </td>
-                                            <td >{{rows.saimtech_email}}</td>
-                                            <td v-if="rows.saimtech_comp_id ==1">T.M Cargo & Logistics</td>
-                                            <td v-else>T.M Delivery Express</td>
+              </p>
+                <hr>
+                <div class="input-group typeahead-container">
+              <input type="text" v-model="searchWord"  class="form-control" name="query" id="query" placeholder="Search By Name,Email..."  autocomplete="off" v-on:keyup="search">
 
-                                            <td >{{rows.saimtech_power}}</td>
-                                            <td ><center>
-                                            <button type="button" class="btn btn-warning btn-xs default" @click="editUser(rows)">Edit</button>
-                                            <button type="button" 
-                                            class="btn btn-danger btn-xs default"  @click="deleteUser(rows)">Delete
-                                            </button>
-                                           </center></td>
-                                            <td >{{rows.saimtech_date}}</td>
-                                            </tr>
-                                        </thead>    
-                                        </table>
-                                     </div>
-                                    </div>
-                                    
-
-                            </div>
+              <div class="input-group-append ">
+                  <button type="submit" class="btn btn-primary default" @click="search">
+                      <i class="simple-icon-magnifier"></i>
+                  </button>
+              </div>
+          </div>
+          <div class="separator mb-3"></div>
+         <b-row>
+              <b-col lg="10" class="my-1">
+              <p class="mt-3">Current Page: {{ currentPage }}</p>
+              </b-col>
+              <b-col lg="2" class="my-1">
+              <b-form-group
+                label-for="per-page-select"
+                class="mb-2"
+              >
+                <b-form-select
+                  id="per-page-select"
+                  v-model="perPage"
+                  :options="pageOptions"
+                ></b-form-select>
+              </b-form-group>
+            </b-col>
+         </b-row>   
+            <div class="table-responsive">
+                <b-table
+                  id="my-table"
+                  :items="users"
+                  :fields="fields"
+                  :per-page="perPage"
+                  :current-page="currentPage"
+                  :striped="striped"
+                  :bordered="bordered"
+                  :borderless="borderless"
+                  :outlined="outlined"
+                  :hover="hover"
+                  :dark="dark"
+                  :fixed="fixed"
+                  :foot-clone="footClone"
+                  :no-border-collapse="noCollapse"
+                  :head-variant="headVariant"
+                  :table-variant="tableVariant"
+                >
+                  <template #cell(Sr.)="data">
+                    {{ data.index + 1 }}
+                  </template>
+                  <template #cell(Name)="data">
+                    {{data.item.saimtech_uname}}
+                  </template>
+                  <template #cell(Email)="data">
+                    {{data.item.saimtech_email}}
+                  </template>
+                  <template #cell(Company)="data">
+                    <p v-if="data.item.saimtech_comp_id ==1">T.M Cargo & Logistics</p>
+                    <p v-else>T.M Delivery Express</p>
+                  </template> 
+                  <template #cell(Role)="data">
+                    {{data.item.saimtech_power}}
+                  </template>   
+                  <template #cell(Action)="data">
+                    <button type="button" 
+                    class="btn btn-danger btn-xs default"  @click="deleteUser(data.item)">Delete
+                    </button>
+                    <button type="button" class="btn btn-warning btn-xs default" @click="editUser(data.item)">Edit</button>
+                  </template>
+                </b-table>
+                <div class="text-center" v-if="loading">
+                 <b-spinner variant="info" class="mt-5 mb-5" style="width: 4rem; height: 4rem;" label="Large Spinner"></b-spinner>
+                </div>
+                <div class="d-flex mt-3 justify-content-center mb-auto">
+                  <b-pagination
+                  v-model="currentPage"
+                  :total-rows="rows"
+                  :per-page="perPage"
+                  aria-controls="my-table"
+                ></b-pagination>
+                </div>
+                <div>
+                  Total Records: {{totalResults}}
+                </div>
+             </div>
+          </div>
+         </div>
         </div>
 <!------User Add Model ---->      
 <div class="modal fade modal-right" id="createUser" tabindex="-1" role="dialog" aria-labelledby="createUser" style="display: none;" aria-hidden="true">
@@ -141,12 +188,15 @@
                                          </form>
                                     </div>
                                 </div>
-</div>        
+</div>       
 </main>
 <script type="text/javascript">
  var app = new Vue({
   el: '#app',
+
   data: {
+    searchWord:'',
+    loading:false,
     users:{},
     editMode:false,
     formId:'',
@@ -160,12 +210,52 @@
     password_error:'',
     company_id_error:'',
     user_power_error:'',
+    totalResults:'',
+    perPage:10,
+    pageOptions: [
+
+    5, 10, 25,50,
+    { value: this.totalResults, text: "All" }
+    ],
+    currentPage: 1,
+    fields: [
+    'Sr.',
+    'Name',
+    'Email',
+    'Company',
+    'Role',
+    'Action',
+    { key: 'saimtech_date', label: 'Date Posted' },
+     ],
+     tableVariants: [
+          'primary',
+          'secondary',
+          'info',
+          'danger',
+          'warning',
+          'success',
+          'light',
+          'dark'
+        ],
+        striped: false,
+        bordered: true,
+        borderless: false,
+        outlined: false,
+        small: false,
+        hover: true,
+        dark: false,
+        fixed: false,
+        footClone: false,
+        headVariant:'light',
+        tableVariant: '',
+        noCollapse: false
   },
    methods:{
-    getUsers()
-        {
+    getUsers(){
           axios.get('User/getAllUsers').then((response)=>{
-          this.users =response.data
+          this.users =response.data;
+          var jsonObject = response.data;
+          this.totalResults  = Object.keys(jsonObject).length;
           })
         },
         createMode(){
@@ -173,122 +263,138 @@
         this.editMode =false;
         $('#createUser').modal('show');
         },
-        editUser(rows){
-          this.editMode =true;
-          this.clearModel();
-          this.formId=rows.id;
-          this.name=rows.saimtech_uname;
-          this.email=rows.saimtech_email; 
-          this.password= rows.saimtech_password;
-          this.company_id= rows.saimtech_comp_id;
-          this.user_power= rows.saimtech_power;
-        $('#createUser').modal('show');
-        },
-        deleteUser(rows)
-         { 
-          Swal.fire({
-          title: 'Are you sure?',
-          text: rows.saimtech_uname+" will be deleted permanantly!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
-          }).then((result) => {
-            if (result.isConfirmed) {  
-              axios.delete('user/delete/'+rows.id).then(()=>{
-                 Swal.fire(
-                  'Deleted!',
-                  rows.saimtech_uname+' has been deleted.',
-                  'success'
-                )
-                this.getUsers();
-              }).catch(()=>{
-                
-            })
-            }
+    search(){
+            //this.noData = false;
+            this.loading = true;
+            this.users={};
+            axios.get('searchUser?s='+this.searchWord).then((response)=>{  
+            this.loading = false;    
+            this.users = response.data;
+            var jsonObject = response.data;
+            this.totalResults  = Object.keys(jsonObject).length;
+          }).catch(()=>{
           })
-        },
-        postUser()
-        {
-          const form = new FormData();
-          form.append("name", this.name);
-          form.append("email", this.email);
-          form.append("password", this.password);
-          form.append("company_id", this.company_id);
-          form.append("user_power", this.user_power); 
-
-          axios.post('create',form).then((response)=>{
-            this.clearModel();
-            $("#createUser").modal("hide");
-            this.getUsers();
-
-          }).catch(err => {
-
-            this.name_error = "";
-            this.email_error = "";
-            this.password_error = "";
-            this.company_id_error = "";
-            this.user_power_error = "";
-            if(err.response.data.messages.name){
-             this.name_error = err.response.data.messages.name;
-           }
-           if(err.response.data.messages.email){
-           this.email_error = err.response.data.messages.email;
-           }
-           if(err.response.data.messages.password){
-           this.password_error = err.response.data.messages.password;
-           }
-           if(err.response.data.messages.company_id){
-           this.company_id_error = err.response.data.messages.company_id;
-           }
-           if(err.response.data.messages.user_power){
-           this.user_power_error = err.response.data.messages.user_power;
-           }
-        });
-        },
-        updateUser()
-        {
-          const form = new FormData();
-          form.append("id", this.formId);
-          form.append("name", this.name);
-          form.append("email", this.email);
-          form.append("password", this.password);
-          form.append("company_id", this.company_id);
-          form.append("user_power", this.user_power);   
-          axios.post('User/update/'+ this.formId, form).then((response)=>{
-          this.clearModel();
-          $("#createUser").modal("hide");
-             Swal.fire({
-              // position: 'top-end',
-              icon: 'success',
-              title: this.name + 'User has been Updated Successfully',
-              showConfirmButton: false,
-              timer: 1500
-            })
+        },    
+    editUser(rows){
+      this.editMode =true;
+      this.clearModel();
+      this.formId=rows.id;
+      this.name=rows.saimtech_uname;
+      this.email=rows.saimtech_email; 
+      this.password= rows.saimtech_password;
+      this.company_id= rows.saimtech_comp_id;
+      this.user_power= rows.saimtech_power;
+    $('#createUser').modal('show');
+    },
+    deleteUser(rows){ 
+      Swal.fire({
+      title: 'Are you sure?',
+      text: rows.saimtech_uname+" will be deleted permanantly!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {  
+          axios.delete('user/delete/'+rows.id).then(()=>{
+             Swal.fire(
+              'Deleted!',
+              rows.saimtech_uname+' has been deleted.',
+              'success'
+            )
             this.getUsers();
           }).catch(()=>{
-
-          }) 
-        },
-        clearModel()
-        {
-            this.name =""; 
-            this.email =""; 
-            this.password =""; 
-            this.company_id =""; 
-            this.user_power =""; 
-            this.name_error = "";
-            this.email_error = "";
-            this.password_error = "";
-            this.company_id_error = "";
-            this.user_power_error = "";
+            
+        })
         }
+      })
+    },
+    postUser()
+    {
+      const form = new FormData();
+      form.append("name", this.name);
+      form.append("email", this.email);
+      form.append("password", this.password);
+      form.append("company_id", this.company_id);
+      form.append("user_power", this.user_power); 
+
+      axios.post('create',form).then((response)=>{
+        this.clearModel();
+        $("#createUser").modal("hide");
+        this.getUsers();
+
+      }).catch(err => {
+
+        this.name_error = "";
+        this.email_error = "";
+        this.password_error = "";
+        this.company_id_error = "";
+        this.user_power_error = "";
+        if(err.response.data.messages.name){
+         this.name_error = err.response.data.messages.name;
+       }
+       if(err.response.data.messages.email){
+       this.email_error = err.response.data.messages.email;
+       }
+       if(err.response.data.messages.password){
+       this.password_error = err.response.data.messages.password;
+       }
+       if(err.response.data.messages.company_id){
+       this.company_id_error = err.response.data.messages.company_id;
+       }
+       if(err.response.data.messages.user_power){
+       this.user_power_error = err.response.data.messages.user_power;
+       }
+    });
+    },
+    updateUser()
+    {
+      const form = new FormData();
+      form.append("id", this.formId);
+      form.append("name", this.name);
+      form.append("email", this.email);
+      form.append("password", this.password);
+      form.append("company_id", this.company_id);
+      form.append("user_power", this.user_power);   
+      axios.post('User/update/'+ this.formId, form).then((response)=>{
+      this.clearModel();
+      $("#createUser").modal("hide");
+         Swal.fire({
+          // position: 'top-end',
+          icon: 'success',
+          title: this.name + 'User has been Updated Successfully',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.getUsers();
+      }).catch(()=>{
+
+      }) 
+    },
+    clearModel()
+    {
+        this.name =""; 
+        this.email =""; 
+        this.password =""; 
+        this.company_id =""; 
+        this.user_power =""; 
+        this.name_error = "";
+        this.email_error = "";
+        this.password_error = "";
+        this.company_id_error = "";
+        this.user_power_error = "";
+    }
 
   },
   created(){
    this.getUsers(); 
-  }
+  },
+  computed: {
+      rows() {
+        return this.users.length
+      }
+    }
 
 })   
 </script>
