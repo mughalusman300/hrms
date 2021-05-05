@@ -5,6 +5,18 @@
             <div class="row">
                 <div class="col-12">
                     <h1>Users</h1>
+                    <div class="top-right-button-container">
+                        <div class="btn-group">
+                            <button class="btn btn-outline-primary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                EXPORT
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" @click="exportExcel" id="dataTablesExcel" href="#">Excel</a>
+                                <a class="dropdown-item" @click="exportCsv" id="dataTablesCsv" href="#">Csv</a>
+                                <a class="dropdown-item" @click="exportPdf" id="dataTablesPdf" href="#">Pdf</a>
+                            </div>
+                        </div>
+                    </div>
                     <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
                         <ol class="breadcrumb pt-0">
                             <li class="breadcrumb-item">
@@ -21,7 +33,7 @@
             </div>
             <div class="card col-12">
               <div class="position-absolute card-top-buttons">
-                  <button class="btn btn-header-light icon-button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button @click="getUsers" class="btn btn-header-light icon-button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="simple-icon-refresh"></i>
                   </button>
               </div>
@@ -31,8 +43,7 @@
                   <button type="button" class="btn btn-outline-primary" @click="createMode">Add New</button>
 
               </p>
-                <hr>
-                <div class="input-group typeahead-container">
+            <!-- <div class="input-group typeahead-container">
               <input type="text" v-model="searchWord"  class="form-control" name="query" id="query" placeholder="Search By Name,Email..."  autocomplete="off" v-on:keyup="search">
 
               <div class="input-group-append ">
@@ -40,7 +51,32 @@
                       <i class="simple-icon-magnifier"></i>
                   </button>
               </div>
-          </div>
+            </div> -->
+            <b-row>
+            <b-col lg="4" class="my-1 offset-lg-8">
+              <b-form-group
+                label="Filter"
+                label-for="filter-input"
+                label-cols-sm="3"
+                label-align-sm="right"
+                label-size="sm"
+                class="mb-0 typeahead-container"
+              >
+                <b-input-group size="sm">
+                  <b-form-input
+                    id="filter-input"
+                    v-model="filter"
+                    type="search"
+                    placeholder="Search Name, Email, Role"
+                  ></b-form-input>
+
+                  <b-input-group-append>
+                    <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+          </b-row>
           <div class="separator mb-3"></div>
          <b-row>
               <b-col lg="10" class="my-1">
@@ -61,12 +97,18 @@
          </b-row>   
             <div class="table-responsive">
                 <b-table
+                  :filter="filter"
+                  show-empty
+                  sticky-header
                   id="my-table"
                   :items="users"
                   :fields="fields"
                   :per-page="perPage"
                   :current-page="currentPage"
                   :striped="striped"
+                  :sort-by.sync="sortBy"
+                  :sort-desc.sync="sortDesc"
+                  sort-icon-left
                   :bordered="bordered"
                   :borderless="borderless"
                   :outlined="outlined"
@@ -81,20 +123,11 @@
                   <template #cell(Sr.)="data">
                     {{ data.index + 1 }}
                   </template>
-                  <template #cell(Name)="data">
-                    {{data.item.saimtech_uname}}
-                  </template>
-                  <template #cell(Email)="data">
-                    {{data.item.saimtech_email}}
-                  </template>
                   <template #cell(Company)="data">
                     <p v-if="data.item.saimtech_comp_id ==1">T.M Cargo & Logistics</p>
                     <p v-else>T.M Delivery Express</p>
-                  </template> 
-                  <template #cell(Role)="data">
-                    {{data.item.saimtech_power}}
-                  </template>   
-                  <template #cell(Action)="data">
+                  </template>  
+                  <template id="ignoreAction" #cell(Action)="data">
                     <button type="button" 
                     class="btn btn-danger btn-xs default"  @click="deleteUser(data.item)">Delete
                     </button>
@@ -121,73 +154,71 @@
         </div>
 <!------User Add Model ---->      
 <div class="modal fade modal-right" id="createUser" tabindex="-1" role="dialog" aria-labelledby="createUser" style="display: none;" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                        <h5 class="modal-title"v-show="!editMode">Create User</h5>
-                                        <h5 class="modal-title"v-show="editMode">Edit User</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">×</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title"v-show="!editMode">Create User</h5>
+            <h5 class="modal-title"v-show="editMode">Edit User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
 
-                                            <form id="form_id
-                                            " method="post" >
+                <form id="form_id
+                " method="post" >
 
-                                                <div class="alert alert-info form-group" role="alert">
-                                                    Note: All Fields Required.
-                                                </div>
-                                                <div class="form-group required">
-                                                    <label class="has-float-label"><span>Name <font style="color: red;">*</font></span></label>
-                                                    <input v-model="name" type="text" tabindex="1" name="name" value="name" class="form-control" placeholder="">
-                                                <p style="color: red" v-if="name_error!=''">{{name_error}}</p>    
-                                                </div>
-                                                
-                                                
-                                                <div class="form-group">
-                                                    <label class="has-float-label"><span>Email<font style="color: red;">*</font></span></span></label>
-                                                   <input v-model="email" type="email" tabindex="2" name="email"class="form-control" placeholder="">
-                                                    <p style="color: red" v-if="email_error!=''">{{email_error}}</p>    
-                                                </div>
+                    <div class="alert alert-info form-group" role="alert">
+                        Note: All Fields Required.
+                    </div>
+                    <div class="form-group required">
+                        <label class="has-float-label"><span>Name <font style="color: red;">*</font></span></label>
+                        <input v-model="name" type="text" tabindex="1" name="name" value="name" class="form-control" placeholder="">
+                    <p style="color: red" v-if="name_error!=''">{{name_error}}</p>    
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <label class="has-float-label"><span>Email<font style="color: red;">*</font></span></span></label>
+                       <input v-model="email" type="email" tabindex="2" name="email"class="form-control" placeholder="">
+                        <p style="color: red" v-if="email_error!=''">{{email_error}}</p>    
+                    </div>
 
-                                                <div class="form-group">
-                                                    <label class="has-float-label"><span>Password<font style="color: red;">*</font></span></label>
-                                                   <input v-model="password" type="password" tabindex="3" name="password"class="form-control" placeholder="">
-                                                   <p style="color: red" v-if="password_error!=''">{{password_error}}</p> 
-                                                </div>
+                    <div class="form-group">
+                        <label class="has-float-label"><span>Password<font style="color: red;">*</font></span></label>
+                       <input v-model="password" type="password" tabindex="3" name="password"class="form-control" placeholder="">
+                       <p style="color: red" v-if="password_error!=''">{{password_error}}</p> 
+                    </div>
 
-                                                <div class="form-group">
-                                                    <label class="has-float-label"><span>Company<font style="color: red;">*</font></span></label>
-                                                    <select v-model="company_id"  name="company_id"  tabindex="4" class="form-control">
-                                                        <option disabled="disabled" value="">Select</option>
-                                                        <option value="1">T.M Cargo & Logistics</option>
-                                                        <option value="2">T.M Delivery Express</option>
-                                                    </select>
-                                                    <p style="color: red" v-if="company_id_error!=''">{{company_id_error}}</p> 
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="has-float-label"><span>Role<font style="color: red;">*</font></span></label>
-                                                    <select v-model="user_power"  name="company_id"    tabindex="4" class="form-control">
-                                                        <option disabled="disabled" value="">Select</option>
-                                                        <option value="Admin">Admin</option>
-                                                        <option value="User">User</option>
-                                                    </select>
-                                                    <p style="color: red" v-if="user_power_error!=''">{{user_power_error}}</p> 
-                                                </div>
-
-                                           
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button"  tabindex="6" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                                            <button v-if=" !editMode && name!='' && email!='' && password!=''  && user_power!=''"  type="submit"  tabindex="5" class="btn btn-primary" @click.prevent="postUser()">Submit</button>
-                                            <!--Update Button--->
-                                            <button  v-else-if="editMode && name!='' && email!='' && password!=''  && user_power!=''"  type="submit"  tabindex="5" class="btn btn-primary" @click.prevent="updateUser()">Update</button>
-                                            <button v-else  disabled type="button" tabindex="5" class="btn btn-primary ">Fill For Submit</button>
-                                        </div>
-                                         </form>
-                                    </div>
-                                </div>
+                    <div class="form-group">
+                        <label class="has-float-label"><span>Company<font style="color: red;">*</font></span></label>
+                        <select v-model="company_id"  name="company_id"  tabindex="4" class="form-control">
+                            <option disabled="disabled" value="">Select</option>
+                            <option value="1">T.M Cargo & Logistics</option>
+                            <option value="2">T.M Delivery Express</option>
+                        </select>
+                        <p style="color: red" v-if="company_id_error!=''">{{company_id_error}}</p> 
+                    </div>
+                    <div class="form-group">
+                        <label class="has-float-label"><span>Role<font style="color: red;">*</font></span></label>
+                        <select v-model="user_power"  name="company_id"    tabindex="4" class="form-control">
+                            <option disabled="disabled" value="">Select</option>
+                            <option value="Admin">Admin</option>
+                            <option value="User">User</option>
+                        </select>
+                        <p style="color: red" v-if="user_power_error!=''">{{user_power_error}}</p> 
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button"  tabindex="6" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                <button v-if=" !editMode && name!='' && email!='' && password!=''  && user_power!=''"  type="submit"  tabindex="5" class="btn btn-primary" @click.prevent="postUser()">Submit</button>
+                <!--Update Button--->
+                <button  v-else-if="editMode && name!='' && email!='' && password!=''  && user_power!=''"  type="submit"  tabindex="5" class="btn btn-primary" @click.prevent="updateUser()">Update</button>
+                <button v-else  disabled type="button" tabindex="5" class="btn btn-primary ">Fill For Submit</button>
+            </div>
+             </form>
+        </div>
+    </div>
 </div>       
 </main>
 <script type="text/javascript">
@@ -197,6 +228,8 @@
   data: {
     searchWord:'',
     loading:false,
+    sortBy: '',
+    sortDesc: false,
     users:{},
     editMode:false,
     formId:'',
@@ -210,6 +243,7 @@
     password_error:'',
     company_id_error:'',
     user_power_error:'',
+    filter: null,
     totalResults:'',
     perPage:10,
     pageOptions: [
@@ -220,23 +254,13 @@
     currentPage: 1,
     fields: [
     'Sr.',
-    'Name',
-    'Email',
+    { key: 'saimtech_uname',label:'Name'  },
+    { key:'saimtech_email',label:'Email' },
     'Company',
-    'Role',
-    'Action',
+    { key:'saimtech_power',label:'Role' },
     { key: 'saimtech_date', label: 'Date Posted' },
+    'Action',
      ],
-     tableVariants: [
-          'primary',
-          'secondary',
-          'info',
-          'danger',
-          'warning',
-          'success',
-          'light',
-          'dark'
-        ],
         striped: false,
         bordered: true,
         borderless: false,
@@ -252,8 +276,11 @@
   },
    methods:{
     getUsers(){
+          this.users={};
+          this.loading = true;
           axios.get('User/getAllUsers').then((response)=>{
           this.users =response.data;
+          this.loading = false;
           var jsonObject = response.data;
           this.totalResults  = Object.keys(jsonObject).length;
           })
@@ -263,18 +290,18 @@
         this.editMode =false;
         $('#createUser').modal('show');
         },
-    search(){
-            //this.noData = false;
-            this.loading = true;
-            this.users={};
-            axios.get('searchUser?s='+this.searchWord).then((response)=>{  
-            this.loading = false;    
-            this.users = response.data;
-            var jsonObject = response.data;
-            this.totalResults  = Object.keys(jsonObject).length;
-          }).catch(()=>{
-          })
-        },    
+    // search(){
+    //         //this.noData = false;
+    //         this.loading = true;
+    //         this.users={};
+    //         axios.get('searchUser?s='+this.searchWord).then((response)=>{  
+    //         this.loading = false;    
+    //         this.users = response.data;
+    //         var jsonObject = response.data;
+    //         this.totalResults  = Object.keys(jsonObject).length;
+    //       }).catch(()=>{
+    //       })
+    //     },    
     editUser(rows){
       this.editMode =true;
       this.clearModel();
@@ -384,6 +411,33 @@
         this.password_error = "";
         this.company_id_error = "";
         this.user_power_error = "";
+    },
+    exportExcel()
+    {
+      $('#my-table').tableExport({type:'excel',
+                                  ignoreColumn: [6],
+                                 });
+    },
+    exportCsv()
+    {
+
+      $('#my-table').tableExport({type:'csv',
+                                  ignoreColumn: [6],
+                                 });
+    },
+    exportPdf()
+    {
+      function DoCellData(cell, row, col, data) {}
+      function DoBeforeAutotable(table, headers, rows, AutotableSettings) {}
+      $('#my-table').tableExport({type:'pdf',
+                                  ignoreColumn: [6],
+                           jspdf: {
+                                margins: {left:20, right:20, top:20, bottom:20},
+                                autotable: {styles: {overflow: 'linebreak'},
+                                            tableWidth: 'auto',
+                                            tableExport: {onBeforeAutotable: DoBeforeAutotable,
+                                                          onCellData: DoCellData}}}
+                       });
     }
 
   },

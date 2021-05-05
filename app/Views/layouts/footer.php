@@ -29,6 +29,17 @@
     <script src="<?= base_url(); ?>/public/asset/js/vendor/bootstrap-datepicker.js"></script>
     <script src="<?= base_url(); ?>/public/asset/js/vendor/perfect-scrollbar.min.js"></script>
     <script src="<?= base_url(); ?>/public/asset/js/vendor/mousetrap.min.js"></script>
+    <script src="<?= base_url(); ?>/public/asset/js/vendor/jquery.table2excel.js"></script>
+    <script src="<?= base_url(); ?>/public/asset/js/vendor/tableHTMLExport.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.10/jspdf.plugin.autotable.min.js"></script>
+    <script src="<?= base_url(); ?>/public/asset/js/libs/FileSaver/FileSaver.min.js"></script>
+    <script src="<?= base_url(); ?>/public/asset/js/libs/js-xlsx/xlsx.core.min.js"></script>
+    <script src="<?= base_url(); ?>/public/asset/js/libs/js-xlsx/xlsx.core.min.js"></script>
+    <script src="<?= base_url(); ?>/public/asset/js/libs/jsPDF/jspdf.min.js"></script>
+    <script src="<?= base_url(); ?>/public/asset/js/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+    <script src="<?= base_url(); ?>/public/asset/js/libs/tableExport.min.js"></script>
+
     <script src="<?= base_url(); ?>/public/asset/js/dore.script.js"></script>
     <script src="<?= base_url(); ?>/public/asset/js/scripts.js"></script>
     <!-------------------For Datatables----------------------------------------->
