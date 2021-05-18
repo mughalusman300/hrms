@@ -99,7 +99,7 @@
                 <b-table
                   :filter="filter"
                   show-empty
-                  sticky-header
+                 
                   id="my-table"
                   :items="users"
                   :fields="fields"
@@ -126,7 +126,10 @@
                   <template #cell(Company)="data">
                     <p v-if="data.item.saimtech_comp_id ==1">T.M Cargo & Logistics</p>
                     <p v-else>T.M Delivery Express</p>
-                  </template>  
+                  </template> 
+                  <template #cell(Date_Posted)="data">
+                   {{moment(data.item.saimtech_date).format('MMM Do YYYY')}}
+                  </template> 
                   <template id="ignoreAction" #cell(Action)="data">
                     <button type="button" 
                     class="btn btn-danger btn-xs default"  @click="deleteUser(data.item)">Delete
@@ -258,7 +261,7 @@
     { key:'saimtech_email',label:'Email' },
     'Company',
     { key:'saimtech_power',label:'Role' },
-    { key: 'saimtech_date', label: 'Date Posted' },
+    'Date_Posted',
     'Action',
      ],
         striped: false,

@@ -27,7 +27,7 @@ class User extends BaseController
 	public function getAllUsers()
     {
 
-        $user = $this->Usermodel->find();
+        $user = $this->Usermodel->orderBy('id', 'DESC')->find();
    
         return $this->response->setJSON($user);
     }
