@@ -4,7 +4,7 @@
 
     <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/font/iconsmind-s/css/iconsminds.css" />
     <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/font/simple-line-icons/css/simple-line-icons.css" />
-
+    
     <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/css/vendor/bootstrap.min.css" />
     <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/css/vendor/bootstrap.rtl.only.min.css" />
     <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/css/vendor/bootstrap-float-label.min.css" />
@@ -41,3 +41,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <style type="text/css">
+     
+@media print{
+    @page :footer {color: #fff }
+    @page :header {color: #fff}
+}
+</style>

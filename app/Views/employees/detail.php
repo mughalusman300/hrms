@@ -18,7 +18,7 @@
                         </ol>
                     </nav>
                     <div class="separator mb-5"></div>
-                     <div class="text-zero top-left-button-container"><a href="<?= base_url();?>/payrolldetail/<?= $rows['emp_id'] ?>" type="button" class="btn btn-primary btn-lg top-left-button mb-2 mr-1">Payrol</a></div>
+                     <!-- <div class="text-zero top-left-button-container"><a href="<?= base_url();?>/payrolldetail/<?= $rows['emp_id'] ?>" type="button" class="btn btn-primary btn-lg top-left-button mb-2 mr-1">Payrol</a></div> -->
 
                 </div>
             </div>
@@ -50,8 +50,13 @@
                                             <td><?= $rows['father_name'] ?></td>    
                                             <td><?= $rows['company_id'] ?></td>    
                                             <td><?= $rows['department_id'] ?></td>    
-                                            <td><?= $rows['designation_id'] ?></td>      
-                                            <td><code><?= $rows['emp_status'] ?></code></td>      
+                                            <td><?= $rows['designation_id'] ?></td> 
+                                            <?php if ($rows['emp_status']=='active') {?>     
+                                            <td class="text-capitalize text-success"><?= $rows['emp_status'] ?></td>
+                                        <?php } 
+                                         if ($rows['emp_status']!='active') {?>
+                                            <td class="text-capitalize text-danger"><?= $rows['emp_status'] ?></td>
+                                         <?php } ?>       
                                             </tr>
                                         </thead>
                                         </table>  

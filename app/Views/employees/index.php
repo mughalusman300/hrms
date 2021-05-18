@@ -63,7 +63,10 @@
                                             <p class="mb-2 text-muted text-small">
                                              {{rows.designation_id}}   
                                             </p>
-                                            <p class="mb-2 text-muted text-small">
+                                            <p v-if='rows.emp_status=="active"' class="mb-2 text-capitalize text-success  text-small">
+                                             {{rows.emp_status}}   
+                                            </p>
+                                            <p v-else class="mb-2 text-capitalize text-danger  text-small">
                                              {{rows.emp_status}}   
                                             </p>
                                             <p class="mb-2">
@@ -79,9 +82,9 @@
                                              <button v-show="rows.emp_status=='active'"  type="button" @click="updateStatusMode(rows.emp_id)"
                                               class="btn btn-xs btn-outline-danger ">Leave
                                             </button>
-                                              <a v-show="rows.emp_status=='active'"  v-bind:href="'<?= base_url();?>/payrolldetail/'+rows.emp_id" target="_blank"><button type="button"
+                                              <!-- <a v-show="rows.emp_status=='active'"  v-bind:href="'<?= base_url();?>/payrolldetail/'+rows.emp_id" target="_blank"><button type="button"
                                                   class="btn btn-xs btn-outline-primary ">payroll</button>
-                                              </a>
+                                              </a> -->
                                             </p>
                                             
                                                 
