@@ -238,8 +238,8 @@ class Employee extends BaseController
 		    'ntn'    => $this->request->getVar('ntn'),
 		    'is_taxable'    => $this->request->getVar('is_taxable')    
 		];
-		 $this->comm->Update_record($emp_id, $data);
-		 return redirect()->to('/Home');
+		 $this->Commonmodel->Update_record('saimtech_employees','emp_id',$emp_id, $data);
+		 // return redirect()->to('/Home');
 		}
 
 	}

@@ -265,23 +265,6 @@
                                         <p style="color: red" v-if="shift_error!=''">{{shift_error}}</p>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Rank<font style="color: red;">*</font></label>
-                                        <select tabindex="28" v-model="rank" name="" class="form-control">
-                                            <option value="">Select</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                        </select>
-                                        <p style="color: red" v-if="rank_error!=''">{{rank_error}}</p>
-                                    </div>
-                                    <div class="form-group col-md-4">
                                         <label>Education Type<font style="color: red;">*</font></label>
                                         <select tabindex="29"  v-model="education_type" name="" class="form-control">
                                             <option value="">Select</option>
@@ -416,7 +399,7 @@
     reporting_region:'',
     machine_id:'',
     shift:'',
-    rank:'',
+    rank:1,
     education_type:'',
     education:'',
     previous_comp:'',
