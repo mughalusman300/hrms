@@ -23,11 +23,8 @@
 
         </div>
 
-
-        <a class="navbar-logo" href="Dashboard.Default.html">
-            <span class="logo d-none d-xs-block"></span>
-            <span class="logo-mobile d-block d-xs-none"></span>
-        </a>
+<img class="navbar-logo" style="width:105px; height:65px;  "  src="<?= base_url(); ?>/public/img/tmlogo.png">
+        
 
         <div class="navbar-right">
             <div class="header-icons d-inline-block align-middle">
@@ -45,34 +42,34 @@
                         <i class="simple-icon-grid"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right mt-3  position-absolute" id="iconMenuDropdown">
-                        <a href="#" class="icon-menu-item">
-                            <i class="iconsminds-equalizer d-block"></i>
-                            <span>Settings</span>
+                        <a href="<?= base_url();?>/home" class="icon-menu-item">
+                            <i class="iconsminds-shop-4 d-block"></i>
+                            <span>Dashboard</span>
                         </a>
 
-                        <a href="#" class="icon-menu-item">
+                        <a href="<?= base_url();?>/users" class="icon-menu-item">
                             <i class="iconsminds-male-female d-block"></i>
                             <span>Users</span>
                         </a>
 
-                        <a href="#" class="icon-menu-item">
-                            <i class="iconsminds-puzzle d-block"></i>
-                            <span>Components</span>
+                        <a href="<?= base_url();?>/employee" class="icon-menu-item">
+                            <i class="iconsminds-mens d-block"></i>
+                            <span>Employees</span>
                         </a>
 
                         <a href="#" class="icon-menu-item">
-                            <i class="iconsminds-bar-chart-4 d-block"></i>
-                            <span>Profits</span>
+                            <i class="iconsminds-books d-block"></i>
+                            <span>Documents</span>
                         </a>
 
-                        <a href="#" class="icon-menu-item">
-                            <i class="iconsminds-file d-block"></i>
-                            <span>Surveys</span>
+                        <a href="<?= base_url();?>/employee" class="icon-menu-item">
+                            <i class="iconsminds-business-man-woman d-block"></i>
+                            <span>Allowances</span>
                         </a>
 
-                        <a href="#" class="icon-menu-item">
-                            <i class="iconsminds-suitcase d-block"></i>
-                            <span>Tasks</span>
+                        <a href="<?= base_url();?>/addemployee" class="icon-menu-item">
+                            <i class="iconsminds-add-user d-block"></i>
+                            <span>Register Employee</span>
                         </a>
 
                     </div>

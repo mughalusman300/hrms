@@ -336,7 +336,7 @@
                                         
                                     </div>  
                                      <div class="form-group col-md-4">
-                                        <label >Taxable </label>
+                                        <label>Taxable </label>
                                         <select tabindex="39" v-model="is_taxable" name="" class="form-control">
                                             <option value="">Select</option>
                                             <option value="0">Yes</option>

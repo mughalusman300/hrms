@@ -54,34 +54,34 @@
                             <ul class="list-unstyled inner-level-menu">
                                 <li>
                                     <a href="<?= base_url();?>/employee">
-                                        <i class="simple-icon-user-following"></i> <span
+                                        <i class="iconsminds-business-man-woman"></i> <span
                                             class="d-inline-block">Employees</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="<?= base_url();?>/addemployee">
-                                        <i class="simple-icon-user-follow"></i> <span
+                                        <i class="iconsminds-add-user"></i> <span
                                             class="d-inline-block">Register Employee</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="<?= base_url();?>/users">
-                                        <i class="simple-icon-user-follow"></i> <span
-                                            class="d-inline-block">Users</span>
                                     </a>
                                 </li>
                                  <li>
                                     <a href="<?= base_url();?>/allowances">
-                                        <i class="simple-icon-user-follow"></i> <span
+                                        <i class="iconsminds-notepad"></i> <span
                                             class="d-inline-block">Allowances</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="<?= base_url();?>/doc">
-                                        <i class="simple-icon-user-follow"></i> <span
+                                        <i class="iconsminds-books"></i> <span
                                             class="d-inline-block">Documents</span>
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="<?= base_url();?>/users">
+                                        <i class="iconsminds-male-female"></i> <span
+                                            class="d-inline-block">Users</span>
+                                    </a>
+                                </li>                                
                             </ul>
                         </div>
                     </li>
