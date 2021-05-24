@@ -32,22 +32,7 @@ class Employee extends BaseController
 	}
 	public function create()
 	{
-		$onepath ='';
-		    if($this->request->getVar('imgValue')=='Yes'){
-              $onefile        = $_FILES['onefile']["name"];
-		    if($onefile!=""){
-
-		     $onepath = "public/img/";
-
-		     $onepath = $onepath ."".basename($_FILES["onefile"]["name"]);
-
-		     if(move_uploaded_file($_FILES["onefile"]["tmp_name"], $onepath)) {
-
-		     // echo "The file ". basename( $_FILES["onefile"]["name"]). " has been uploaded.";
-
-		     }
-		    }
-		    }
+		
 		 
 		$rules = [
 			'fname' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'First Name'],
@@ -133,6 +118,18 @@ class Employee extends BaseController
 		    'is_taxable'    => $this->request->getVar('is_taxable')    
 		];
 		$this->Employeemodel->insert($data);
+		$onepath ='';
+		    if($this->request->getVar('imgValue')=='Yes'){
+              $onefile        = $_FILES['onefile']["name"];
+              $temp_name = $onefile->getRandomName();
+		    if($onefile!=""){
+		     $onepath = "public/img/";
+		     $onepath = $onepath ."".basename($_FILES["onefile"]["name"]);
+		     // if(move_uploaded_file($_FILES["onefile"]["tmp_name"], $onepath)) {
+		     //  echo "The file ". basename( $_FILES["onefile"]["name"]). " has been uploaded.";
+		     // }
+		    }
+		    }
 		}
 
 	}
