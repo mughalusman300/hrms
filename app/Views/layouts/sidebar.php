@@ -38,6 +38,7 @@
                             <i class="iconsminds-library"></i> Docs
                         </a>
                     </li>
+
                 </ul>
             </div>
         </div>
@@ -53,18 +54,6 @@
                         <div id="collapseAuthorization" class="collapse show">
                             <ul class="list-unstyled inner-level-menu">
                                 <li>
-                                    <a href="<?= base_url();?>/employee">
-                                        <i class="iconsminds-business-man-woman"></i> <span
-                                            class="d-inline-block">Employees</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="<?= base_url();?>/addemployee">
-                                        <i class="iconsminds-add-user"></i> <span
-                                            class="d-inline-block">Register Employee</span>
-                                    </a>
-                                </li>
-                                 <li>
                                     <a href="<?= base_url();?>/allowances">
                                         <i class="iconsminds-notepad"></i> <span
                                             class="d-inline-block">Allowances</span>
@@ -74,6 +63,24 @@
                                     <a href="<?= base_url();?>/doc">
                                         <i class="iconsminds-books"></i> <span
                                             class="d-inline-block">Documents</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= base_url();?>/dep">
+                                        <i class="iconsminds-books"></i> <span
+                                            class="d-inline-block">Departments</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= base_url();?>/employee">
+                                        <i class="iconsminds-business-man-woman"></i> <span
+                                            class="d-inline-block">Employees</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= base_url();?>/addemployee">
+                                        <i class="iconsminds-add-user"></i> <span
+                                            class="d-inline-block">Employee Registration</span>
                                     </a>
                                 </li>
                                 <li>
