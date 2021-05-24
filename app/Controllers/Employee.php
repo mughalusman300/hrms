@@ -33,8 +33,9 @@ class Employee extends BaseController
 	public function create()
 	{
 		
-		 
+		    
 		$rules = [
+			'newfile' =>['rules' => 'uploaded[newfile]|max_size[newfile,2048]|is_image[newfile]', 'label' => 'Image'],
 			'fname' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'First Name'],
 			'lname' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'Last Name'],
 			'father_name' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'Father Name'],
@@ -73,9 +74,17 @@ class Employee extends BaseController
 
 		 if (!$this->validate($rules)) {
              $errors = $this->validator->getErrors();
-			return $this->fail($errors);
+			 return $this->fail($errors);
 		}
 		else{
+		$img = $this->request->getFile('newfile');
+		    if($img!=""){
+             $extension = $img->getClientExtension();
+             $newName = $img->getRandomName();
+             $path = "public/img/";
+             $full_db_path = $path."".$newName;
+             $img->move($path, $newName);
+             }	
         $data = [
         	'fname'    => $this->request->getVar('fname'),
 		    'lname' => $this->request->getVar('lname'),
@@ -90,7 +99,7 @@ class Employee extends BaseController
 		    'family_members'    => $this->request->getVar('family_members'),
 		    'emergency_contact_no'    => $this->request->getVar('emergency_contact_no'),
 		    'emergency_contact_relation'    => $this->request->getVar('emergency_contact_relation'),
-		    'image' => $onepath,
+		    'image' => $full_db_path,
 		    'city'    => $this->request->getVar('city'),
 		    'province'    => $this->request->getVar('province'),
 		    'address'    => $this->request->getVar('address'),
@@ -118,19 +127,19 @@ class Employee extends BaseController
 		    'is_taxable'    => $this->request->getVar('is_taxable')    
 		];
 		$this->Employeemodel->insert($data);
-		$onepath ='';
-		    if($this->request->getVar('imgValue')=='Yes'){
-              $onefile        = $_FILES['onefile']["name"];
-              $temp_name = $onefile->getRandomName();
-		    if($onefile!=""){
-		     $onepath = "public/img/";
-		     $onepath = $onepath ."".basename($_FILES["onefile"]["name"]);
-		     // if(move_uploaded_file($_FILES["onefile"]["tmp_name"], $onepath)) {
-		     //  echo "The file ". basename( $_FILES["onefile"]["name"]). " has been uploaded.";
-		     // }
-		    }
-		    }
 		}
+		// $onepath ='';
+		//     if($this->request->getVar('imgValue')=='Yes'){
+        //       $onefile        = $_FILES['onefile']["name"];
+        //     $temp_name = $onefile->getRandomName();
+		//     if($onefile!=""){
+		//      $onepath = "public/img/";
+		//      $onepath = $onepath ."".basename($_FILES["onefile"]["name"]);
+		//      if(move_uploaded_file($_FILES["onefile"]["tmp_name"], $onepath)) {
+		//       // echo "The file ". basename( $_FILES["onefile"]["name"]). " has been uploaded.";
+		//      }
+		//     }
+		//     }
 
 	}
 	public function detail($id)

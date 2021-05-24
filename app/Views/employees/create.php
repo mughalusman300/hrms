@@ -32,7 +32,7 @@
                                             
                                          </div>
                                         </div>
-                                         <label>Image</label>
+                                         <label>Image</label><font style="color: red;">*</font>
                                             <div class="custom-file">
                                                 <input tabindex="0" v-model="bindImage" type="file" class="custom-file-input" name="onefile" id="onefile" onchange="photoOne(this);">
                                                 <input  type="hidden" v-model="imgValue">
@@ -475,7 +475,7 @@
           form.append("emergency_contact_no", this.emergency_contact_no);
           form.append("emergency_contact_relation", this.emergency_contact_relation);
           if(this.bindImage!=''){
-           form.append("onefile", onefileUpload);
+           form.append("newfile", onefileUpload);
             this.imgValue ='Yes';
           }
           else{
@@ -541,8 +541,8 @@
               showConfirmButton: false,
               timer: 2000
             })
-            if(err.response.data.messages.onefile)
-            { this.onefile_error = err.response.data.messages.onefile; }  
+            if(err.response.data.messages.newfile)
+            { this.onefile_error = err.response.data.messages.newfile; }  
             if(err.response.data.messages.fname)
             { this.fname_error = err.response.data.messages.fname; }
             if(err.response.data.messages.lname)
@@ -647,7 +647,7 @@
             this.account_no_error='';
             this.account_iban_error='';
             this.ntn_error='';
-            this.is_taxable='';
+            this.is_taxable_error='';
 
         },
         clearForm()
