@@ -75,6 +75,11 @@ $routes->get('doc', 'Document::index');
 $routes->delete('deletedocument/(:num)', 'Document::deleteDocument/$1');
 $routes->get('searchDeocument', 'Document::search');
 
+////////////////Departments Routes///////////////////////
+$routes->get('dep', 'Department::index');
+$routes->get('dep/getAllDepartments', 'Department::getAllDepartments');
+$routes->post('createDepartment', 'Department::store');
+
 
 /*
  * --------------------------------------------------------------------
