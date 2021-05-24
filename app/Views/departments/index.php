@@ -48,7 +48,7 @@
                                 <tr>
                                 <th scope="col">SR.</th>
                                 <th scope="col">Name </th>
-                                <th scope="col">Action</th>
+                                <!-- <th scope="col">Action</th> -->
                                 <th scope="col">Date Posted</th>
                                 </tr>
                             </thead>
@@ -57,9 +57,9 @@
                                 <tr v-for="(rows,i) in departments">
                                 <td >{{i+1}}</td>
                                 <td >{{rows.department_name}} </td>
-                                <td><center>
-                                <button type="button" class="btn btn-warning btn-xs default" @click="editUser(rows)">Edit</button>
-                               </center></td>
+                               <!--  <td><center>
+                                <button type="button" class="btn btn-warning btn-xs default" @click="editDepartment(rows)">Edit</button>
+                               </center></td> -->
                                 <td >{{rows.created_at}}</td>
                                 </tr>
                                 
@@ -109,7 +109,7 @@
                                             <button type="button"  tabindex="3" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
                                             <button v-if=" !editMode && department_name!=''"  tabindex="2" class="btn btn-primary" @click.prevent="postDepartment()">Submit</button>
                                             <!--Update Button--->
-                                            <button  v-else-if="editMode && department_name!=''"  tabindex="2" class="btn btn-primary" @click.prevent="updateAllowance()">Update</button>
+                                            <button  v-else-if="editMode && department_name!=''"  tabindex="2" class="btn btn-primary" @click.prevent="updateDepartment()">Update</button>
                                             <button v-else  disabled type="button" tabindex="5" class="btn btn-primary ">Fill For Submit</button>
                                         </div>
                                          </form>
@@ -147,48 +147,47 @@
         this.editMode =false;
         $('#createDepartment').modal('show');
         },
-        editUser(rows){
-          this.editMode =true;
-          this.clearModel();
-          this.clearErrors();
-          this.formId=rows.allow_id;
-          this.department_name=rows.department_name;
-        $('#createDepartment').modal('show');
+        editDepartment(rows){
+          // this.editMode =true;
+          // this.clearModel();
+          // this.clearErrors();
+          // this.formId=rows.depid;
+          // this.department_name=rows.department_name;
+          //$('#createDepartment').modal('show');
         },
         postDepartment()
         {
           const form = new FormData();
           form.append("department_name", this.department_name);
           this.departments={};
-          this.loading = true;
-          axios.post('/hrms/Department/store',form).then((response)=>{
+          this.loading = 	true;
+          axios.post('createDepartment',form).then((response)=>{
           this.loading = false;   
             this.clearModel();
             $("#createDepartment").modal("hide");
             Swal.fire({
               icon: 'success',
-              title:'Allowance has been Created Successfully',
+              title:'Department has been Created Successfully',
               showConfirmButton: false,
               timer: 2000
             })
             this.getDepartments();
 
           }).catch(err => {
-
+           
             this.loading = false;
             this.clearErrors();
            
            this.getDepartments();
         });
         },
-        updateAllowance()
+        updateDepartment()
         {
           const form = new FormData();
           form.append("department_name", this.department_name);
-          form.append("allow_type", this.allow_type); 
           this.departments={};
           this.loading = true;  
-          axios.post('updateAllowance/'+ this.formId, form).then((response)=>{
+          axios.post('updateDepartment/'+ this.formId, form).then((response)=>{
           this.loading = false;  
           this.clearModel();
           $("#createDepartment").modal("hide");
@@ -212,7 +211,7 @@
             this.departments={};
             this.noData = false;
             this.loading = true;
-            axios.get('searchAllow?s='+this.searchWord).then((response)=>{  
+            axios.get('searchDepartment?s='+this.searchWord).then((response)=>{  
              this.loading = false;    
             this.departments = response.data;
             if(response.data==''){

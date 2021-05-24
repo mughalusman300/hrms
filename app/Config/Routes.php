@@ -79,7 +79,7 @@ $routes->get('searchDeocument', 'Document::search');
 $routes->get('dep', 'Department::index');
 $routes->get('dep/getAllDepartments', 'Department::getAllDepartments');
 $routes->post('createDepartment', 'Department::store');
-
+$routes->get('searchDepartment', 'Department::search');
 
 /*
  * --------------------------------------------------------------------

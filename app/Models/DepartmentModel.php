@@ -14,7 +14,7 @@ class DepartmentModel extends Model
 	protected $returnType           = 'array';
 	protected $useSoftDelete        = false;
 	protected $protectFields        = true;
-	protected $allowedFields        = [];
+	protected $allowedFields        = ['department_name'];
 
 	// Dates
 	protected $useTimestamps        = false;
@@ -39,4 +39,13 @@ class DepartmentModel extends Model
 	protected $afterFind            = [];
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
+
+	public function getSearchData($match)
+	{
+	 $query  =$this->db->table('saimtech_departments')
+	         ->like('department_name',$match)
+             ->get()
+             ->getResultArray();	
+    return $query;       
+	}
 }

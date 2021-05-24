@@ -21,12 +21,12 @@ class Department extends BaseController
     }
 	public function index()
 	{
-		$departments = $this->DepartmentModel->findAll();
+		$departments = $this->DepartmentModel->orderBy('depid', 'DESC')->findAll();
 		return view('departments/index');
 	}	
 	public function getAllDepartments()
 	{
-		$departments = $this->DepartmentModel->find();
+		$departments = $this->DepartmentModel->orderBy('depid', 'DESC')->find();
 		return $this->response->setJSON($departments);
 	}
 	public function store()
@@ -48,5 +48,10 @@ class Department extends BaseController
 		];
 		$this->DepartmentModel->insert($data);
 		}
+	}
+	public function search(){
+		$searchkeyword = $this->request->getVar('s');
+		$search = $this->DepartmentModel->getSearchData($searchkeyword);
+		return $this->response->setJSON($search);
 	}
 }
