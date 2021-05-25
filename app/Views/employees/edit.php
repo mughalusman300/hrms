@@ -177,20 +177,20 @@
                                   <div class="form-group col-md-4">
                                         <label>Designation <font style="color: red;">*</font></label>
                                         <select v-model="designation_id"  name=""  tabindex="18" class="form-control">
-                                            <option value="">Select</option>
-                                            <option value="IT Manager">IT Manager</option>
-                                            <option value="Account Manager">Account Manager</option>
+                                          <option value="">Choose</option>
+                                          <option v-for="option in designations" v-bind:value="option.desid">
+                                          {{ option.designation_name }}
+                                          </option>
                                         </select>
                                         <p style="color: red" v-if="designation_id_error!=''">{{designation_id_error}}</p>
                                     </div>
                                      <div class="form-group col-md-4">
                                         <label>Department<font style="color: red;">*</font></label>
                                         <select v-model="department_id"  name=""  tabindex="19" class="form-control">
-                                            <option value="">Select</option>
-                                            <option value="IT">IT</option>
-                                            <option value="Operation">Operation</option>
-                                            <option value="HR">HR</option>
-                                            <option value="Accounts">Accounts</option>
+                                          <option value="">Choose</option>
+                                          <option v-for="option in departments" v-bind:value="option.depid">
+                                          {{ option.department_name }}
+                                          </option>
                                         </select>
                                         <p style="color: red" v-if="department_id_error!=''">{{department_id_error}}</p>
                                     </div>
@@ -355,6 +355,8 @@
  var app = new Vue({
   el: '#app',
   data: {
+    departments:{},
+    designations:{},
   	emp_id:'',
   	image:'',
     fname:'',
@@ -433,6 +435,18 @@
     ntn_error:'',
   },
   methods:{
+         getDepartments()
+        { 
+          axios.get('/hrms/Department/getAllDepartments').then((response)=>{
+          this.departments =response.data;
+          })
+        },
+        getDesignations()
+        {
+          axios.get('/hrms/Designation/getAllDesignations').then((response)=>{
+          this.designations =response.data;
+          })
+        },
         updateEmployee()
         {
            //$('#id').files[0];    
@@ -718,7 +732,8 @@
   },
   created(){
     this.getEmployeeData();
-   
+    this.getDesignations(); 
+    this.getDepartments(); 
   }
   });  
 

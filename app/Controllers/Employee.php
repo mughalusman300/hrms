@@ -144,9 +144,11 @@ class Employee extends BaseController
 	}
 	public function detail($id)
 	{
-		 $data['rows'] = $this->Employeemodel->find($id);
-		 //print_r($data['empolyess']);
-		 return view('employees/detail',$data);
+		 
+		 //$data['rows'] = $this->Employeemodel->find($id);
+		 $data1['rows'] = $this->Employeemodel->detailByID($id);
+         $data1['rows']=$data1['rows'][0];
+		 return view('employees/detail',$data1);
 	}
 	public function updateview($id)
 	{
@@ -291,7 +293,7 @@ class Employee extends BaseController
 	}
 	public function getAllEmployees()
 	{
-		$employees = $this->Employeemodel->find();
+		$employees = $this->Employeemodel->allEmployees();
 		return $this->response->setJSON($employees);
 	}
 	public function search()

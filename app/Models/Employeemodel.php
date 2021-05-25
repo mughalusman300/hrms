@@ -54,4 +54,23 @@ class Employeemodel extends Model
              ->getResultArray();	
     return $query;       
 	}
+	public function allEmployees()
+	{
+		$query  =$this->db->table('saimtech_employees')
+	 ->join('saimtech_designations', 'saimtech_employees.designation_id = saimtech_designations.desid', 'inner')
+	         ->orderBy('emp_id', 'DESC')
+             ->get()
+             ->getResultArray();	
+    return $query; 
+	}
+	public function detailByID($id)
+	{
+		$query  =$this->db->table('saimtech_employees')
+	 ->join('saimtech_designations', 'saimtech_employees.designation_id = saimtech_designations.desid', 'inner')
+	 ->join('saimtech_departments', 'saimtech_employees.department_id = saimtech_departments.depid', 'inner')
+	         ->where('emp_id',$id)
+             ->get()
+             ->getResultArray();	
+    return $query; 
+	}
 }

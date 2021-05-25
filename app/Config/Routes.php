@@ -81,6 +81,11 @@ $routes->get('dep/getAllDepartments', 'Department::getAllDepartments');
 $routes->post('createDepartment', 'Department::store');
 $routes->get('searchDepartment', 'Department::search');
 
+////////////////Designation Routes///////////////////////
+$routes->get('des', 'Designation::index');
+$routes->get('des/getAllDesignations', 'Designation::getAllDesignations');
+$routes->post('createDesignation', 'Designation::store');
+$routes->get('searchDesignation', 'Designation::search');
 /*
  * --------------------------------------------------------------------
  * Additional Routing

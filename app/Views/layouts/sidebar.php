@@ -72,6 +72,12 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="<?= base_url();?>/des">
+                                        <i class="iconsminds-books"></i> <span
+                                            class="d-inline-block">Designations</span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="<?= base_url();?>/employee">
                                         <i class="iconsminds-business-man-woman"></i> <span
                                             class="d-inline-block">Employees</span>
@@ -80,7 +86,7 @@
                                 <li>
                                     <a href="<?= base_url();?>/addemployee">
                                         <i class="iconsminds-add-user"></i> <span
-                                            class="d-inline-block">Employee Registration</span>
+                                            class="d-inline-block">Emp Registration</span>
                                     </a>
                                 </li>
                                 <li>
