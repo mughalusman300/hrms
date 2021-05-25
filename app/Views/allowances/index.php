@@ -56,7 +56,7 @@
                             <thead  class='thead-light'>
                                 
                                 <tr v-for="(rows,i) in allowances">
-                                <td >SR.</td>
+                                <td >{{i+1}}</td>
                                 <td >{{rows.allow_name}} </td>
                                 <td >{{rows.allow_type}}</td>
                                 <td><center>
@@ -133,6 +133,7 @@
  var app = new Vue({
   el: '#app',
   data: {
+    i:0,
     allowances:[],
     searchWord:'',
     loading:false,

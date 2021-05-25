@@ -63,6 +63,9 @@
                                             <p class="mb-2 text-muted text-small">
                                              {{rows.designation_name}}   
                                             </p>
+                                            <p class="mb-2 text-muted text-small">
+                                             {{rows.department_name}}   
+                                            </p>
                                             <p v-if='rows.emp_status=="active"' class="mb-2 text-capitalize text-success  text-small">
                                              {{rows.emp_status}}   
                                             </p>

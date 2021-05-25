@@ -39,7 +39,10 @@ class DesignationModel extends Model
 	protected $afterFind            = [];
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
-	
+
+	public function db(){
+	  return $db      = \Config\Database::connect();  
+	}
 	public function getSearchData($match)
 	{
 	 $query  =$this->db->table('saimtech_designations')

@@ -58,7 +58,8 @@ class Employeemodel extends Model
 	{
 		$query  =$this->db->table('saimtech_employees')
 	 ->join('saimtech_designations', 'saimtech_employees.designation_id = saimtech_designations.desid', 'inner')
-	         ->orderBy('emp_id', 'DESC')
+	  ->join('saimtech_departments', 'saimtech_employees.department_id = saimtech_departments.depid', 'inner')
+	         ->orderBy('saimtech_employees.emp_id', 'DESC')
              ->get()
              ->getResultArray();	
     return $query; 

@@ -44,16 +44,6 @@ class Payrollmodel extends Model
 	  return $db      = \Config\Database::connect();  
 	}
 
-	// public function getSearchData($match)
-	// {
-	//  $query  =$this->db->table('allowances')
-	//          ->like('allow_name',$match)
-	//          // ->orLike('lname',$match)
-	//          // ->orLike('email',$match)
- //             ->get()
- //             ->getResultArray();	
- //    return $query;       
-	// }
 	public function PayrollByEmpID($id){
     $query = $this->db->table('payroll_salary_main')
              ->join('saimtech_employees', 'saimtech_employees.emp_id = payroll_salary_main.emp_id', 'inner')

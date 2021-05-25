@@ -49,7 +49,7 @@
                     <li>
                         <a href="#" data-toggle="collapse" data-target="#collapseAuthorization" aria-expanded="true"
                             aria-controls="collapseAuthorization" class="rotate-arrow-icon opacity-50">
-                            <i class="simple-icon-arrow-down"></i> <span class="d-inline-block">Authorization</span>
+                            <i class="simple-icon-arrow-down"></i> <span class="d-inline-block">Pages</span>
                         </a>
                         <div id="collapseAuthorization" class="collapse show">
                             <ul class="list-unstyled inner-level-menu">
@@ -67,13 +67,13 @@
                                 </li>
                                 <li>
                                     <a href="<?= base_url();?>/dep">
-                                        <i class="iconsminds-books"></i> <span
+                                        <i class="iconsminds-museum"></i> <span
                                             class="d-inline-block">Departments</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="<?= base_url();?>/des">
-                                        <i class="iconsminds-books"></i> <span
+                                        <i class="iconsminds-student-hat"></i> <span
                                             class="d-inline-block">Designations</span>
                                     </a>
                                 </li>
@@ -91,7 +91,7 @@
                                 </li>
                                 <li>
                                     <a href="<?= base_url();?>/users">
-                                        <i class="iconsminds-male-female"></i> <span
+                                        <i class="iconsminds-students"></i> <span
                                             class="d-inline-block">Users</span>
                                     </a>
                                 </li>                                
