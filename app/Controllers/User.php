@@ -16,6 +16,7 @@ class User extends BaseController
         date_default_timezone_set('Asia/Karachi');
         $this->Usermodel = new Usermodel();
          helper(['form', 'url']);
+         $session = \Config\Services::session();
 
      }
 	public function index()
@@ -107,5 +108,8 @@ class User extends BaseController
 		$searchkeyword = $this->request->getVar('s');
 		$search = $this->Usermodel->getSearchData($searchkeyword);
 		return $this->response->setJSON($search);
+	}
+	public function unauthorized(){
+		return view('users/403');
 	}
 }

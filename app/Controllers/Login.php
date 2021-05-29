@@ -8,10 +8,11 @@ class Login extends BaseController
 {
     use ResponseTrait;    
     public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger){
+    helper('form');
     parent::initController($request, $response, $logger);
     date_default_timezone_set('Asia/Karachi');
     $this->Commonmodel = new Commonmodel();
-    helper('form');
+    $session = \Config\Services::session();
     }
     
 	public function index(){
@@ -30,6 +31,7 @@ class Login extends BaseController
 		if($user_data[0]['saimtech_password']==($password)){
 		$_SESSION['user_id']    = $user_data[0]['id'];
 		$_SESSION['user_name']  = $user_data[0]['saimtech_uname'];
+		$_SESSION['user_power']  = $user_data[0]['saimtech_power'];
 		return redirect()->to('/Home'); 
 		} else {
 			 $data['error'] ='Invalid password';
@@ -46,11 +48,10 @@ class Login extends BaseController
 	         return view('users/loginView',$data);    
 		}
 	}
-	
 	public function logout(){
-	$data['error'] ='';		
+	$data['error'] ='';	
 	session_destroy();
-	return view('users/loginView',$data);
+	return redirect()->to('/');
 	}
 	
     

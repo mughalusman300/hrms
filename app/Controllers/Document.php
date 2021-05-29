@@ -54,7 +54,6 @@ use ResponseTrait;
     		$img = $this->request->getFile('onefile');
 		    if($img!=""){
              $extension = $img->getClientExtension();
-             //echo $extension;
              $newName = $img->getRandomName();
              $path = "public/img/";
              $full_db_path = $path."".$newName;

@@ -46,13 +46,20 @@ class Employeemodel extends Model
 
 	public function getSearchData($match)
 	{
-	 $query  =$this->db->table('saimtech_employees')
+	 	 $query  =$this->db->table('saimtech_employees')
+             ->join('saimtech_designations', 'saimtech_employees.designation_id = saimtech_designations.desid', 'inner')
+	         ->join('saimtech_departments', 'saimtech_employees.department_id = saimtech_departments.depid', 'inner')
 	         ->like('fname',$match)
 	         ->orLike('lname',$match)
 	         ->orLike('email',$match)
              ->get()
              ->getResultArray();	
-    return $query;       
+    return $query; 
+  // $query1 ="SELECT emp_id, (fname,'',lname) as fullName, fname, lname, designation_name, department_name, emp_status from saimtech_employees where fullName like %".$match; 
+
+	 // $res = $this->db->query($query1);
+	 // return $res->getResultArray();
+      
 	}
 	public function allEmployees()
 	{

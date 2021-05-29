@@ -32,15 +32,16 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Login::index');
+$routes->get('/', 'Login::index',['filter' => 'noauth']);
 $routes->get('my',  'Api::myview');
 $routes->get('d2m', 'Api::server_to_mob');
 $routes->get('m2d', 'Api::mob_to_server');
 $routes->get('m2u', 'Api::update');
+
+////////////Users Routes////////////////////////
+$routes->get('users', 'User::index',['filter' => 'Permission']);
 $routes->post('create', 'User::store');
 $routes->post('User/update/(:id)', 'User::update/$1');
-$routes->get('users', 'User::index');
-// $routes->get('login', 'Login::index');
 $routes->post('create', 'User::store');
 $routes->get('searchUser', 'User::search');
 
@@ -86,6 +87,10 @@ $routes->get('des', 'Designation::index');
 $routes->get('des/getAllDesignations', 'Designation::getAllDesignations');
 $routes->post('createDesignation', 'Designation::store');
 $routes->get('searchDesignation', 'Designation::search');
+
+////////////////Noauthorized Routes///////////////////////
+$routes->get('/unauthorized', 'User::unauthorized');
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

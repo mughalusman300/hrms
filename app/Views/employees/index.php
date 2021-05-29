@@ -48,8 +48,8 @@
                         <div  v-for="rows in employess" class="col-12 col-md-6 col-lg-4">
                             <div style="height:200px;" class="card d-flex flex-row mb-4">
                                 <a class="d-flex" href="#">
-                                    <img style="width:100px;" alt="Profile"  onerror=this.src="<?= base_url(); ?>/public/img/download.png"  v-bind:src="'<?= base_url(); ?>/' + rows.image" 
-                                        class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                                    <img style="width:100px;height: 100px;" alt="Profile"  onerror=this.src="<?= base_url(); ?>/public/img/download.png"  v-bind:src="'<?= base_url(); ?>/' + rows.image" 
+                                        class="img-thumbnail border-0 rounded-circle  m-4 list-thumbnail align-self-center">
                                 </a>
                                 <div class=" d-flex flex-grow-1 min-width-zero">
                                     <div

@@ -89,12 +89,14 @@
                                             class="d-inline-block">Emp Registration</span>
                                     </a>
                                 </li>
+                                <?php if($_SESSION['user_power']=='SE'):?>
                                 <li>
                                     <a href="<?= base_url();?>/users">
                                         <i class="iconsminds-students"></i> <span
                                             class="d-inline-block">Users</span>
                                     </a>
-                                </li>                                
+                                </li> 
+                                <?php endif ;?>                               
                             </ul>
                         </div>
                     </li>
