@@ -59,8 +59,8 @@ class Commonmodel extends Model {
     }
     
     public function rows_number($tablename){
-    $query = $this->db->table($tablename)->get();
-    return  $this->db->getNumRows();
+    $query = $this->db->table($tablename)->get()->getNumRows();
+    return  $query;
     }
 
 

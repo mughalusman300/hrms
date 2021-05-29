@@ -7,6 +7,7 @@
     
     <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/css/vendor/bootstrap.min.css" />
     <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/css/vendor/bootstrap.rtl.only.min.css" />
+    <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/css/vendor/fullcalendar.min.css" />
     <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/css/vendor/bootstrap-float-label.min.css" />
     <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/css/vendor/bootstrap-datepicker3.min.css" />
 

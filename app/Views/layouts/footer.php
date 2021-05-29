@@ -27,6 +27,7 @@
     <script src="<?= base_url(); ?>/public/asset/js/vendor/jquery-3.3.1.min.js"></script>
     <script src="<?= base_url(); ?>/public/asset/js/vendor/bootstrap.bundle.min.js"></script>
     <script src="<?= base_url(); ?>/public/asset/js/vendor/bootstrap-datepicker.js"></script>
+    <script src="<?= base_url(); ?>/public/asset/js/vendor/fullcalendar.min.js"></script>
     <script src="<?= base_url(); ?>/public/asset/js/vendor/perfect-scrollbar.min.js"></script>
     <script src="<?= base_url(); ?>/public/asset/js/vendor/mousetrap.min.js"></script>
     <script src="<?= base_url(); ?>/public/asset/js/vendor/jquery.table2excel.js"></script>
