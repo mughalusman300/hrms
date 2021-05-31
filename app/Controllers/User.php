@@ -103,6 +103,7 @@ class User extends BaseController
 	public function delete($id)
 	{
 		 $this->Usermodel->where('id', $id)->delete();
+		 return $this->respondDeleted(['id' => $id]);
 	}
 	public function search(){
 		$searchkeyword = $this->request->getVar('s');

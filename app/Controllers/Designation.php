@@ -48,7 +48,8 @@ class Designation extends BaseController
         $data = [
         	'designation_name'    => $this->request->getVar('designation_name'),		    
 		];
-		$this->DesignationModel->insert($data);
+		$this->DesignationModel->save($data);
+		return $this->respondCreated($data);
 		}
 	}
 	public function search(){
