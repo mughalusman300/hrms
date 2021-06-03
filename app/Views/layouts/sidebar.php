@@ -96,7 +96,13 @@
                                             class="d-inline-block">Users</span>
                                     </a>
                                 </li> 
-                                <?php endif ;?>                               
+                                <?php endif ;?>   
+                                 <li>
+                                    <a href="<?= base_url();?>/Attendance">
+                                        <i class="iconsminds-students"></i> <span
+                                            class="d-inline-block">Attendance</span>
+                                    </a>
+                                </li>                           
                             </ul>
                         </div>
                     </li>

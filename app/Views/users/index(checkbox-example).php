@@ -96,7 +96,7 @@
             </b-col>
          </b-row>   
          <div class="text-uppercase text-bold">id selected: {{selected}}</div>
-         <input type="checkbox" v-model="selectAll" @click="select">
+         <input type="checkbox" v-model="selectAll" @click="selectToggle">
             <div class="table-responsive">
                 <b-table
                   :filter="filter"
@@ -123,7 +123,7 @@
                   :table-variant="tableVariant"
                 >
                   <template #cell(selection)="data">
-                    <input type="checkbox" :value="data.item.id" v-model="selected" />  
+                    <input type="checkbox" :value="data.item.id+' '+data.item.saimtech_power" v-model="selected"  checked="checked" >  
                   </template>
                   <template #cell(Sr.)="data">
                     {{ data.index + 1 }}
@@ -286,12 +286,15 @@
         noCollapse: false
   },
    methods:{
-    select() {
+    selectToggle() {
       this.selected = [];
       if (!this.selectAll) {
         for (let i in this.users) {
-          this.selected.push(this.users[i].id);
+          this.selected.push(this.users[i].id+' '+this.users[i].saimtech_power);
         }
+      }
+      else{
+          this.selected=[];
       }
     },
     getUsers(){

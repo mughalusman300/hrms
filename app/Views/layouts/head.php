@@ -3,6 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/font/iconsmind-s/css/iconsminds.css" />
+    <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/css/attendance.css" />
     <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/font/simple-line-icons/css/simple-line-icons.css" />
     
     <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/css/vendor/bootstrap.min.css" />
@@ -34,6 +35,4 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <style type="text/css">
-     
-</style>
+    <script src="<?= base_url(); ?>/public/asset/js/vendor/jquery-3.3.1.min.js"></script>

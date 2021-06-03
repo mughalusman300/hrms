@@ -206,6 +206,7 @@
                         <label class="has-float-label"><span>Role<font style="color: red;">*</font></span></label>
                         <select v-model="user_power"  name="company_id"    tabindex="4" class="form-control">
                             <option disabled="disabled" value="">Select</option>
+                            <option value="SE">SE</option>
                             <option value="Admin">Admin</option>
                             <option value="User">User</option>
                         </select>

@@ -113,4 +113,10 @@ class User extends BaseController
 	public function unauthorized(){
 		return view('users/403');
 	}
+	public function edit()
+	{
+		$user = $this->Usermodel->find(5);
+        echo"<pre>";print_r($user);exit();
+
+	}
 }
