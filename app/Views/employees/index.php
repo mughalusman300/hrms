@@ -102,39 +102,39 @@
             </div>
         </div>
 <!----Employee Leave Modal----------->       
-<div class="modal fade modal-right" id="updateStatusEmpModal" tabindex="-1" role="dialog"
-    aria-labelledby="updateStatusEmpModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add Detail</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                    <div class="alert alert-info form-group" role="alert">
-                        Note: All Fields Required.
-                    </div>
-                    <div class="form-group">
-                        <label>Date of Leaving</label><font style="color: red;">*</font>
-                        <input v-model="emp_dol" type="date" name="emp_dol" class="form-control">
-                        <p style="color: red" v-if="leavingDateError!=''">{{leavingDateError}}</p>
-                    </div>
-                    <div class="form-group">
-                        <label>Employee Leaving Reason</label><font style="color: red;">*</font>
-                        <textarea v-model="emp_l_reason" placeholder="" name="emp_l_reason" class="form-control" rows="4"></textarea>
-                        <p style="color: red" v-if="leavingReasonError!=''">{{leavingReasonError}}</p>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary"
-                    data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" @click.prevent="updateStatus()">Submit</button>
+    <div class="modal fade modal-right" id="updateStatusEmpModal" tabindex="-1" role="dialog"
+        aria-labelledby="updateStatusEmpModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <div class="alert alert-info form-group" role="alert">
+                            Note: All Fields Required.
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Leaving</label><font style="color: red;">*</font>
+                            <input v-model="emp_dol" type="date" name="emp_dol" class="form-control">
+                            <p style="color: red" v-if="leavingDateError!=''">{{leavingDateError}}</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Employee Leaving Reason</label><font style="color: red;">*</font>
+                            <textarea v-model="emp_l_reason" placeholder="" name="emp_l_reason" class="form-control" rows="4"></textarea>
+                            <p style="color: red" v-if="leavingReasonError!=''">{{leavingReasonError}}</p>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary"
+                        data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" @click.prevent="updateStatus()">Submit</button>
+                </div>
             </div>
         </div>
-    </div>
-</div> 
+    </div> 
 <!-------End Employee Leave Modal---->        
 </main>
 <script type="text/javascript">

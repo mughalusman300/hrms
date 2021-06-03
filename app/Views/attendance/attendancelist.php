@@ -1,8 +1,11 @@
 
-
 <?= $this->extend('layouts/app') ?>
 <?= $this->section('main-content') ?>
-
+<style type="text/css">
+div{
+    display: inline-block;
+}
+</style>    
 <main id="app">
         <div class="container-fluid">
             <div class="row">
