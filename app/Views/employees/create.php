@@ -339,9 +339,9 @@
                                      <div class="form-group col-md-4">
                                         <label >Taxable </label>
                                         <select tabindex="39" v-model="is_taxable" name="" class="form-control">
-                                            <option value="">Select</option>
-                                            <option value="0">Yes</option>
-                                            <option value="1">No</option>
+                                            <option value="0">Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
                                         </select>
                                          <p style="color: red" v-if="is_taxable_error!=''">{{is_taxable_error}}</p>
                                     </div>   

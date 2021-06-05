@@ -102,7 +102,13 @@
                                         <i class="iconsminds-students"></i> <span
                                             class="d-inline-block">Attendance</span>
                                     </a>
-                                </li>                           
+                                </li>
+                                <li>
+                                    <a href="<?= base_url();?>/Attendance/attendancereport">
+                                        <i class="iconsminds-library"></i> <span
+                                            class="d-inline-block">Attendance Report</span>
+                                    </a>
+                                </li>                            
                             </ul>
                         </div>
                     </li>

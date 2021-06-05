@@ -81,4 +81,14 @@ class Employeemodel extends Model
              ->getResultArray();	
     return $query; 
 	}
+	public function getEmployees($department_id, $emp_status='active')
+	{
+		$query  =$this->db->table('saimtech_employees')
+	 ->join('saimtech_designations', 'saimtech_employees.designation_id = saimtech_designations.desid', 'inner')
+	  ->join('saimtech_departments', 'saimtech_employees.department_id = saimtech_departments.depid', 'inner')
+	         ->orderBy('saimtech_employees.emp_id', 'DESC')
+             ->getWhere(['department_id' => $department_id,'emp_status' => $emp_status])
+             ->getResultArray();	
+    return $query; 
+	}
 }

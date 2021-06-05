@@ -67,9 +67,7 @@ class Employee extends BaseController
 			'shift' => ['rules' => 'required', 'label' => 'shift'],
 			'rank' => ['rules' => 'required', 'label' => 'rank'],
 			'education_type' => ['rules' => 'required', 'label' => 'education_type'],
-			'education' => ['rules' => 'required', 'label' => 'education'],
-			'is_taxable' => ['rules' => 'required', 'label' => 'Tax'],
-		
+			'education' => ['rules' => 'required', 'label' => 'education'],		
 		];
 
 		 if (!$this->validate($rules)) {
