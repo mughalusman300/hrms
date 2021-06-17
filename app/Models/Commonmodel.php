@@ -7,7 +7,6 @@ class Commonmodel extends Model {
     public function db(){
       return $db      = \Config\Database::connect();  
     }
-    
     //======================================================================
     //START--------------Generic Function For Model-------------------------
     //======================================================================
@@ -25,12 +24,10 @@ class Commonmodel extends Model {
              ->where($columnname1, $conditionvalue1)
              ->delete();
     }
-    
-    
+
     public function Delete_all_record(){
     $this->db->table($tablename)->delete(); 
     }
-
 
     public function Duplicate_check($tablename, $columnname, $conditionvalue){
     $query = $this->db->table($tablename)

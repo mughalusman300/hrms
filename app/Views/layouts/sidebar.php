@@ -108,7 +108,13 @@
                                         <i class="iconsminds-library"></i> <span
                                             class="d-inline-block">Attendance Report</span>
                                     </a>
-                                </li>                            
+                                </li>  
+                                <li>
+                                    <a href="<?= base_url();?>/Payroll1">
+                                        <i class="iconsminds-library"></i> <span
+                                            class="d-inline-block">Payroll</span>
+                                    </a>
+                                </li>                           
                             </ul>
                         </div>
                     </li>

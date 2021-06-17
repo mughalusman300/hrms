@@ -176,7 +176,7 @@ div{
                                 <td>
                                 	 <input type="hidden" name="student_session[]" value="<?php echo $value['emp_id']; ?>">
 
-                                        <input  type="hidden" value="<?php echo $attendendence_id ?>"  name="attendendence_id<?php echo $value["emp_id"]; ?>">
+                                        <input  type="text" value="<?php echo $attendendence_id ?>"  name="attendendence_id<?php echo $value["emp_id"]; ?>">
                                 	<?php echo $row_count;?>
                                 		
                                 </td>
@@ -193,12 +193,10 @@ div{
 
                                 foreach ($attendencetypeslist as $key => $type) {
 
-
-
                                     if ($type['key_value'] != "H") {
 
                                         $att_type = str_replace(" ", "_", strtolower($type['type']));
-
+                                       
                                         if ($value["date"] != "xxx") {
 
                                             ?>
@@ -320,31 +318,16 @@ div{
 
 
                 window.onload = function xy() {
-
-
-
-
-
                     var ch = '<?php
-
                 if (!empty($resultlist)) {
-
                     echo $resultlist[0]['emp_attendance_type_id'];
-
                 }
-
                 ?>';
 
 
 
                     if (ch == 5) {
-
-
-
                         $("input[type=radio]").attr('disabled', true);
-
-
-
                     } else {
 
 

@@ -59,15 +59,14 @@ class Employee extends BaseController
 			'doj' => ['rules' => 'required', 'label' => 'doj'],
 			'reporting_area' => ['rules' => 'required', 'label' => 'reporting_area'],
 			'reporting_region' => ['rules' => 'required', 'label' => 'reporting_region'],
-			'machine_id' => 'is_unique[saimtech_employees.machine_id,machine_id]||permit_empty',
-			'account_no' => 'is_unique[saimtech_employees.account_no,account_no]||permit_empty',
-			'account_iban' => 'is_unique[saimtech_employees.account_iban,account_iban,null],',
+			'machine_id' => 'is_unique[saimtech_employees.machine_id,machine_id]|permit_empty',
+			'account_no' => 'is_unique[saimtech_employees.account_no,account_no]|permit_empty',
+			'account_iban' => 'is_unique[saimtech_employees.account_iban,account_iban]|permit_empty',
 			'ntn' => 'is_unique[saimtech_employees.ntn]|permit_empty',
-
 			'shift' => ['rules' => 'required', 'label' => 'shift'],
-			'rank' => ['rules' => 'required', 'label' => 'rank'],
 			'education_type' => ['rules' => 'required', 'label' => 'education_type'],
 			'education' => ['rules' => 'required', 'label' => 'education'],		
+			'is_taxable' => ['rules' => 'required', 'label' => 'Tax'],
 		];
 
 		 if (!$this->validate($rules)) {
@@ -139,6 +138,49 @@ class Employee extends BaseController
 		//     }
 		//     }
 
+	}
+	public function createEmployee()
+	{
+		
+		    
+		$rules = [
+			'fname' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'First Name'],
+			'lname' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'Last Name'],
+			'father_name' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'Father Name'],
+			'cnic' => ['rules' => 'required|min_length[13]|max_length[13]|is_unique[saimtech_employees.cnic]', 'label' => 'CNIC'],
+			'email' => 'required|valid_email|is_unique[saimtech_employees.email],',
+			'contact_no' => ['rules' => 'required|min_length[11]|max_length[11]', 'label' => 'Contact No'],
+			'gender' => ['rules' => 'required', 'label' => 'Gender'],
+            'designation_id' => ['rules' => 'required', 'label' => 'designation_id'],
+			'department_id' => ['rules' => 'required', 'label' => 'department_id'],
+			'city' => ['rules' => 'required', 'label' => 'City'],
+			'address' => ['rules' => 'required', 'label' => 'Address'],
+		];
+
+		 if (!$this->validate($rules)) {
+             $errors = $this->validator->getErrors();
+			 return $this->fail($errors);
+		}
+		else{
+        $data = [
+        	'fname'    => $this->request->getVar('fname'),
+		    'lname' => $this->request->getVar('lname'),
+		    'father_name'    => $this->request->getVar('father_name'),
+		    'cnic'    => $this->request->getVar('cnic'),
+		    'email'    => $this->request->getVar('email'),
+		    'contact_no'    => $this->request->getVar('contact_no'),
+		    'gender'    => $this->request->getVar('gender'),
+		    'designation_id'    => $this->request->getVar('designation_id'),
+		    'department_id'    => $this->request->getVar('department_id'),
+		    'city'    => $this->request->getVar('city'),
+		    'address'    => $this->request->getVar('address'), 
+		];
+		$this->Employeemodel->insert($data);
+		}
+	}
+	public function addEmployee()
+	{
+		return view('employees/createsimple');
 	}
 	public function detail($id)
 	{

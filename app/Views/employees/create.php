@@ -169,7 +169,7 @@
                                     <label for="inputAddress">Address <font style="color: red;">*</font></label>
                                     <input tabindex="17" v-model="address" type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
                                 <p style="color: red" v-if="address_error!=''">{{address_error}}</p>
-                                    </div> 
+                                </div> 
                                 <div style="margin-top: 30px">
                                   <h5  class="mb-4">Job Detail</h5>
                                   <hr>
@@ -412,7 +412,7 @@
     account_no:'',
     account_iban:'',
     ntn:'',
-    is_taxable:'',
+    is_taxable:0,
     onefile_error:'',
     fname_error:'',
     lname_error:'',
@@ -706,7 +706,7 @@
             this.account_no='';
             this.account_iban='';
             this.ntn='';
-            this.is_taxable='';  
+            this.is_taxable=0;  
         },
   },
   created(){
