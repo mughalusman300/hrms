@@ -65,6 +65,11 @@
                                         <p style="color: red" v-if="email_error!=''">{{email_error}}</p> 
                                     </div>
                                     <div class="form-group col-md-4">
+                                        <label for="inputEmail4">Officail Email</label>
+                                        <input tabindex="5" type="email" v-model="official_email" class="form-control" id="inputEmail4" placeholder="Official Email">
+                                        <p style="color: red" v-if="official_email_error!=''">{{official_email_error}}</p> 
+                                    </div>
+                                    <div class="form-group col-md-4">
                                         <label >Contact No. <font style="color: red;">*</font></label>
                                         <input tabindex="6" type="number" min="1" v-model="contact_no" class="form-control"  placeholder="Contact No.">
                                         <p style="color: red" v-if="contact_no_error!=''">{{contact_no_error}}</p> 
@@ -339,8 +344,8 @@
                                         <label>Taxable </label>
                                         <select tabindex="39" v-model="is_taxable" name="" class="form-control">
                                             <option value="">Select</option>
-                                            <option value="0">Yes</option>
-                                            <option value="1">No</option>
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
                                         </select>
                                     </div>   
                                 </div>
@@ -364,6 +369,7 @@
     father_name:'',
     cnic:'',
     email:'',
+    official_email:'',
     contact_no:'',
     gender:'',
     marital_status:'',
@@ -405,6 +411,7 @@
     father_name_error:'',
     cnic_error:'',
     email_error:'',
+    official_email_error:'',
     contact_no_error:'',
     gender_error:'',
     marital_status_error:'',
@@ -460,6 +467,7 @@
           form.append("father_name", this.father_name);
           form.append("cnic", this.cnic);
           form.append("email", this.email);
+          form.append("official_email", this.official_email);
           form.append("contact_no", this.contact_no);
           form.append("gender", this.gender);
           form.append("marital_status", this.marital_status);
@@ -537,6 +545,8 @@
             { this.cnic_error = err.response.data.messages.cnic; }
             if(err.response.data.messages.email)
             { this.email_error = err.response.data.messages.email; }
+            if(err.response.data.messages.official_email)
+            { this.official_email_error = err.response.data.messages.official_email; }
             if(err.response.data.messages.contact_no)
             { this.contact_no_error = err.response.data.messages.contact_no; }
             if(err.response.data.messages.gender)
@@ -600,6 +610,7 @@
             this.father_name_error='';
             this.cnic_error='';
             this.email_error='';
+            this.official_email_error='';
             this.contact_no_error='';
             this.gender_error='';
             this.marital_status_error='';
@@ -639,6 +650,7 @@
             this.father_name='';
             this.cnic='';
             this.email='';
+            this.official_email='';
             this.contact_no='';
             this.gender='';
             this.marital_status='';
@@ -685,6 +697,7 @@
             this.father_name=response.data.father_name;
             this.cnic=response.data.cnic;
             this.email=response.data.email;
+            this.official_email=response.data.official_email;
             this.contact_no=response.data.contact_no;
             this.gender=response.data.gender;
             this.marital_status=response.data.marital_status;

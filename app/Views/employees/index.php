@@ -85,9 +85,9 @@
                                              <button v-show="rows.emp_status=='active'"  type="button" @click="updateStatusMode(rows.emp_id)"
                                               class="btn btn-xs btn-outline-danger ">Leave
                                             </button>
-                                              <a v-show="rows.emp_status=='active'"  v-bind:href="'<?= base_url();?>/payrolldetail/'+rows.emp_id" target="_blank"><button type="button"
+                                              <!-- <a v-show="rows.emp_status=='active'"  v-bind:href="'<?= base_url();?>/payrolldetail/'+rows.emp_id" target="_blank"><button type="button"
                                                   class="btn btn-xs btn-outline-primary ">payroll</button>
-                                              </a>
+                                              </a> -->
                                             </p>
                                             
                                                 
@@ -122,6 +122,15 @@
                             <p style="color: red" v-if="leavingDateError!=''">{{leavingDateError}}</p>
                         </div>
                         <div class="form-group">
+                            <label>Leave Type</label><font style="color: red;">*</font>
+                            <select tabindex="7" v-model="emp_leave_type" name="emp_leave_type"  class="form-control">
+                                <option value="">Select</option>
+                                <option value="Resign">Resign</option>
+                                <option value="Terminated">Terminated</option>
+                            </select>
+                            <p style="color: red" v-if="emp_leave_type_error!=''">{{emp_leave_type_error}}</p>
+                        </div>
+                        <div class="form-group">
                             <label>Employee Leaving Reason</label><font style="color: red;">*</font>
                             <textarea v-model="emp_l_reason" placeholder="" name="emp_l_reason" class="form-control" rows="4"></textarea>
                             <p style="color: red" v-if="leavingReasonError!=''">{{leavingReasonError}}</p>
@@ -145,9 +154,11 @@
   loading:false,
   emp_id:'',
   emp_dol:'',
+  emp_leave_type:'',
   emp_l_reason:'',
   leavingDateError:'',
   leavingReasonError:'',
+  emp_leave_type_error:'',
   employess : [],
   },
   methods:{
@@ -172,6 +183,7 @@
         {
           const form = new FormData();
           form.append("emp_dol", this.emp_dol);
+          form.append("emp_leave_type", this.emp_leave_type);
           form.append("emp_l_reason", this.emp_l_reason); 
           this.employess=[];
           this.loading = true;  
@@ -192,9 +204,12 @@
             if(err.response.data.messages.emp_dol){
              this.leavingDateError = err.response.data.messages.emp_dol;
            }
+           if(err.response.data.messages.emp_leave_type){
+           this.emp_leave_type_error = err.response.data.messages.emp_leave_type;
+           } 
            if(err.response.data.messages.emp_l_reason){
            this.leavingReasonError = err.response.data.messages.emp_l_reason;
-           } 
+           }
            this.getAllEmployees();
           }) 
         },
@@ -210,6 +225,7 @@
         clearErrors()
         {
           this.leavingDateError='';
+          this.emp_leave_type_error='';
           this.leavingReasonError='';
         },
         clearModel()

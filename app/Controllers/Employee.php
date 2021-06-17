@@ -31,9 +31,7 @@ class Employee extends BaseController
 		return view('employees/create');
 	}
 	public function create()
-	{
-		
-		    
+	{	    
 		$rules = [
 			'newfile' =>['rules' => 'uploaded[newfile]|max_size[newfile,2048]|is_image[newfile]', 'label' => 'Image'],
 			'fname' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'First Name'],
@@ -41,6 +39,7 @@ class Employee extends BaseController
 			'father_name' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'Father Name'],
 			'cnic' => ['rules' => 'required|min_length[13]|max_length[13]|is_unique[saimtech_employees.cnic]', 'label' => 'CNIC'],
 			'email' => 'required|valid_email|is_unique[saimtech_employees.email],',
+			'official_email' => ['rules' => 'valid_email|permit_empty|is_unique[saimtech_employees.official_email]', 'label' => 'Officail Email'],
 			'contact_no' => ['rules' => 'required|min_length[11]|max_length[11]', 'label' => 'Contact No'],
 			'gender' => ['rules' => 'required', 'label' => 'Gender'],
 			'marital_status' => ['rules' => 'required', 'label' => 'Marital Status'],
@@ -66,7 +65,6 @@ class Employee extends BaseController
 			'shift' => ['rules' => 'required', 'label' => 'shift'],
 			'education_type' => ['rules' => 'required', 'label' => 'education_type'],
 			'education' => ['rules' => 'required', 'label' => 'education'],		
-			'is_taxable' => ['rules' => 'required', 'label' => 'Tax'],
 		];
 
 		 if (!$this->validate($rules)) {
@@ -88,6 +86,7 @@ class Employee extends BaseController
 		    'father_name'    => $this->request->getVar('father_name'),
 		    'cnic'    => $this->request->getVar('cnic'),
 		    'email'    => $this->request->getVar('email'),
+		    'official_email'    => $this->request->getVar('official_email'),
 		    'contact_no'    => $this->request->getVar('contact_no'),
 		    'gender'    => $this->request->getVar('gender'),
 		    'marital_status'    => $this->request->getVar('marital_status'),
@@ -202,13 +201,15 @@ class Employee extends BaseController
 	}
 	public function updateEmployee()
 	{
+		$emp_id = $this->request->getVar('emp_id');
 		$ntn = $this->request->getVar('ntn');
 		$rules = [
 			'fname' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'First Name'],
 			'lname' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'Last Name'],
 			'father_name' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'Father Name'],
-			'cnic' => ['rules' => 'required|min_length[13]|max_length[13]', 'label' => 'CNIC'],
-			'email' => ['rules' => 'required|valid_email', 'label' => 'Email'],
+			'cnic' => ['rules' => 'required|min_length[13]|max_length[13]|is_unique[saimtech_employees.cnic,emp_id,{emp_id}]', 'label' => 'CNIC'],
+			'email' => 'required|valid_email|is_unique[saimtech_employees.email,emp_id,{emp_id}],',
+			'official_email' => ['rules' => 'permit_empty|permit_empty|is_unique[saimtech_employees.official_email,emp_id,{emp_id}]', 'label' => 'Officail Email'],
 			'contact_no' => ['rules' => 'required|min_length[11]|max_length[11]', 'label' => 'Contact No'],
 			'gender' => ['rules' => 'required', 'label' => 'Gender'],
 			'marital_status' => ['rules' => 'required', 'label' => 'Marital Status'],
@@ -227,16 +228,14 @@ class Employee extends BaseController
 			'doj' => ['rules' => 'required', 'label' => 'doj'],
 			'reporting_area' => ['rules' => 'required', 'label' => 'reporting_area'],
 			'reporting_region' => ['rules' => 'required', 'label' => 'reporting_region'],
-			// 'machine_id' => 'is_unique[saimtech_employees.machine_id,machine_id,null],',
-			// 'account_no' => 'is_unique[saimtech_employees.account_no,account_no,null],',
-			// 'account_iban' => 'is_unique[saimtech_employees.account_iban,account_iban,null],',
-			//'ntn' => 'is_unique[saimtech_employees.ntn],',
 
+			'machine_id' => 'is_unique[saimtech_employees.machine_id,emp_id,{emp_id}]|permit_empty',
+			'account_no' => 'is_unique[saimtech_employees.account_no,emp_id,{emp_id}]|permit_empty',
+			'account_iban' => 'is_unique[saimtech_employees.account_iban,emp_id,{emp_id}]|permit_empty',
+			'ntn' => 'is_unique[saimtech_employees.ntn,emp_id,{emp_id}]|permit_empty',
 			'shift' => ['rules' => 'required', 'label' => 'shift'],
-			'rank' => ['rules' => 'required', 'label' => 'rank'],
 			'education_type' => ['rules' => 'required', 'label' => 'education_type'],
-			'education' => ['rules' => 'required', 'label' => 'education'],
-		
+			'education' => ['rules' => 'required', 'label' => 'education'],		
 		];
 
 		 if (!$this->validate($rules)) {
@@ -252,6 +251,7 @@ class Employee extends BaseController
 		    'father_name'    => $this->request->getVar('father_name'),
 		    'cnic'    => $this->request->getVar('cnic'),
 		    'email'    => $this->request->getVar('email'),
+		    'official_email'    => $this->request->getVar('official_email'),
 		    'contact_no'    => $this->request->getVar('contact_no'),
 		    'gender'    => $this->request->getVar('gender'),
 		    'marital_status'    => $this->request->getVar('marital_status'),
@@ -296,6 +296,7 @@ class Employee extends BaseController
       $user_id = $_SESSION['user_id'];
 		$rules = [
 			'emp_dol' => ['rules' => 'required', 'label' => 'Date of Leaving'],
+			'emp_leave_type' => ['rules' => 'required', 'label' => 'Leave Type'],
 			'emp_l_reason' => ['rules' => 'required', 'label' => 'Leaving Reason'],		
 		];
 
@@ -308,6 +309,7 @@ class Employee extends BaseController
 		;
         $data = [
         	'emp_dol'    => $this->request->getVar('emp_dol'),
+        	'emp_leave_type'    => $this->request->getVar('emp_leave_type'),
 		    'emp_l_reason' => $this->request->getVar('emp_l_reason'),   
 		    'emp_status' =>'deactive',   
 		];
