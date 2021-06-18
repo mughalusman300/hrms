@@ -74,13 +74,27 @@ class Employee extends BaseController
 		else{
 		$img = $this->request->getFile('newfile');
 		    if($img!=""){
-             $extension = $img->getClientExtension();
-             $newName = $img->getRandomName();
-             $path = "public/img/";
-             $full_db_path = $path."".$newName;
-             $img->move($path, $newName);
-             }	
+		         $extension = $img->getClientExtension();
+		         $newName = $img->getRandomName();
+		         $path = "public/img/";
+		         $full_db_path = $path."".$newName;
+		         $img->move($path, $newName);
+	        }	
+	        $emp_card_id = null;
+			$category =  $this->request->getVar('category');
+	        $result = $this->Employeemodel->getEmpCardID($category);
+	        $restult_card_id = $result[0]['card_id'];
+	        if($restult_card_id!=""){
+	        	$emp_card_id = $restult_card_id + 1;
+	        }
+	        else{ 
+	        	if($category=="Permanant"){ $emp_card_id= 1001; }
+		        elseif($category=="Contract"){ $emp_card_id= 7001; }
+		        elseif($category=="Franchisee"){ $emp_card_id= 8001; }
+		        else{ $emp_card_id= null; }
+	        }
         $data = [
+        	'emp_card_id' => $emp_card_id,
         	'fname'    => $this->request->getVar('fname'),
 		    'lname' => $this->request->getVar('lname'),
 		    'father_name'    => $this->request->getVar('father_name'),
@@ -138,6 +152,10 @@ class Employee extends BaseController
 		//     }
 
 	}
+	public function addEmployee()
+	{
+		return view('employees/createsimple');
+	}
 	public function createEmployee()
 	{
 		
@@ -152,6 +170,7 @@ class Employee extends BaseController
 			'gender' => ['rules' => 'required', 'label' => 'Gender'],
             'designation_id' => ['rules' => 'required', 'label' => 'designation_id'],
 			'department_id' => ['rules' => 'required', 'label' => 'department_id'],
+			'category' => ['rules' => 'required', 'label' => 'Category'],
 			'city' => ['rules' => 'required', 'label' => 'City'],
 			'address' => ['rules' => 'required', 'label' => 'Address'],
 		];
@@ -159,9 +178,24 @@ class Employee extends BaseController
 		 if (!$this->validate($rules)) {
              $errors = $this->validator->getErrors();
 			 return $this->fail($errors);
-		}
+		}	
 		else{
+			$emp_card_id = null;
+			$category =  $this->request->getVar('category');
+	        $result = $this->Employeemodel->getEmpCardID($category);
+	        $restult_card_id = $result[0]['card_id'];
+	        if($restult_card_id!=""){
+	        	$emp_card_id = $restult_card_id + 1;
+	        }
+	        else{ 
+	        	if($category=="Permanant"){ $emp_card_id= 1001; }
+		        elseif($category=="Contract"){ $emp_card_id= 7001; }
+		        elseif($category=="Franchisee"){ $emp_card_id= 8001; }
+		        else{ $emp_card_id= null; }
+	        }
+	        	
         $data = [
+        	'emp_card_id' => $emp_card_id,
         	'fname'    => $this->request->getVar('fname'),
 		    'lname' => $this->request->getVar('lname'),
 		    'father_name'    => $this->request->getVar('father_name'),
@@ -171,15 +205,12 @@ class Employee extends BaseController
 		    'gender'    => $this->request->getVar('gender'),
 		    'designation_id'    => $this->request->getVar('designation_id'),
 		    'department_id'    => $this->request->getVar('department_id'),
+		    'category'    => $this->request->getVar('category'),
 		    'city'    => $this->request->getVar('city'),
 		    'address'    => $this->request->getVar('address'), 
 		];
 		$this->Employeemodel->insert($data);
 		}
-	}
-	public function addEmployee()
-	{
-		return view('employees/createsimple');
 	}
 	public function detail($id)
 	{

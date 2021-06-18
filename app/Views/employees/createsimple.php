@@ -201,7 +201,7 @@
                                     </div>
                                     <div class="form-group col-md-4 input-group-sm">
                                         <label>Designation <font style="color: red;">*</font></label>
-                                        <select v-model="designation_id"  name=""  tabindex="18" class="form-control">
+                                        <select v-model="designation_id"  name=""  tabindex="8" class="form-control">
                                           <option value="">Choose</option>
                                           <option v-for="option in designations" v-bind:value="option.desid">
                                           {{ option.designation_name }}
@@ -211,7 +211,7 @@
                                     </div>
                                     <div class="form-group col-md-4 input-group-sm">
                                         <label>Department<font style="color: red;">*</font></label>
-                                        <select v-model="department_id"  name=""  tabindex="19" class="form-control">
+                                        <select v-model="department_id"  name=""  tabindex="9" class="form-control">
                                           <option value="">Choose</option>
                                           <option v-for="option in departments" v-bind:value="option.depid">
                                           {{ option.department_name }}
@@ -219,9 +219,22 @@
                                         </select>
                                         <p style="color: red" v-if="department_id_error!=''">{{department_id_error}}</p>
                                     </div>
+                                    <div class="form-group col-md-4">
+                                        <label>Category<font style="color: red;">*</font></label>
+                                        <select v-model="category"  name=""  tabindex="10" class="form-control">
+                                            <option value="">Select</option>
+                                            <option value="Permanant">Permanant</option>
+                                            <option value="Contract">Contract</option>
+                                            <option value="Daily Wages">Daily Wages</option>
+                                            <option value="3rd Vender">3rd Vender</option>
+                                            <option value="Janitorial">Janitorial</option>
+                                            <option value="Franchisee">Franchisee</option>
+                                        </select>
+                                        <p style="color: red" v-if="category_error!=''">{{category_error}}</p>
+                                    </div>
                                     <div class="form-group col-md-4 input-group-sm">
                                         <label>City <font style="color: red;">*</font></label>
-                                        <select  v-model="city"  name="city"  tabindex="15" class="form-control">
+                                        <select  v-model="city"  name="city"  tabindex="11" class="form-control">
                                             <option value="">Select</option>
                                             <option value="Lahore">Lahore</option>
                                             <option value="karachi">karachi</option>
@@ -230,14 +243,14 @@
                                         </select>
                                         <p style="color: red" v-if="city_error!=''">{{city_error}}</p>
                                     </div>
-                                    <div class="form-group col-md-8 input-group-sm">
+                                    <div class="form-group col-md-4 input-group-sm">
                                     <label for="inputAddress">Address <font style="color: red;">*</font></label>
-                                    <input tabindex="17" v-model="address" type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                                    <input tabindex="12" v-model="address" type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
                                 <p style="color: red" v-if="address_error!=''">{{address_error}}</p>
                                 </div> 
                                 </div>                                
                                 </form>
-                                <button @click="postEmployee()"  class="btn btn-primary ml-auto d-block mt-3">Submit</button>
+                                <button tabindex="13" @click="postEmployee()"  class="btn btn-primary ml-auto d-block mt-3">Submit</button>
                             
                         </div>
                     </div>
@@ -258,6 +271,7 @@
     gender:'',
     designation_id:'',
     department_id:'',
+    category:'',
     city:'',
     address:'',
     //errors
@@ -270,6 +284,7 @@
     gender_error:'',
     designation_id_error:'',
     department_id_error:'',
+    category_error:'',
     city_error:'',
     address_error:'',
   },
@@ -298,6 +313,7 @@
           form.append("gender", this.gender);
           form.append("designation_id", this.designation_id);
           form.append("department_id", this.department_id);
+          form.append("category", this.category);
           form.append("city", this.city);
           form.append("address", this.address);
           axios.post('/hrms/employee/createEmployee',form).then((response)=>{
@@ -338,6 +354,8 @@
             { this.designation_id_error = err.response.data.messages.designation_id; }
             if(err.response.data.messages.department_id)
             { this.department_id_error = err.response.data.messages.department_id; }
+            if(err.response.data.messages.category)
+            { this.category_error = err.response.data.messages.category; }
             if(err.response.data.messages.city)
             { this.city_error = err.response.data.messages.city; }
             if(err.response.data.messages.address)
@@ -355,6 +373,7 @@
             this.gender_error='';
             this.designation_id_error='';
             this.department_id_error='';
+            this.category_error='';
             this.city_error='';
             this.address_error='';
         },
@@ -369,6 +388,7 @@
             this.gender='';
             this.designation_id='';
             this.department_id='';
+            this.category='';
             this.city='';
             this.address='';
             

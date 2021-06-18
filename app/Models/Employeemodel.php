@@ -14,7 +14,7 @@ class Employeemodel extends Model
 	protected $returnType           = 'array';
 	protected $useSoftDelete        = false;
 	protected $protectFields        = true;
-	protected $allowedFields        = ['fname', 'lname', 'father_name', 'cnic', 'email','official_email', 'contact_no', 'gender', 'marital_status', 'blood_group', 'dob', 'family_members', 'emergency_contact_no', 'emergency_contact_relation', 'image', 'city', 'province', 'address', 'designation_id', 'department_id', 'category', 'division_id', 'company_id', 'doj', 'reporting_area', 'reporting_region', 'machine_id', 'shift', 'rank', 'education_type', 'education', 'previous_comp', 'previous_comp_designation', 'experience', 'bank_name', 'account_title', 'account_no', 'account_iban', 'ntn', 'is_taxable', 'is_flag', 'falg_color', 'flag_reason', 'emp_dol','emp_leave_type','emp_l_reason','emp_status','is_enable','created_by'];
+	protected $allowedFields        = ['emp_card_id','fname', 'lname', 'father_name', 'cnic', 'email','official_email', 'contact_no', 'gender','marital_status', 'blood_group', 'dob', 'family_members', 'emergency_contact_no', 'emergency_contact_relation', 'image', 'city', 'province', 'address', 'designation_id', 'department_id', 'category', 'division_id', 'company_id', 'doj', 'reporting_area', 'reporting_region', 'machine_id', 'shift', 'rank', 'education_type', 'education', 'previous_comp', 'previous_comp_designation', 'experience', 'bank_name', 'account_title', 'account_no', 'account_iban', 'ntn', 'is_taxable', 'is_flag', 'falg_color', 'flag_reason', 'emp_dol','emp_leave_type','emp_l_reason','emp_status','is_enable','created_by'];
 
 	// Dates
 	protected $useTimestamps        = false;
@@ -90,5 +90,11 @@ class Employeemodel extends Model
              ->getWhere(['department_id' => $department_id,'emp_status' => $emp_status])
              ->getResultArray();	
     return $query; 
+	}
+	public function getEmpCardID($category)
+	{
+		$query  ="SELECT MAX(emp_card_id) as card_id FROM saimtech_employees WHERE category =".$this->db->escape($category)."";
+		$res    = $this->db->query($query);	
+        return $res->getResultArray();
 	}
 }
