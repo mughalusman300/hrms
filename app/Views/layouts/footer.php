@@ -43,3 +43,4 @@
 
     <script src="<?= base_url(); ?>/public/asset/js/dore.script.js"></script>
     <script src="<?= base_url(); ?>/public/asset/js/scripts.js"></script>
+    

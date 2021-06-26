@@ -22,6 +22,8 @@
     <!-- Load required  BootstrapVue CSS -->
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
     <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>/public/asset/datetimepicker/build/css/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet" href="bootstrap-datetimepicker.min.css">
     <!-- Load polyfills to support older browsers -->
     <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script>
     <!-- Load Vue followed by BootstrapVue -->
@@ -36,3 +38,4 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="<?= base_url(); ?>/public/asset/js/vendor/jquery-3.3.1.min.js"></script>
+    <script src="<?= base_url(); ?>/public/asset/datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>

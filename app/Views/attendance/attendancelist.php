@@ -83,6 +83,12 @@ div{
 									<input tabindex="3" type="date" name="date" value="<?php echo $date;?>" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 								</div>
 	                        </div>
+                            <!-- <div class="form-group col-md-4">
+                                <label><b>Date</b></label>
+                                <div class="input-group input-group-sm mb-3">
+                                    <input tabindex="4" type="text" id="demo" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                                </div>
+                            </div> -->
 	                        <div class="form-group offset-md-11">
 	                        	<button type="submit" class="btn btn-primary btn-sm default">
 	                        		<i class="simple-icon-magnifier"></i> Search</button>
@@ -176,7 +182,7 @@ div{
                                 <td>
                                 	 <input type="hidden" name="student_session[]" value="<?php echo $value['emp_id']; ?>">
 
-                                        <input  type="text" value="<?php echo $attendendence_id ?>"  name="attendendence_id<?php echo $value["emp_id"]; ?>">
+                                        <input  type="hidden" value="<?php echo $attendendence_id ?>"  name="attendendence_id<?php echo $value["emp_id"]; ?>">
                                 	<?php echo $row_count;?>
                                 		
                                 </td>
@@ -284,7 +290,11 @@ div{
     </div> 
 </main>
 <script type="text/javascript">
-
+ $(document).ready(function () {
+        $("#demo").datetimepicker({
+                     minDate:new Date()
+        });
+    });
                 $(document).ready(function () {
 
                     $.extend($.fn.dataTable.defaults, {
