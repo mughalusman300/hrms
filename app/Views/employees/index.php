@@ -85,9 +85,9 @@
                                              <button v-show="rows.emp_status=='active'"  type="button" @click="updateStatusMode(rows.emp_id)"
                                               class="btn btn-xs btn-outline-danger ">Leave
                                             </button>
-                                              <!-- <a v-show="rows.emp_status=='active'"  v-bind:href="'<?= base_url();?>/payrolldetail/'+rows.emp_id" target="_blank"><button type="button"
+                                              <a v-show="rows.emp_status=='active'"  v-bind:href="'<?= base_url();?>/payrolldetail/'+rows.emp_id" target="_blank"><button type="button"
                                                   class="btn btn-xs btn-outline-primary ">payroll</button>
-                                              </a> -->
+                                              </a>
                                             </p>
                                             
                                                 

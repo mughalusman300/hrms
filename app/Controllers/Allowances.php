@@ -27,7 +27,7 @@ class Allowances extends BaseController
 	public function getAllAllowances()
     {
 
-        $allowances = $this->Allowancesmodel->orderBy('allow_id', 'desc')
+        $allowances = $this->Allowancesmodel->orderBy('allow_type', 'asc')
                       ->find();
    
         return $this->response->setJSON($allowances);
@@ -37,7 +37,7 @@ class Allowances extends BaseController
 		$user_id = $_SESSION['user_id'];
 		$rules = [
 		
-			'allow_name' => ['rules' => 'required|min_length[3]|max_length[250]|is_unique[allowances.allow_name]', 'label' => 'Allowance Name'],
+			'allow_name' => ['rules' => 'required|min_length[3]|max_length[300]|is_unique[allowances.allow_name]', 'label' => 'Allowance Name'],
 			'allow_type' => ['rules' => 'required|min_length[1]|max_length[1]', 'label' => 'Allowance Type'],
 
 		];
@@ -59,7 +59,7 @@ class Allowances extends BaseController
 	public function update($id){
 		$user_id = $_SESSION['user_id'];
 		$rules = [
-			'allow_name' => ['rules' => 'required|min_length[3]|max_length[20]', 'label' => 'Allowance Name'],
+			'allow_name' => ['rules' => 'required|min_length[3]|max_length[250]', 'label' => 'Allowance Name'],
 			'allow_type' => ['rules' => 'required|min_length[1]|max_length[1]', 'label' => 'Allowance Type'],
 
 		];

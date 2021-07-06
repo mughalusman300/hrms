@@ -29,17 +29,6 @@
             <div class="row">
                 <div class="col-12">
                     <h1>Payroll</h1>
-                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
-                        <ol class="breadcrumb pt-0">
-                            <li class="breadcrumb-item">
-                                <a href="#">Home</a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="#">Library</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">Data</li>
-                        </ol>
-                    </nav>
                     <div class="separator mb-5"></div>
                 </div>
             </div>
@@ -169,10 +158,17 @@
                         <div  class="table-responsive">
 
                                 
-                            <table class="fit table table-sm">
+                            <table  class="fit table table-sm">
+                                <col style="width: 10%;" />
+                                <col style="width: 15%;" />
+                                <col style="width: 15%;" />
+                                <col style="width: 15%;" />
+                                <col style="width: 15%;" />
+                                <col style="width: 10%;" />
+                                <col style="width: 20%;" />
                                 <thead class=''>
                                     <tr>
-                                    <th>ID </th>
+                                    <th>Employee ID</th>
                                     <th>Name</th>
                                     <th>Department</th>
                                     <th>Designation</th>
@@ -216,7 +212,7 @@
 
                                         <tr>
 
-                                            <td><?php echo $staff['emp_id']; ?></td>
+                                            <td><?php echo $staff['emp_card_id']; ?></td>
 
                                             <td><?php echo $staff['fname'] . " " . $staff['lname']; ?></td>
 
@@ -230,7 +226,7 @@
 
                                             <?php if ($status == "paid") { ?>
 
-                                                <td class=" no-print">
+                                                <td  class=" no-print">
 
                                                     <a href="javascript:void" onclick="getPayslip('<?php echo $staff["payslip_id"]; ?>')"  role="button" class="btn  btn-success btn-xs checkbox-toggle edit_setting" data-toggle="tooltip" title="<?php echo 'Payslip View'; ?>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing"><?php echo 'View'; ?> <?php echo'Payslip'; ?></a>
                                                      <a href="<?php echo base_url() ?>/Payroll1/revertpayroll/<?php echo $staff["payslip_id"] . "/" . $month_selected . "/" . date("Y") . "/".$shift."/".$dep_type_id ?>" class="btn btn-default btn-xs" onclick="return confirm('Are you sure you want to revert this record')" title="Revert">
@@ -365,7 +361,7 @@
         Popup(jQuery(elem).html());
 
     }
-    function getRecord(id) {
+    function getRecords(id) {
         // alert("<?php echo $month_selected ?>");
         $('#proceedtopay').modal({
             show: true,
@@ -388,7 +384,7 @@
             dataType: "json",
             success: function (result) {
                 $('input[name="amount"]').val(result.result.net_salary);
-                $('input[name="emp_name"]').val(result.result.fname + ' ' + result.result.lname + ' (' + result.result.employee_id + ')');
+                $('input[name="emp_name"]').val(result.result.fname + ' ' + result.result.lname + ' (' + result.result.emp_card_id + ')');
                 $('input[name="paymentid"]').val(result.result.id);
                 $('input[name="paymentmonth"]').val(month);
                 $('input[name="paymentyear"]').val(year);

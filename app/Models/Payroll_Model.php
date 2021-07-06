@@ -105,7 +105,7 @@ class Payroll_Model extends Model
     }
     public function searchPayment($id, $month, $year) {
         $query  =$this->db->table('saimtech_employees')
-        ->select('saimtech_employees.fname,saimtech_employees.lname,saimtech_employees.emp_id as employee_id,,employee_payslip.*')
+        ->select('saimtech_employees.fname,saimtech_employees.lname,saimtech_employees.emp_id as employee_id,saimtech_employees.emp_card_id,employee_payslip.*')
         ->join("employee_payslip", "saimtech_employees.emp_id = employee_payslip.emp_id", "inner")
         ->where(array('employee_payslip.month' => $month, 'employee_payslip.year' => $year, 'employee_payslip.emp_id' => $id))
         ->get()
@@ -120,10 +120,10 @@ class Payroll_Model extends Model
     }
     public function getPayslip($id) {
         $query  =$this->db->table('employee_payslip')
-        ->select('saimtech_employees.fname,saimtech_employees.lname,saimtech_departments.department_name as department,saimtech_designations.designation_name as designation,saimtech_employees.emp_id as employee_id,employee_payslip.*')
+        ->select('saimtech_employees.fname,saimtech_employees.lname,saimtech_departments.department_name as department,saimtech_designations.designation_name as designation,saimtech_employees.emp_id as employee_id,saimtech_employees.emp_card_id ,employee_payslip.*')
         ->join("saimtech_employees", "saimtech_employees.emp_id = employee_payslip.emp_id", "inner")
-        ->join("saimtech_designations", "saimtech_employees.department_id = saimtech_designations.desid", "inner")
-        ->join("saimtech_departments", "saimtech_employees.designation_id = saimtech_departments.depid", "inner")
+        ->join("saimtech_designations", "saimtech_employees.designation_id = saimtech_designations.desid", "inner")
+        ->join("saimtech_departments", "saimtech_employees.department_id = saimtech_departments.depid", "inner")
         ->where("employee_payslip.id", $id)
         ->get()
         ->getResultArray();    
@@ -169,6 +169,22 @@ class Payroll_Model extends Model
              ->where('id', $payslipid)
              ->update($data); 
     return $this->db->affectedRows();
-    }  
+    }
+    public function searchEmployeeSalaryMainById($id) {
+    $query  =$this->db->table('payroll_salary_main')
+        ->select('payroll_salary_main.*,sum(payroll_salary_detail.allow_amount) as allowances')
+        ->join("payroll_salary_detail", "payroll_salary_detail.salary_id = payroll_salary_main.salary_id", "left")
+        ->where("payroll_salary_main.salary_status", "Active")
+        ->where("emp_id", $id)
+        ->get()
+        ->getResultArray(); 
+         return $query;
+        //  $query ="Select payroll_salary_main.*,payroll_salary_detail.allow_amount,allowances.allow_name from payroll_salary_main
+        //     left join payroll_salary_detail on payroll_salary_detail.depid = saimtech_employees.department_id
+        //     left join saimtech_designations on saimtech_designations.desid = saimtech_employees.designation_id
+        //     where saimtech_employees.emp_id=".$this->db->escape($id)."";
+        // $res = $this->db->query($query);
+        // return $res->getResultArray();
+    }   
 
 }

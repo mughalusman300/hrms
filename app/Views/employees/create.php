@@ -201,6 +201,25 @@
                                         <p style="color: red" v-if="department_id_error!=''">{{department_id_error}}</p>
                                     </div>
                                     <div class="form-group col-md-4">
+                                        <label>Rank</label>
+                                        <select v-model="rank"  name=""  tabindex="19" class="form-control">
+                                          <option value="">Choose</option>
+                                          <option value="1">1</option>
+                                          <option value="2">2</option>
+                                          <option value="3">3</option>
+                                          <option value="4">4</option>
+                                          <option value="5">5</option>
+                                          <option value="6">6</option>
+                                          <option value="7">7</option>
+                                          <option value="8">8</option>
+                                          <option value="9">9</option>
+                                          <option value="10">10</option>
+                                          <option value="11">11</option>
+                                          </option>
+                                        </select>
+                                        <p style="color: red" v-if="rank_error!=''">{{rank_error}}</p>
+                                    </div>
+                                    <div class="form-group col-md-4">
                                         <label>Category<font style="color: red;">*</font></label>
                                         <select v-model="category"  name=""  tabindex="20" class="form-control">
                                             <option value="">Select</option>
@@ -259,11 +278,6 @@
                                         </select>
                                         <p style="color: red" v-if="reporting_region_error!=''">{{reporting_region_error}}</p>
                                     </div>
-                                    <div class="form-group col-md-4">
-                                        <label >Machine ID </label>
-                                        <input v-model="machine_id" min="1"  type="number" class="form-control" tabindex="26" placeholder=" Machine ID">
-                                        <p style="color: red" v-if="machine_id_error!=''">{{machine_id_error}}</p>
-                                    </div>
                                      <div class="form-group col-md-4">
                                         <label>Shift<font style="color: red;">*</font></label>
                                         <select tabindex="27" v-model="shift"  name="" class="form-control">
@@ -290,7 +304,12 @@
                                         <label >Education <font style="color: red;">*</font></label>
                                         <input tabindex="30" v-model="education" type="text" class="form-control" placeholder=" Education">
                                         <p style="color: red" v-if="education_error!=''">{{education_error}}</p>
-                                    </div>                                 
+                                    </div>   
+                                    <div class="form-group col-md-4">
+                                        <label >Machine ID </label>
+                                        <input v-model="machine_id" min="1"  type="number" class="form-control" tabindex="26" placeholder=" Machine ID">
+                                        <p style="color: red" v-if="machine_id_error!=''">{{machine_id_error}}</p>
+                                    </div>                              
                                 </div>
                                 <div style="margin-top: 30px">
                                   <h5  class="mb-4">Working Experience</h5>
@@ -402,6 +421,7 @@
     province:'',
     address:'',
     designation_id:'',
+    rank: '',
     department_id:'',
     category:'',
     division_id:'',
@@ -411,7 +431,6 @@
     reporting_region:'',
     machine_id:'',
     shift:'',
-    rank:1,
     education_type:'',
     education:'',
     previous_comp:'',
@@ -443,6 +462,7 @@
     province_error:'',
     address_error:'',
     designation_id_error:'',
+    rank_error:'',
     department_id_error:'',
     category_error:'',
     division_id_error:'',
@@ -512,6 +532,7 @@
           form.append("province", this.province);
           form.append("address", this.address);
           form.append("designation_id", this.designation_id);
+          form.append("rank", this.rank);
           form.append("department_id", this.department_id);
           form.append("category", this.category);
           form.append("division_id", this.division_id);
@@ -605,6 +626,8 @@
             { this.address_error = err.response.data.messages.address; }
             if(err.response.data.messages.designation_id)
             { this.designation_id_error = err.response.data.messages.designation_id; }
+            if(err.response.data.messages.rank)
+            { this.rank_error = err.response.data.messages.rank; }
             if(err.response.data.messages.department_id)
             { this.department_id_error = err.response.data.messages.department_id; }
             if(err.response.data.messages.category)
@@ -661,6 +684,7 @@
             this.province_error='';
             this.address_error='';
             this.designation_id_error='';
+            this.rank_error='';
             this.department_id_error='';
             this.category_error='';
             this.division_id_error='';
@@ -702,6 +726,7 @@
             this.province='';
             this.address='';
             this.designation_id='';
+            this.rank='';
             this.department_id='';
             this.category='';
             this.division_id='';

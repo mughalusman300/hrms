@@ -1,22 +1,11 @@
 <?= $this->extend('layouts/app') ?>
 <?= $this->section('main-content') ?>
 <link rel="stylesheet" href="<?= base_url(); ?>/public/asset/css/Payroll.css" />
-<main>
+<main onload="myFunction()">
         <div class="container-fluid" style="min-height: 393px;">
             <div class="row">
                 <div class="col-12">
-                    <h1>Create Payroll</h1>
-                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
-                        <ol class="breadcrumb pt-0">
-                            <li class="breadcrumb-item">
-                                <a href="<?= base_url();?>/home">Home</a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="#">Library</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">Data</li>
-                        </ol>
-                    </nav>
+                    <h2>Create Payroll</h2>
                     <div class="separator mb-5"></div>
                 </div>
             </div>
@@ -62,7 +51,7 @@
                                                             <th class="bozero"><?php echo "Name"; ?></th>
                                                             <td class="bozero"><?php echo $result["fname"] . " " . $result["lname"] ?></td>
                                                             <th class="bozero"><?php echo "Employee ID"; ?></th>
-                                                            <td class="bozero"><?php echo $result["emp_id"] ?></td>
+                                                            <td class="bozero"><?php echo $result["emp_card_id"] ?></td>
                                                         </tr>
                                                         <tr>
                                                             <th><?php echo 'Phone'; ?></th>
@@ -129,7 +118,7 @@
                         <div class="box-header">
                             <div class="row display-flex">
                                 <div class="col-md-4 col-sm-4">
-                                    <h3 class="box-title"><?php echo 'Earning'; ?></h3>
+                                    <h3 class="box-title"><?php echo 'Allowances'; ?></h3>
                                     <button type="button" onclick="add_more()" class="plusign"><i class="fa fa-plus"></i></button>
                                     <div class="sameheight">
                                         <div class="feebox">
@@ -168,10 +157,10 @@
                                                         <input name="fullname" type="hidden" value="<?php echo $result["fname"] . " " . $result["lname"] ?>">
                                                         <input name="shift" type="hidden" value="<?php echo $shift;?>">
                                                         <input name="dep_type_id" type="hidden" value="<?php echo $dep_type_id;?>">
-                                                        <label  class="col-sm-4 control-label"><b><?php echo 'Basic Salary'; ?></b></label>
-                                                        <input onkeyup="add_allowance()" style="background-color: white" class="col-sm-8 form-control" name="basic" value="<?php
-                                                        if (!empty($result["basic_salary"])) {
-                                                            echo $result["basic_salary"];
+                                                        <label  class="col-sm-4 control-label"><b><?php echo 'Gross Salary'; ?></b></label>
+                                                        <input onkeyup="add_allowance()"  style="background-color: white" class="col-sm-8 form-control" name="basic" value="<?php
+                                                        if (!empty($gross_salary)) {
+                                                            echo $gross_salary;
                                                         } else {
                                                             echo "0";
                                                         }
@@ -182,7 +171,7 @@
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <div class="row">
-                                                        <label class="col-sm-4 control-label"><b><?php echo 'Earning'; ?></b></label>
+                                                        <label class="col-sm-4 control-label"><b><?php echo 'Allowances'; ?></b></label>
                                                         <input style="background-color: white" readonly="readonly" class="col-sm-8 form-control" name="total_allowance" id="total_allowance"  type="text" />
                                                     </div>
                                                 </div>
@@ -200,7 +189,7 @@
                                                 
                                                 <div class="col-sm-12">
                                                     <div class="row">
-                                                        <label class="col-sm-4 control-label"><b><?php echo 'Gross Salary'; ?></b></label>
+                                                        <label class="col-sm-4 control-label"><b><?php echo 'Total'; ?></b></label>
                                                         <input style="background-color: white" readonly="readonly" class="col-sm-8 form-control" name="gross_salary" id="gross_salary" value="0" type="text" />
                                                     </div>
                                                 </div>
@@ -210,7 +199,7 @@
                                                 <div class="col-sm-12 deductiondred">
                                                     <div class="row">
                                                         <label class="col-sm-4 control-label"><b><?php echo 'Tax'; ?></b></label>
-                                                        <input onkeyup="add_allowance()" class="col-sm-8 form-control" name="tax" id="tax" value="0" type="text" />
+                                                        <input style="background-color: white"  onkeyup="add_allowance()" readonly="readonly" class="col-sm-8 form-control" name="tax" id="tax" value="0" type="text" />
                                                     </div>
                                                 </div>
                                             </div><!--./form-group-->
@@ -244,12 +233,8 @@
 <script type="text/javascript">
 
 
-
-    function add_allowance() {
-
-
-
-        var basic_pay = $("#basic").val();
+    window.onload = function() {
+     var basic_pay = $("#basic").val();
 
         var allowance_type = document.getElementsByName('allowance_type[]');
 
@@ -257,7 +242,7 @@
 
 //var leave_deduction = $("#leave_deduction").val();
 
-        var tax = $("#tax").val();
+        var tax = 0;
 
         var total_allowance = 0;
 
@@ -343,8 +328,216 @@
 
         var gross_salary = parseInt(basic_pay) + parseInt(total_allowance) - parseInt(total_deduction);
 
+        var gross_salary = parseInt(basic_pay) + parseInt(total_allowance) - parseInt(total_deduction);
+        var annual_salary    = gross_salary * 12;
+        //console.log(annual_salary);
+        if(annual_salary > 600000 && annual_salary <1200001){
+            taxable_amount = annual_salary - 600000; 
+            tax =  (5/100 * taxable_amount)/12 ;
+            tax = Math.round(tax);
+            $("#tax").val(tax);
+        }
+        else if(annual_salary > 1200000 && annual_salary <1800001){
+            console.log("1200000");
+            taxable_amount = annual_salary - 1200000;
+            tax =  ((10/100 * taxable_amount)+30000)/12 ;
+            tax = Math.round(tax);
+            $("#tax").val(tax);
+        }
+        else if(annual_salary > 1800000 && annual_salary <2500001){
+            console.log("1800000");
+            taxable_amount = annual_salary - 1800000;
+            tax =  ((15/100 * taxable_amount)+90000)/12 ;
+            tax = Math.round(tax);
+            $("#tax").val(tax);
+        }
+        else if(annual_salary > 2500000 && annual_salary <3500001){
+            console.log("2500000");
+            taxable_amount = annual_salary - 2500000;
+            tax =  ((17.5/100 * taxable_amount)+195000)/12 ;
+            tax = Math.round(tax);
+            $("#tax").val(tax);
+        }
+        else if(annual_salary > 3500000 && annual_salary <5000001){
+            console.log("3500000");
+            taxable_amount = annual_salary - 3500000;
+            tax =  ((20/100 * taxable_amount)+370000)/12 ;
+            tax = Math.round(tax);
+            $("#tax").val(tax);
+        }
+        else if(annual_salary > 5000000 && annual_salary <8000001){
+            //console.log(annual_salary);
+            taxable_amount = annual_salary - 5000000 ;
+            //console.log(taxable_amount);
+
+            tax =  ((22.5/100 * taxable_amount)+670000)/12 ;
+            tax = Math.round(tax);
+            $("#tax").val(tax);
+        }
+        else{
+            $("#tax").val(0);      
+        }
+        var net_salary = parseInt(basic_pay) + parseInt(total_allowance) - parseInt(total_deduction) - parseInt(tax);
 
 
+
+        $("#total_allowance").val(total_allowance);
+
+        $("#total_deduction").val(total_deduction);
+
+        $("#total_allow").html(total_allowance);
+
+        $("#total_deduc").html(total_deduction);
+
+        $("#gross_salary").val(gross_salary);
+
+        $("#net_salary").val(net_salary);
+    };
+    function add_allowance() {
+
+        var basic_pay = $("#basic").val();
+
+        var allowance_type = document.getElementsByName('allowance_type[]');
+
+        var allowance_amount = document.getElementsByName('allowance_amount[]');
+
+//var leave_deduction = $("#leave_deduction").val();
+
+        var tax = 0;
+
+        var total_allowance = 0;
+
+
+
+        var deduction_type = document.getElementsByName('deduction_type[]');
+
+        var deduction_amount = document.getElementsByName('deduction_amount[]');
+
+
+
+        var total_deduction = 0;
+
+
+
+        for (var i = 0; i < allowance_amount.length; i++) {
+
+
+
+            var inp = allowance_amount[i];
+
+
+
+            if (inp.value == '') {
+
+
+
+                var inpvalue = 0;
+
+            } else {
+
+                var inpvalue = inp.value;
+
+            }
+
+
+
+            total_allowance += parseInt(inpvalue);
+
+
+
+        }
+
+
+
+        for (var j = 0; j < deduction_amount.length; j++) {
+
+
+
+
+
+            var inpd = deduction_amount[j];
+
+
+
+            if (inpd.value == '') {
+
+
+
+                var inpdvalue = 0;
+
+
+
+            } else {
+
+
+
+                var inpdvalue = inpd.value;
+
+            }
+
+            total_deduction += parseInt(inpdvalue);
+
+        }
+
+
+
+
+
+//total_deduction += parseInt(leave_deduction) ;
+
+
+
+        var gross_salary = parseInt(basic_pay) + parseInt(total_allowance) - parseInt(total_deduction);
+
+        var gross_salary = parseInt(basic_pay) + parseInt(total_allowance) - parseInt(total_deduction);
+        var annual_salary    = gross_salary * 12;
+        //console.log(annual_salary);
+        if(annual_salary > 600000 && annual_salary <1200001){
+            taxable_amount = annual_salary - 600000; 
+            tax =  (5/100 * taxable_amount)/12 ;
+            tax = Math.round(tax);
+            $("#tax").val(tax);
+        }
+        else if(annual_salary > 1200000 && annual_salary <1800001){
+            console.log("1200000");
+            taxable_amount = annual_salary - 1200000;
+            tax =  ((10/100 * taxable_amount)+30000)/12 ;
+            tax = Math.round(tax);
+            $("#tax").val(tax);
+        }
+        else if(annual_salary > 1800000 && annual_salary <2500001){
+            console.log("1800000");
+            taxable_amount = annual_salary - 1800000;
+            tax =  ((15/100 * taxable_amount)+90000)/12 ;
+            tax = Math.round(tax);
+            $("#tax").val(tax);
+        }
+        else if(annual_salary > 2500000 && annual_salary <3500001){
+            console.log("2500000");
+            taxable_amount = annual_salary - 2500000;
+            tax =  ((17.5/100 * taxable_amount)+195000)/12 ;
+            tax = Math.round(tax);
+            $("#tax").val(tax);
+        }
+        else if(annual_salary > 3500000 && annual_salary <5000001){
+            console.log("3500000");
+            taxable_amount = annual_salary - 3500000;
+            tax =  ((20/100 * taxable_amount)+370000)/12 ;
+            tax = Math.round(tax);
+            $("#tax").val(tax);
+        }
+        else if(annual_salary > 5000000 && annual_salary <8000001){
+            //console.log(annual_salary);
+            taxable_amount = annual_salary - 5000000 ;
+            //console.log(taxable_amount);
+
+            tax =  ((22.5/100 * taxable_amount)+670000)/12 ;
+            tax = Math.round(tax);
+            $("#tax").val(tax);
+        }
+        else{
+            $("#tax").val(0);      
+        }
         var net_salary = parseInt(basic_pay) + parseInt(total_allowance) - parseInt(total_deduction) - parseInt(tax);
 
 
@@ -375,7 +568,7 @@
 
         var id = parseInt(table_len);
 
-        var row = table.insertRow(table_len).outerHTML = "<tr id='row" + id + "'><td><input type='text' class='form-control' id='allowance_type' name='allowance_type[]' placeholder='Type'></td><td><input onkeyup='add_allowance()' type='text' class='form-control' id='allowance_amount' name='allowance_amount[]'  value='0'></td><td><button type='button' onclick='delete_row(" + id + ")' class='closebtn'><i class='fa fa-remove'></i></button></td></tr>";
+        var row = table.insertRow(table_len).outerHTML = "<tr id='row" + id + "'><td><input type='text' class='form-control' id='allowance_type' name='allowance_type[]' placeholder='Type'></td><td><input onkeyup='add_allowance()' type='text' class='form-control' id='allowance_amount' name='allowance_amount[]'  value='0'></td><td><button type='button' onclick='delete_row(" + id + ")' class='closebtn'><i class='fa fa-minus-circle'></i></button></td></tr>";
 
     }
 
@@ -411,7 +604,7 @@
 
         var id = parseInt(table_len);
 
-        var row = table.insertRow(table_len).outerHTML = "<tr id='deduction_row" + id + "'><td><input type='text' class='form-control' id='deduction_type' name='deduction_type[]' placeholder='Type'></td><td><input onkeyup='add_allowance()' type='text' id='deduction_amount' name='deduction_amount[]' class='form-control' value='0'></td><td><button type='button' onclick='delete_deduction_row(" + id + ")' class='closebtn'><i class='fa fa-remove'></i></button></td></tr>";
+        var row = table.insertRow(table_len).outerHTML = "<tr id='deduction_row" + id + "'><td><input type='text' class='form-control' id='deduction_type' name='deduction_type[]' placeholder='Type'></td><td><input onkeyup='add_allowance()' type='text' id='deduction_amount' name='deduction_amount[]' class='form-control' value='0'></td><td><button type='button' onclick='delete_deduction_row(" + id + ")' class='closebtn'><i class='fa fa-minus-circle'></i></button></td></tr>";
 
 
 

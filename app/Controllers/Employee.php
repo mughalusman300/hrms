@@ -114,6 +114,7 @@ class Employee extends BaseController
 		    'province'    => $this->request->getVar('province'),
 		    'address'    => $this->request->getVar('address'),
 		    'designation_id'    => $this->request->getVar('designation_id'),
+		    'designation_id'    => $this->request->getVar('designation_id'),
 		    'department_id'    => $this->request->getVar('department_id'),
 		    'category'    => $this->request->getVar('category'),
 		    'division_id'    => $this->request->getVar('division_id'),

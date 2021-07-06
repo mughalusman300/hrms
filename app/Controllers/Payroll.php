@@ -43,12 +43,8 @@ class Payroll extends BaseController
 	{
         $user_id = $_SESSION['user_id'];
 		$rules = [
-		
-			'salary_start_date' => ['rules' => 'required', 'label' => 'Start Date'],
-			'salary_end_date' => ['rules' => 'required', 'label' => 'End Date'],
-
+			'total_salary' => ['rules' => 'required', 'label' => 'Salary'],
 		];
-
 		 if (!$this->validate($rules)) {
              $errors = $this->validator->getErrors();
 			return $this->fail($errors);
@@ -66,8 +62,18 @@ class Payroll extends BaseController
             $this->Payrollmodel->update($salary_id,$data);
         }
         ///////////////////////////////////////////
+        $total_salary = $this->request->getVar('total_salary');
+        $house_rent = (40/100) * $total_salary ;
+        $utilities = (10/100) * $total_salary ;
+        $basic_salary = $total_salary - ($house_rent + $utilities);
+        //print_r($basic_salary);exit();
+
         $data = [
             'emp_id'               => $id,  	
+            'basic_salary'         => $basic_salary,  	
+            'house_rent'           => $house_rent,  	
+            'utilities'            => $utilities,  	
+            'total_salary'         => $total_salary,  	
         	'salary_start_date'    => $this->request->getVar('salary_start_date'),
 		    'salary_end_date'      => $this->request->getVar('salary_end_date'),
 		    'salary_status'        =>'Active',
@@ -77,19 +83,18 @@ class Payroll extends BaseController
 		//Insert_id is salary_id of table payroll_salary_main//
 		$insert_id = $this->Payrollmodel->insert($data);
 
-	    ///LOG Start//////////
+	    //LOG Start//////////
 		if($insert_id!=null){
         $salary_data = $this->Payrollmodel->PayrollBySalaryID($insert_id);
         $emp_id = ($salary_data[0]['emp_id']);
-        $start_date = ($salary_data[0]['salary_start_date']);
-        $end_date = ($salary_data[0]['salary_end_date']);
+        $total_salary = ($salary_data[0]['total_salary']);
         $Employee_name = ($salary_data[0]['fname'].' '.$salary_data[0]['lname']);
         $date    = date('h:i:sa d-m-y');
         $user_id    = $_SESSION['user_id'];
 		$user_name  = $_SESSION['user_name'];
 
         $log_event   = 'A  new Payroll Head has been Added in Employee Payroll';
-        $log_narration  = 'A new payroll head Start Date: '.$start_date. ' End Date:' .$end_date.' for employee ID:'.$emp_id.' has been Added By: '.$user_name.' of User ID:'.$user_id.' at '.$date ;
+        $log_narration  = 'A new payroll of Salary: '.$total_salary.' for employee ID:'.$emp_id.' has been Added By: '.$user_name.' of User ID:'.$user_id.' at '.$date ;
         $data = [
               'log_event'     => $log_event,
               'log_narration' => $log_narration,

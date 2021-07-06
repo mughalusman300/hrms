@@ -14,7 +14,7 @@ class Payrollmodel extends Model
 	protected $returnType           = 'array';
 	protected $useSoftDelete        = false;
 	protected $protectFields        = true;
-	protected $allowedFields        = ['emp_id','salary_start_date','salary_end_date','salary_in_date','salary_status','created_by','updated_by'];
+	protected $allowedFields        = ['emp_id','basic_salary','house_rent','utilities','total_salary','salary_status','created_by','updated_by'];
 
 	// Dates
 	protected $useTimestamps        = false;

@@ -7,7 +7,7 @@
                     </div>
                     <div class="col-sm-6 d-none d-sm-block">
                         <ul class="breadcrumb pt-0 pr-0 float-right">
-                            <li class="breadcrumb-item mb-0">
+                            <!-- <li class="breadcrumb-item mb-0">
                                 <a href="#" class="btn-link">Review</a>
                             </li>
                             <li class="breadcrumb-item mb-0">
@@ -15,7 +15,7 @@
                             </li>
                             <li class="breadcrumb-item mb-0">
                                 <a href="#" class="btn-link">Docs</a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>

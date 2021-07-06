@@ -34,14 +34,15 @@
                         <hr>
                         <div class="separator mb-3"></div>
                         <div class="table-responsive">
-                            <table class="table table-bordered">
+                            <table class="table table-sm table-bordered">
                             <thead class='thead-light'>
                                 <tr>
                                 <th scope="col">SR.</th>
                                 <th scope="col">Employee </th>
-                                <th scope="col">Start Date</th>
-                                <th scope="col">End Date</th>
-                                <th scope="col">Increment Date</th>
+                                <th scope="col">Basic Salary </th>
+                                <th scope="col">House Rent </th>
+                                <th scope="col">Utilities </th>
+                                <th scope="col">Total Salary</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                                 </tr>
@@ -49,13 +50,12 @@
                             <thead  class='thead-light'>
                                 
                                 <tr v-for="(rows,i) in payroll">
-                                <td >SR.</td>
+                                <td >{{i+1}}</td>
                                 <td >{{rows.fname}} {{rows.lname}} </td>
-                                <td >{{rows.salary_start_date}}</td>
-                                <td >{{rows.salary_end_date}}</td>
-                                <td v-if='rows.salary_inc_date==null'>0000-00-00</td>
-
-                                <td v-else>{{rows.salary_inc_date}}</td>
+                                <td >{{rows.basic_salary}}</td>
+                                <td >{{rows.house_rent}}</td>
+                                <td >{{rows.utilities}}</td>
+                                <td >{{rows.total_salary}}</td>
                                 <td >{{rows.salary_status}}</td>
                                 <td v-if="rows.salary_status=='Active'"><center>
                                 <button type="button" class="btn btn-warning btn-xs default" @click="getAllowances(rows.salary_id)">Attribute</button>
@@ -86,14 +86,14 @@
                 </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-12">
                                 <p class="mb-3">
                                     <button type="button" class="btn btn-outline-primary" @click="createModeAllowance">Add New</button>
                                     <center><h5><b>Allowances</b></h5></center>
                                 </p>  
                                     <div class="separator mb-3"></div>
                                     <div class="table-responsive">
-                                        <table class="table table-bordered">
+                                        <table class="table table-sm table-bordered">
                                         <thead class='thead-light'>
                                             <tr>
                                             <th scope="col">SR.</th>
@@ -118,14 +118,15 @@
                                            
                                         </table>
                                      </div>
-                            </div>                            <div class="col-6">
+                            </div>                            
+                            <!-- <div class="col-6">
                                 <p class="mb-3">
                                     <button type="button" class="btn btn-outline-primary" @click="createModeDeduction">Add New</button>
                                      <center><h5><b>Deductions</b></h5></center>
                                 </p> 
                                     <div class="separator mb-3"></div> 
                                     <div class="table-responsive">
-                                        <table class="table table-bordered">
+                                        <table class="table table-sm table-bordered">
                                         <thead class='thead-light'>
                                             <tr>
                                             <th scope="col">SR.</th>
@@ -150,7 +151,7 @@
                                            
                                         </table>
                                      </div>
-                            </div>
+                            </div> -->
                             </div>
                         </div>
                     </div>
@@ -180,19 +181,13 @@
                         Note: All Fields Required.
                     </div>
                     <div class="form-group required">
-                        <label class="has-float-label"><span>Start Date <font style="color: red;">*</font></span></label>
-                        <input v-model="salary_start_date" type="date" tabindex="1" class="form-control">
-                    <p style="color: red" v-if="salary_start_date_error!=''">{{salary_start_date_error}}</p>    
-                    </div>
-                    <div class="form-group required">
-                        <label class="has-float-label"><span>End Date <font style="color: red;">*</font></span></label>
-                        <input v-model="salary_end_date" type="date" tabindex="2" class="form-control">
-                    <p style="color: red" v-if="salary_start_date_error!=''">{{salary_start_date_error}}</p>    
-                    </div>
+                        <label class="has-float-label"><span>Salary <font style="color: red;">*</font></span></label>
+                        <input v-model="total_salary" type="number" min="0" tabindex="3" class="form-control">
+                    <p style="color: red" v-if="total_salary_error!=''">{{total_salary_error}}</p></div>
             </div>
             <div class="modal-footer">
                 <button type="button"  tabindex="6" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                <button v-if=" !editMode && salary_start_date!='' && salary_end_date!=''"  tabindex="3" class="btn btn-primary" @click.prevent="postPayroll()">Submit</button>
+                <button v-if=" !editMode && total_salary!=''"  tabindex="3" class="btn btn-primary" @click.prevent="postPayroll()">Submit</button>
                 <!--Update Button--->
                 <button  v-else-if="editMode && salary_start_date!='' && salary_end_date!=''"  tabindex="3" class="btn btn-primary" @click.prevent="updateAllowance()">Update</button>
                 <button v-else  disabled type="button" tabindex="5" class="btn btn-primary ">Fill For Submit</button>
@@ -265,6 +260,7 @@
  var app = new Vue({
   el: '#app',
   data: {
+    i : 0,
     payroll:[],
     deductions:[],
     empID :<?php echo $emp_id;?> ,
@@ -275,10 +271,8 @@
     data:false,
     noData:false,
     formId:'',
-    salary_start_date:'',
-    salary_end_date:'',
-    salary_start_date_error:'',
-    salary_end_date_error:'',
+    total_salary:'',
+    total_salary_error:'',
     allowances:[],
     allAllowances:[],
     allDeductions:[],
@@ -311,16 +305,13 @@
           this.clearModel();
           this.clearErrors();
           this.formId=rows.allow_id;
-          this.salary_start_date=rows.salary_start_date;
-          this.salary_end_date=rows.salary_end_date; 
         $('#createPayroll').modal('show');
         },
         postPayroll()
         {
 
           const form = new FormData();
-          form.append("salary_start_date", this.salary_start_date);
-          form.append("salary_end_date", this.salary_end_date);
+          form.append("total_salary", this.total_salary);
           this.payroll={};
           this.loading = true;
           axios.post('/hrms/createPayroll/'+this.empID,form).then((response)=>{
@@ -340,11 +331,8 @@
 
             this.loading = false;
             this.clearErrors();
-            if(err.response.data.messages.salary_start_date){
-             this.salary_start_date_error = err.response.data.messages.salary_start_date;
-           }
-           if(err.response.data.messages.salary_end_date){
-           this.salary_end_date_error = err.response.data.messages.salary_end_date;
+           if(err.response.data.messages.total_salary){
+           this.total_salary_error = err.response.data.messages.total_salary;
            }
            this.getPayroll();
         });
@@ -352,8 +340,7 @@
         updateAllowance()
         {
           const form = new FormData();
-          form.append("salary_start_date", this.salary_start_date);
-          form.append("salary_end_date", this.salary_end_date); 
+          form.append("total_salary", this.total_salary); 
           this.payroll={};
           this.loading = true;  
           axios.post('updateAllowance/'+ this.formId, form).then((response)=>{
@@ -370,23 +357,20 @@
             this.getPayroll();
           }).catch(err =>{
             this.clearErrors();
-            if(err.response.data.messages.salary_start_date){
-             this.salary_start_date_error = err.response.data.messages.salary_start_date;
+
+           if(err.response.data.messages.total_salary){
+           this.total_salary_error = err.response.data.messages.total_salary;
            }
-           if(err.response.data.messages.salary_end_date){
-           this.salary_end_date_error = err.response.data.messages.salary_end_date;
-           } 
            this.getPayroll();
           }) 
         },
         clearModel()
         {
-            this.salary_start_date =""; 
-            this.salary_end_date =""; 
+            this.total_salary =""; 
         },
         clearErrors(){
-            this.salary_start_date_error = "";
-            this.salary_end_date_error = "";
+            this.total_salary = "";
+            this.total_salary_error = "";
         },
         ////////////////////Alowances And Deductions Methods////////////////
         getAllowances(salary_id){

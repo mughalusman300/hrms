@@ -458,7 +458,7 @@ h1{margin:0;font-size:40px}
                     <table width="100%" class="paytable2" >
                         <tr>
                             <th width="25%"><?php echo 'Employee ID'; ?></th>
-                            <td width="25%"><?php echo $result["employee_id"] ?></td>
+                            <td width="25%"><?php echo $result["emp_card_id"] ?></td>
                             <th width="25%"><?php echo "Name"; ?></th>
                             <td width="25%"><?php echo $result["fname"] . " " . $result["lname"] ?></td>
                         </tr>

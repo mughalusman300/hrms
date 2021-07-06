@@ -97,6 +97,7 @@ class payroll1 extends BaseController
     return view('payroll1/employeelist',$data);
     }
     function create($month, $year, $id, $shift, $dep_type_id='') {
+        $data["gross_salary"] = 0;
         $data["staff_id"] = "";
         $data["basic"] = "";
         $data["name"] = "";
@@ -115,8 +116,17 @@ class payroll1 extends BaseController
         $data['classlist'] = $departments;
         $date = $year . "-" . $month;
         $searchEmployee = $this->Payroll_Model->searchEmployeeById($id);
+        $salaryMain   = $this->Payroll_Model->searchEmployeeSalaryMainById($id);
+        $salaryMain   = $salaryMain[0];
+        $totalSalary =  $salaryMain['total_salary'];
+        $totalAllowances =  $salaryMain['allowances'];
+        if($totalAllowances==""){
+            $totalAllowances= 0;
+        }
+        $grossSalary =  $totalSalary + $totalAllowances;
+        //echo"<pre>";print_r($grossSalary);exit();
+        $data["gross_salary"] = $grossSalary;
         $data['result'] = $searchEmployee[0];
-        //echo"<pre>";print_r($data['result']);exit();
         $data["month"] = $month;
         $data["year"] = $year;
 
@@ -223,11 +233,11 @@ class payroll1 extends BaseController
                     }
                 }
                 $session = \Config\Services::session();
-                $session->setFlashdata('successmsg', ''.$fullname.'Payslip generated Successfully');
+                $session->setFlashdata('successmsg', ''.$fullname.' payslip generated Successfully');
                 return redirect()->to('/Payroll1/search/' . $month . "/" . $year . "/" . $shift . "/" . $dep_type_id);
             } else {
                 $session = \Config\Services::session();
-                $session->setFlashdata('msg', ''.$fullname.' Payslip of this month already generated');
+                $session->setFlashdata('msg', ''.$fullname. ' payslip of this month already generated');
                 return redirect()->to('/Payroll1/search/' . $month . "/" . $year . "/" . $shift . "/" . $dep_type_id);
             }
 
@@ -274,7 +284,7 @@ class payroll1 extends BaseController
         $data["payment_mode"] = $this->payment_mode;
         $id = $this->request->getVar("payslipid");
         $result = $this->Payroll_Model->getPayslip($id);
-         $ret = $result[0]['fname'];
+        $ret = $result[0]['fname'];
         $allowance = $this->Payroll_Model->getAllowance($result[0]["id"],'');        
         $data["allowance"] = $allowance;
         $positive_allowance = $this->Payroll_Model->getAllowance($result[0]["id"], "positive");
