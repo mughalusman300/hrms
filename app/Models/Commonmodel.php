@@ -62,10 +62,10 @@ class Commonmodel extends Model {
 
 
     public function Update_record($tablename, $columnname, $conditionvalue, $data){
-    $this->db->table($tablename)
+    $query = $this->db->table($tablename)
              ->where($columnname, $conditionvalue)
              ->update($data); 
-    return $this->db->affectedRows();     
+    return $query;     
     }
 
     public function Update_double_record($tablename, $columnname, $conditionvalue, $columnname1, $conditionvalue1, $data){
@@ -94,7 +94,7 @@ class Commonmodel extends Model {
     public function Get_all_record($tablename){
     $query = $this->db->table($tablename)
              ->get()
-             ->getResult();
+             ->getResultArray();
     return $query;
     }
 
@@ -111,7 +111,7 @@ class Commonmodel extends Model {
              ->where($columnname, $conditionvalue)
              ->where($columnname1, $conditionvalue1)
              ->get()
-             ->getResult();
+             ->getResultArray();
     return $query;
     }
 

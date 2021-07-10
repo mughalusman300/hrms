@@ -115,6 +115,12 @@
                                             class="d-inline-block">Payroll</span>
                                     </a>
                                 </li>  
+                                <!-- <li>
+                                    <a href="<?= base_url();?>/LeaveTypes">
+                                        <i class="iconsminds-library"></i> <span
+                                            class="d-inline-block">Leave Types</span>
+                                    </a>
+                                </li> -->
 <!--                                 <li>
                                     <a href="<?= base_url();?>/Payroll1">
                                         <i class="iconsminds-library"></i> <span

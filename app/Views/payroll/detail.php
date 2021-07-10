@@ -44,6 +44,7 @@
                                 <th scope="col">Utilities </th>
                                 <th scope="col">Total Salary</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Date</th>
                                 <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -57,8 +58,9 @@
                                 <td >{{rows.utilities}}</td>
                                 <td >{{rows.total_salary}}</td>
                                 <td >{{rows.salary_status}}</td>
+                                <td >{{rows.created_at}}</td>
                                 <td v-if="rows.salary_status=='Active'"><center>
-                                <button type="button" class="btn btn-warning btn-xs default" @click="getAllowances(rows.salary_id)">Attribute</button>
+                                <button type="button" class="btn btn-warning btn-xs default" @click="getAllowances(rows.salary_id)">Allowances</button>
                                </center></td>
                                 </tr>
                                 

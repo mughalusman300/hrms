@@ -310,7 +310,6 @@
                             <label for="exampleInputEmail1"><?php echo "Payment Mode"; ?></label><br/><span id="remark">
                             </span>
                             <select name="payment_mode" id="payment_mode"  class="form-control">
-                                <option value=""><?php echo "Select"; ?></option>
                                <?php
                                 foreach ($payment_mode as $pkey => $pvalue) {
                                     ?>
@@ -322,7 +321,7 @@
                         </div>
                         <div class="input-group-sm mb-3 col-xs-12 col-sm-12 col-md-12 col-lg-6">
                             <label for="exampleInputEmail1"><?php echo "Payment Date"; ?></label><br/><span id="remark"> </span>
-                            <input type="text" name="payment_date" id="payment_date" class="form-control" value="<?php echo date("m/d/Y") ?>">
+                            <input type="text" readonly="readonly" name="payment_date" id="payment_date" class="form-control" value="<?php echo date("m/d/Y") ?>">
                         </div>
                         <div class="input-group-sm mb-3 col-xs-12 col-sm-12 col-md-12 col-lg-6 mb-5">
                             <label for="exampleInputEmail1"><?php echo "Note"; ?></label><br/><span id="remark"> </span>
@@ -361,7 +360,7 @@
         Popup(jQuery(elem).html());
 
     }
-    function getRecords(id) {
+    function getRecord(id) {
         // alert("<?php echo $month_selected ?>");
         $('#proceedtopay').modal({
             show: true,

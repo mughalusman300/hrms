@@ -116,17 +116,16 @@ class payroll1 extends BaseController
         $data['classlist'] = $departments;
         $date = $year . "-" . $month;
         $searchEmployee = $this->Payroll_Model->searchEmployeeById($id);
+        //echo"<pre>";print_r($searchEmployee);exit();
+        $data['result'] = $searchEmployee[0];
         $salaryMain   = $this->Payroll_Model->searchEmployeeSalaryMainById($id);
         $salaryMain   = $salaryMain[0];
         $totalSalary =  $salaryMain['total_salary'];
-        $totalAllowances =  $salaryMain['allowances'];
-        if($totalAllowances==""){
-            $totalAllowances= 0;
-        }
-        $grossSalary =  $totalSalary + $totalAllowances;
-        //echo"<pre>";print_r($grossSalary);exit();
+        $grossSalary =  $totalSalary;
         $data["gross_salary"] = $grossSalary;
-        $data['result'] = $searchEmployee[0];
+        $allowances   = $this->Payroll_Model->searchEmployeeAllowances($id);
+        $data["allowances"] = $allowances;
+        //echo"<pre>";print_r($allowances);exit();
         $data["month"] = $month;
         $data["year"] = $year;
 
@@ -284,6 +283,7 @@ class payroll1 extends BaseController
         $data["payment_mode"] = $this->payment_mode;
         $id = $this->request->getVar("payslipid");
         $result = $this->Payroll_Model->getPayslip($id);
+        //echo"<pre>";print_r($result );exit();
         $ret = $result[0]['fname'];
         $allowance = $this->Payroll_Model->getAllowance($result[0]["id"],'');        
         $data["allowance"] = $allowance;
@@ -292,7 +292,6 @@ class payroll1 extends BaseController
         $negative_allowance = $this->Payroll_Model->getAllowance($result[0]["id"], "negative");
         $data["negative_allowance"] = $negative_allowance;
         $data["result"] = $result[0];
-        //echo"<pre>";print_r($data["result"] );exit();
         return view("payroll1/payslipview", $data);
     }
     Public function deletepayroll($payslipid, $month, $year,$shift,$dep_type_id ='' ) {

@@ -137,7 +137,8 @@ class Employee extends BaseController
 		    'ntn'    => $this->request->getVar('ntn'),
 		    'is_taxable'    => $this->request->getVar('is_taxable')    
 		];
-		$this->Employeemodel->insert($data);
+		$emp_id  = $this->Employeemodel->insert($data);
+		$leave_types = $this->Commonmodel->Get_all_record('leave_types');
 		}
 		// $onepath ='';
 		//     if($this->request->getVar('imgValue')=='Yes'){
@@ -233,6 +234,7 @@ class Employee extends BaseController
 	}
 	public function updateEmployee()
 	{
+
 		$emp_id = $this->request->getVar('emp_id');
 		$ntn = $this->request->getVar('ntn');
 		$rules = [
@@ -318,10 +320,8 @@ class Employee extends BaseController
 		    'ntn'    => $this->request->getVar('ntn'),
 		    'is_taxable'    => $this->request->getVar('is_taxable')    
 		];
-		 $this->Commonmodel->Update_record('saimtech_employees','emp_id',$emp_id, $data);
-		 // return redirect()->to('/Home');
+		 $result = $this->Commonmodel->Update_record('saimtech_employees','emp_id',$emp_id, $data);
 		}
-
 	}
 	public function updateEmployeeStatus($id)
 	{

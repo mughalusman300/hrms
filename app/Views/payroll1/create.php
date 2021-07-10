@@ -123,10 +123,20 @@
                                     <div class="sameheight">
                                         <div class="feebox">
                                             <table class="table3" id="tableID">
+                                                <?php if(!empty($allowances)):?>
+                                                <?php foreach($allowances as $rows):?>    
+                                                <tr id="row0">
+                                                    <td><input type="text" value="<?php echo $rows['allow_name'];?>" class="form-control" id="allowance_type" name="allowance_type[]" placeholder="Type"></td>
+                                                    <td><input  onkeyup="add_allowance()" type="text" value="<?php echo $rows['allow_amount'];?>"  id="allowance_amount" name="allowance_amount[]" class="form-control" value="0"></td>
+                                                </tr>
+                                                <?php endforeach;?>
+                                                <?php endif;?>
+                                                <?php if(empty($allowances)):?>
                                                 <tr id="row0">
                                                     <td><input type="text" class="form-control" id="allowance_type" name="allowance_type[]" placeholder="Type"></td>
                                                     <td><input onkeyup="add_allowance()" type="text" id="allowance_amount" name="allowance_amount[]" class="form-control" value="0"></td>
                                                 </tr>
+                                                <?php endif;?>
                                             </table>
                                         </div>  
                                     </div>
@@ -331,52 +341,59 @@
         var gross_salary = parseInt(basic_pay) + parseInt(total_allowance) - parseInt(total_deduction);
         var annual_salary    = gross_salary * 12;
         //console.log(annual_salary);
-        if(annual_salary > 600000 && annual_salary <1200001){
+        var is_taxable = <?php echo $result['is_taxable'];?>;
+        if(is_taxable != 0){
+            if(annual_salary > 600000 && annual_salary <1200001){
             taxable_amount = annual_salary - 600000; 
             tax =  (5/100 * taxable_amount)/12 ;
             tax = Math.round(tax);
             $("#tax").val(tax);
-        }
-        else if(annual_salary > 1200000 && annual_salary <1800001){
-            console.log("1200000");
-            taxable_amount = annual_salary - 1200000;
-            tax =  ((10/100 * taxable_amount)+30000)/12 ;
-            tax = Math.round(tax);
-            $("#tax").val(tax);
-        }
-        else if(annual_salary > 1800000 && annual_salary <2500001){
-            console.log("1800000");
-            taxable_amount = annual_salary - 1800000;
-            tax =  ((15/100 * taxable_amount)+90000)/12 ;
-            tax = Math.round(tax);
-            $("#tax").val(tax);
-        }
-        else if(annual_salary > 2500000 && annual_salary <3500001){
-            console.log("2500000");
-            taxable_amount = annual_salary - 2500000;
-            tax =  ((17.5/100 * taxable_amount)+195000)/12 ;
-            tax = Math.round(tax);
-            $("#tax").val(tax);
-        }
-        else if(annual_salary > 3500000 && annual_salary <5000001){
-            console.log("3500000");
-            taxable_amount = annual_salary - 3500000;
-            tax =  ((20/100 * taxable_amount)+370000)/12 ;
-            tax = Math.round(tax);
-            $("#tax").val(tax);
-        }
-        else if(annual_salary > 5000000 && annual_salary <8000001){
-            //console.log(annual_salary);
-            taxable_amount = annual_salary - 5000000 ;
-            //console.log(taxable_amount);
+            }
+            else if(annual_salary > 1200000 && annual_salary <1800001){
+                console.log("1200000");
+                taxable_amount = annual_salary - 1200000;
+                tax =  ((10/100 * taxable_amount)+30000)/12 ;
+                tax = Math.round(tax);
+                $("#tax").val(tax);
+            }
+            else if(annual_salary > 1800000 && annual_salary <2500001){
+                console.log("1800000");
+                taxable_amount = annual_salary - 1800000;
+                tax =  ((15/100 * taxable_amount)+90000)/12 ;
+                tax = Math.round(tax);
+                $("#tax").val(tax);
+            }
+            else if(annual_salary > 2500000 && annual_salary <3500001){
+                console.log("2500000");
+                taxable_amount = annual_salary - 2500000;
+                tax =  ((17.5/100 * taxable_amount)+195000)/12 ;
+                tax = Math.round(tax);
+                $("#tax").val(tax);
+            }
+            else if(annual_salary > 3500000 && annual_salary <5000001){
+                console.log("3500000");
+                taxable_amount = annual_salary - 3500000;
+                tax =  ((20/100 * taxable_amount)+370000)/12 ;
+                tax = Math.round(tax);
+                $("#tax").val(tax);
+            }
+            else if(annual_salary > 5000000 && annual_salary <8000001){
+                //console.log(annual_salary);
+                taxable_amount = annual_salary - 5000000 ;
+                //console.log(taxable_amount);
 
-            tax =  ((22.5/100 * taxable_amount)+670000)/12 ;
-            tax = Math.round(tax);
-            $("#tax").val(tax);
+                tax =  ((22.5/100 * taxable_amount)+670000)/12 ;
+                tax = Math.round(tax);
+                $("#tax").val(tax);
+            }
+            else{
+                $("#tax").val(0);      
+            }
         }
         else{
-            $("#tax").val(0);      
-        }
+                $("#tax").val(0);      
+            }
+        
         var net_salary = parseInt(basic_pay) + parseInt(total_allowance) - parseInt(total_deduction) - parseInt(tax);
 
 

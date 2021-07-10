@@ -160,6 +160,7 @@
                                             <th scope="col">Account No</th>
                                             <th scope="col">Account IBAN</th>
                                             <th scope="col">NTN</th>
+                                            <th scope="col">Taxable</th>
 
                                             </tr>
                                         </thead>
@@ -169,7 +170,16 @@
                                             <td><?= $rows['account_title'] ?></td>    
                                             <td><?= $rows['account_no'] ?></td>                   
                                             <td><?= $rows['account_iban'] ?></td>        
-                                            <td><?= $rows['ntn'] ?></td>                 
+                                            <td><?= $rows['ntn'] ?></td>       
+                                            <td>
+                                                <?php if ($rows['is_taxable']==0): ?>
+                                                  No
+                                                <?php endif;?>  
+                                                <?php if ($rows['is_taxable']==1): ?>
+                                                  Yes
+                                                <?php endif;?> 
+                                            </td>                 
+
                                             </tr>
                                         </thead>
                                         </table>  

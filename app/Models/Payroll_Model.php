@@ -120,10 +120,11 @@ class Payroll_Model extends Model
     }
     public function getPayslip($id) {
         $query  =$this->db->table('employee_payslip')
-        ->select('saimtech_employees.fname,saimtech_employees.lname,saimtech_departments.department_name as department,saimtech_designations.designation_name as designation,saimtech_employees.emp_id as employee_id,saimtech_employees.emp_card_id ,employee_payslip.*')
+        ->select('saimtech_employees.fname,saimtech_employees.lname,saimtech_departments.department_name as department,saimtech_designations.designation_name as designation,saimtech_employees.emp_id as employee_id,saimtech_employees.emp_card_id ,employee_payslip.*,payroll_salary_main.*')
         ->join("saimtech_employees", "saimtech_employees.emp_id = employee_payslip.emp_id", "inner")
         ->join("saimtech_designations", "saimtech_employees.designation_id = saimtech_designations.desid", "inner")
         ->join("saimtech_departments", "saimtech_employees.department_id = saimtech_departments.depid", "inner")
+        ->join("payroll_salary_main", "payroll_salary_main.emp_id = employee_payslip.emp_id", "left")
         ->where("employee_payslip.id", $id)
         ->get()
         ->getResultArray();    
@@ -179,12 +180,17 @@ class Payroll_Model extends Model
         ->get()
         ->getResultArray(); 
          return $query;
-        //  $query ="Select payroll_salary_main.*,payroll_salary_detail.allow_amount,allowances.allow_name from payroll_salary_main
-        //     left join payroll_salary_detail on payroll_salary_detail.depid = saimtech_employees.department_id
-        //     left join saimtech_designations on saimtech_designations.desid = saimtech_employees.designation_id
-        //     where saimtech_employees.emp_id=".$this->db->escape($id)."";
-        // $res = $this->db->query($query);
-        // return $res->getResultArray();
     }   
+    public function searchEmployeeAllowances($id) {
+    $query  =$this->db->table('payroll_salary_main')
+        ->select('payroll_salary_main.*,allowances.allow_name,payroll_salary_detail.allow_amount')
+        ->join("payroll_salary_detail", "payroll_salary_detail.salary_id = payroll_salary_main.salary_id", "inner")
+        ->join("allowances", "allowances.allow_id = payroll_salary_detail.allow_id", "inner")
+        ->where("payroll_salary_main.salary_status", "Active")
+        ->where("emp_id", $id)
+        ->get()
+        ->getResultArray(); 
+         return $query;
+    }  
 
 }

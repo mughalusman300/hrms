@@ -7,6 +7,7 @@
             float: left;
 
         }
+        @page { size: landscape; }
 
         .col-sm-12 {
 
@@ -472,7 +473,7 @@ h1{margin:0;font-size:40px}
                     <br/>
                     <table class="earntable table table-striped " >
                         <tr>
-                            <th width="19%"><?php echo 'Earning'; ?></th> 
+                            <th width="19%"><?php echo 'Allowances'; ?></th> 
                             <th width="16%" class="pttright reborder"><?php echo 'Amount'; ?></th>
                             <th width="20%" class="pttleft"><?php echo 'Deduction'; ?></th>
                             <th width="16%" class="text-right"><?php echo 'Amount'; ?></th>
@@ -506,10 +507,20 @@ h1{margin:0;font-size:40px}
                             <th width="20%"><?php echo 'Payment'; ?> <?php echo 'Mode'; ?></th> 
                             <td><?php echo $payment_mode[$result["payment_mode"]]; ?></td>
                         </tr>
+                        <?php if (!empty($result["basic_salary"])): ?>
                         <tr>
                             <th width="20%"><?php echo 'Basic Salary'; ?></th> 
-                            <td><?php echo $result["basic"] ?></td>
+                            <td><?php echo $result["basic_salary"] ?></td>
+                        </trSS>
+                        <tr>
+                            <th width="20%"><?php echo 'House Rent'; ?></th> 
+                            <td><?php echo $result["house_rent"] ?></td>
                         </tr>
+                        <tr>
+                            <th width="20%"><?php echo 'Utilities'; ?></th> 
+                            <td><?php echo $result["utilities"] ?></td>
+                        </tr>
+                         <?php endif;?>
                         <tr>
                             <th width="20%"><?php echo 'Gross Salary'; ?></th> 
                             <td><?php echo $result["basic"] + $result["total_allowance"] ?></td>
